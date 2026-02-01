@@ -1,9 +1,11 @@
 # ESPHome GPIO Pinout
 
-[![Version](https://img.shields.io/visual-studio-marketplace/v/mikeharty.esphome-gpio-pinout?label=version)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/mikeharty.esphome-gpio-pinout?label=downloads)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
-[![Rating](https://img.shields.io/visual-studio-marketplace/r/mikeharty.esphome-gpio-pinout?label=rating)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
-[![License](https://img.shields.io/github/license/mikeharty/vscode-esphome-gpio-pinout)](LICENSE)
+[![Version](https://badgen.net/vs-marketplace/v/mikeharty.esphome-gpio-pinout?label=version)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![Downloads](https://badgen.net/vs-marketplace/d/mikeharty.esphome-gpio-pinout?label=downloads)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![Rating](https://badgen.net/vs-marketplace/rating/mikeharty.esphome-gpio-pinout?label=rating)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![License](https://badgen.net/github/license/mikeharty/vscode-esphome-gpio-pinout)](LICENSE)
+
+![ESPHome GPIO Pinout](media/esphome-gpio-pinout.jpg)
 
 This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspects the active ESPHome YAML file, detects used GPIO pins, and renders a board pinout. Warnings are displayed for pins used in the YAML that are problematic or not available on the selected board.
 
