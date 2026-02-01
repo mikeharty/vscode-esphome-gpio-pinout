@@ -1,0 +1,37 @@
+{
+  "name": "esphome-gpio-pinout",
+  "displayName": "ESPHome GPIO Pinout",
+  "description": "GPIO pinout overlay for ESPHome board GPIO pins in VS Code.",
+  "version": "0.1.0",
+  "publisher": "mikeharty",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikeharty/vscode-esphome-gpio-pinout.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node ./test/runTest.js",
+    "build": "vsce package --no-dependencies"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "esphomeGpioPinout.open",
+        "title": "ESPHome: GPIO Pinout"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^2.24.0",
+    "eslint": "^8.57.0",
+    "mocha": "^10.3.0"
+  }
+}

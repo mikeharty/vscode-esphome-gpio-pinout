@@ -1,0 +1,49 @@
+{
+  "boards": {
+    "esp32-s3-devkitc-1": "boards/esp32-s3-devkitc-1.json",
+    "seeed_xiao_esp32s3": "boards/seeed_xiao_esp32s3.json",
+    "seeed_xiao_esp32c6": "boards/seeed_xiao_esp32c6.json"
+  },
+  "soc": {
+    "esp32": "soc/esp32.json",
+    "esp32s2": "soc/esp32s2.json",
+    "esp32s3": "soc/esp32s3.json",
+    "esp32c3": "soc/esp32c3.json",
+    "esp32c6": "soc/esp32c6.json",
+    "esp32h2": "soc/esp32h2.json"
+  },
+  "aliases": {
+    "esp32-s3-devkitc-1-n16r8": "esp32-s3-devkitc-1",
+    "esp32-s3-devkitc-1_n16r8": "esp32-s3-devkitc-1",
+    "xiao_esp32s3": "seeed_xiao_esp32s3",
+    "xiao-esp32s3": "seeed_xiao_esp32s3",
+    "xiao_esp32c6": "seeed_xiao_esp32c6",
+    "xiao-esp32c6": "seeed_xiao_esp32c6"
+  },
+  "boardSocAliases": {
+    "esp32dev": {
+      "soc": "esp32",
+      "displayName": "ESP32 Dev Module (SoC pin grid)"
+    },
+    "esp32-c3-devkitm-1": {
+      "soc": "esp32c3",
+      "displayName": "ESP32-C3 DevKitM-1 (SoC pin grid)"
+    },
+    "esp32-c6-devkitc-1": {
+      "soc": "esp32c6",
+      "displayName": "ESP32-C6 DevKitC-1 (SoC pin grid)"
+    },
+    "esp32-s2-saola-1": {
+      "soc": "esp32s2",
+      "displayName": "ESP32-S2 Saola-1 (SoC pin grid)"
+    },
+    "esp32-s3-devkitm-1": {
+      "soc": "esp32s3",
+      "displayName": "ESP32-S3 DevKitM-1 (SoC pin grid)"
+    },
+    "esp32-h2-devkitm-1": {
+      "soc": "esp32h2",
+      "displayName": "ESP32-H2 DevKitM-1 (SoC pin grid)"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "seeed_xiao_esp32s3",
+  "displayName": "Seeed Studio XIAO ESP32S3",
+  "kind": "header-board",
+  "headers": [
+    {
+      "name": "L",
+      "side": "left",
+      "pins": [
+        { "headerNo": 1, "label": "5V (VBUS)", "gpio": null, "type": "power" },
+        { "headerNo": 2, "label": "GND", "gpio": null, "type": "ground" },
+        { "headerNo": 3, "label": "3V3", "gpio": null, "type": "power" },
+        { "headerNo": 4, "label": "D0 / A0 (GPIO1)", "gpio": 1, "type": "gpio" },
+        { "headerNo": 5, "label": "D1 / A1 (GPIO2)", "gpio": 2, "type": "gpio" },
+        { "headerNo": 6, "label": "D2 / A2 (GPIO3)", "gpio": 3, "type": "gpio" },
+        { "headerNo": 7, "label": "D3 / A3 (GPIO4)", "gpio": 4, "type": "gpio" }
+      ]
+    },
+    {
+      "name": "R",
+      "side": "right",
+      "pins": [
+        { "headerNo": 1, "label": "D10 / MOSI (GPIO10)", "gpio": 10, "type": "gpio" },
+        { "headerNo": 2, "label": "D9 / MISO (GPIO8)", "gpio": 8, "type": "gpio" },
+        { "headerNo": 3, "label": "D8 / SCK (GPIO7)", "gpio": 7, "type": "gpio" },
+        { "headerNo": 4, "label": "D7 / RX (GPIO44)", "gpio": 44, "type": "gpio" },
+        { "headerNo": 5, "label": "D6 / TX (GPIO43)", "gpio": 43, "type": "gpio" },
+        { "headerNo": 6, "label": "D5 / SCL (GPIO6)", "gpio": 6, "type": "gpio" },
+        { "headerNo": 7, "label": "D4 / SDA (GPIO5)", "gpio": 5, "type": "gpio" }
+      ]
+    }
+  ],
+  "notes": [
+    "D2 maps to GPIO3 (strap) on ESP32-S3. Treat as risky at boot."
+  ]
+}
