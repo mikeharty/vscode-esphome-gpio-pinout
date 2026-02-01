@@ -1,7 +1,9 @@
 # ESPHome GPIO Pinout
-![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/mikeharty.esphome-gpio-pinout?style=flat)
-![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/mikeharty.esphome-gpio-pinout?style=flat)
-![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/mikeharty.esphome-gpio-pinout?style=flat)
+
+[![Version](https://img.shields.io/visual-studio-marketplace/v/mikeharty.esphome-gpio-pinout?label=version)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/mikeharty.esphome-gpio-pinout?label=downloads)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/mikeharty.esphome-gpio-pinout?label=rating)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
+[![License](https://img.shields.io/github/license/mikeharty/vscode-esphome-gpio-pinout)](LICENSE)
 
 This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspects the active ESPHome YAML file, detects used GPIO pins, and renders a board pinout. Warnings are displayed for pins used in the YAML that are problematic or not available on the selected board.
 
