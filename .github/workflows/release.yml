@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint
+      - run: xvfb-run -a npm test
+      - name: Validate tag matches package.json
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag $TAG does not match package.json version $PKG_VERSION"
+            exit 1
+          fi
+      - name: Package extension
+        run: npm run build
+      - name: Locate VSIX
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          VSIX="build/esphome-gpio-pinout-${VERSION}.vsix"
+          if [ ! -f "$VSIX" ]; then
+            echo "VSIX not found: $VSIX"
+            ls -la
+            exit 1
+          fi
+          echo "VSIX_PATH=$VSIX" >> "$GITHUB_ENV"
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.VSIX_PATH }}
+      - name: Publish to VS Code Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: npx vsce publish --packagePath "${{ env.VSIX_PATH }}"

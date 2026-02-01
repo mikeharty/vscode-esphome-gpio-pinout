@@ -11,6 +11,7 @@
 
   const STATE = {
     zoom: 1.0,
+    fitScale: 1.0,
     lastSig: null
   };
 
@@ -40,13 +41,54 @@
 
   vscode.postMessage({ type: "requestRefresh" });
 
+  window.addEventListener("resize", () => {
+    if (STATE.lastSig) computeFitScale();
+  });
+
   function setZoom(z) {
     const clamped = Math.max(CONFIG.zoomMin, Math.min(CONFIG.zoomMax, Math.round(z * 100) / 100));
     STATE.zoom = clamped;
     const label = document.getElementById("tm-esphome-pinout-zoomlabel");
     if (label) label.textContent = `${Math.round(clamped * 100)}%`;
+    applyZoom();
+  }
+
+  function applyZoom() {
     const layer = document.querySelector("#tm-esphome-pinout-diagram .tm-zoom-layer");
-    if (layer) layer.style.transform = `scale(${clamped})`;
+    if (layer) layer.style.transform = `scale(${STATE.zoom * STATE.fitScale})`;
+  }
+
+  function computeFitScale() {
+    const svg = diagramEl.querySelector("svg.tm-svg");
+    if (!svg) {
+      STATE.fitScale = 1.0;
+      applyZoom();
+      return;
+    }
+
+    const viewW = parseFloat(svg.getAttribute("data-view-width")) || svg.viewBox?.baseVal?.width || 0;
+    const viewH = parseFloat(svg.getAttribute("data-view-height")) || svg.viewBox?.baseVal?.height || 0;
+    if (!viewW || !viewH) {
+      STATE.fitScale = 1.0;
+      applyZoom();
+      return;
+    }
+
+    const style = getComputedStyle(diagramEl);
+    const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+    const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    const bounds = diagramEl.getBoundingClientRect();
+    const availW = Math.max(0, bounds.width - padX);
+    const availH = Math.max(0, bounds.height - padY);
+    if (!availW || !availH) {
+      STATE.fitScale = 1.0;
+      applyZoom();
+      return;
+    }
+
+    const fit = Math.min(availW / viewW, availH / viewH);
+    STATE.fitScale = Math.max(0.1, Math.min(fit * 0.98, 12));
+    applyZoom();
   }
 
   const LOGIC = window.PinoutLogic || {};
@@ -180,23 +222,40 @@
     return { kind: "unknown", displayName: boardId ? `Unknown board: ${boardId}` : "Unknown board", gpios: [] };
   }
 
-  function getPinIssues({ gpio, variant, psramMode, boardId }) {
+  function getPinIssues(boardDef, parsed, gpio) {
+    if (gpio == null || Number.isNaN(gpio)) return [];
+    const rules = Array.isArray(boardDef?.pinIssues) ? boardDef.pinIssues : [];
+    if (!rules.length) return [];
+
+    const psramMode = (parsed?.psramMode || "").toLowerCase();
     const issues = [];
-    if (gpio == null || Number.isNaN(gpio)) return issues;
 
-    if (variant === "esp32s3") {
-      if ([0, 3, 45, 46].includes(gpio)) issues.push({ severity: "danger", text: "Strapping pin (can affect boot mode)." });
-      if (gpio >= 26 && gpio <= 32) issues.push({ severity: "warn", text: "Often used for flash/PSRAM on modules; avoid for general GPIO." });
-      if ((psramMode || "").toLowerCase().includes("octal") && gpio >= 33 && gpio <= 37) issues.push({ severity: "danger", text: "Octal flash/PSRAM commonly uses GPIO33 to GPIO37; treat as reserved on many modules." });
-      else if (gpio >= 33 && gpio <= 37) issues.push({ severity: "warn", text: "GPIO33 to GPIO37 often tied to flash/PSRAM depending on module." });
-      if ([19, 20].includes(gpio)) issues.push({ severity: "warn", text: "USB-JTAG default; repurposing may disable USB-JTAG." });
+    for (const rule of rules) {
+      if (!rule || !rule.severity || !rule.text) continue;
+
+      const gpios = Array.isArray(rule.gpios) ? rule.gpios : null;
+      const range = Array.isArray(rule.gpioRange) && rule.gpioRange.length === 2 ? rule.gpioRange : null;
+      const ranges = Array.isArray(rule.gpioRanges) ? rule.gpioRanges : null;
+
+      let matches = false;
+      if (gpios && gpios.includes(gpio)) matches = true;
+      if (!matches && range) matches = gpio >= range[0] && gpio <= range[1];
+      if (!matches && ranges) {
+        for (const r of ranges) {
+          if (Array.isArray(r) && r.length === 2 && gpio >= r[0] && gpio <= r[1]) {
+            matches = true;
+            break;
+          }
+        }
+      }
+      if (!matches) continue;
+
+      const when = rule.when || {};
+      if (when.psramModeIncludes && !psramMode.includes(String(when.psramModeIncludes).toLowerCase())) continue;
+      if (when.psramModeExcludes && psramMode.includes(String(when.psramModeExcludes).toLowerCase())) continue;
+
+      issues.push({ severity: rule.severity, text: rule.text });
     }
-
-    if (variant === "esp32c6") {
-      if ([4, 5, 8, 9, 15].includes(gpio)) issues.push({ severity: "danger", text: "Likely strapping pin on ESP32-C6; keep external circuits boot-safe." });
-    }
-
-    if (boardId === "esp32-s3-devkitc-1" && [38, 48].includes(gpio)) issues.push({ severity: "info", text: "May be onboard RGB LED depending on revision." });
 
     return issues;
   }
@@ -232,7 +291,7 @@
 
     for (const [gpio] of parsed.usedPins.entries()) {
       const list = [];
-      list.push(...getPinIssues({ gpio, variant, psramMode: parsed.psramMode, boardId: boardDef.id || parsed.board }));
+      list.push(...getPinIssues(boardDef, parsed, gpio));
       if (availableGpios.size && !availableGpios.has(gpio)) list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
       if (list.length) issuesByGpio.set(gpio, list);
     }
@@ -245,22 +304,53 @@
     const right = boardDef.headers.find((h) => h.side === "right");
     const nPins = Math.max(left?.pins.length ?? 0, right?.pins.length ?? 0);
 
-    const W = 980;
-    const marginTop = 78;
-    const marginBottom = 68;
-    const spacing = 36;
+    const marginTop = 84;
+    const marginBottom = 76;
+    const spacing = 44;
     const H = marginTop + marginBottom + (nPins - 1) * spacing + 40;
 
-    const boardX = 360;
-    const boardY = 54;
+    const pad = 18;
+    const gapTextToPin = 18;
+    const gapPinToBoard = 18;
+    const boardY = 60;
     const boardW = 260;
     const boardH = H - 108;
 
-    const leftPinX = boardX - 32;
-    const rightPinX = boardX + boardW + 32;
+    const labelCache = new Map();
+    function pinLabelLines(pinObj) {
+      if (labelCache.has(pinObj)) return labelCache.get(pinObj);
+      const gpio = pinObj?.gpio;
+      const primary = pinObj?.label || (gpio != null ? `GPIO${gpio}` : "");
+      const usageLabel = gpio != null ? bestUsageLabelForGpio(gpio, parsed) : null;
+      const secondary = usageLabel || "";
+      const lines = { primary, secondary };
+      labelCache.set(pinObj, lines);
+      return lines;
+    }
 
-    const leftTextX = boardX - 58;
-    const rightTextX = boardX + boardW + 58;
+    function estimateTextWidth(text) {
+      const t = text ? String(text) : "";
+      return t.length * 6.6;
+    }
+
+    function maxLabelWidth(pins) {
+      let max = 0;
+      for (const p of pins || []) {
+        const lines = pinLabelLines(p);
+        max = Math.max(max, estimateTextWidth(lines.primary), estimateTextWidth(lines.secondary));
+      }
+      return max;
+    }
+
+    const leftTextW = Math.max(90, Math.ceil(maxLabelWidth(left?.pins)));
+    const rightTextW = Math.max(90, Math.ceil(maxLabelWidth(right?.pins)));
+
+    const leftTextX = pad + leftTextW;
+    const leftPinX = leftTextX + gapTextToPin;
+    const boardX = leftPinX + gapPinToBoard;
+    const rightPinX = boardX + boardW + gapPinToBoard;
+    const rightTextX = rightPinX + gapTextToPin;
+    const W = rightTextX + rightTextW + pad;
 
     const title = `${boardDef.displayName}${parsed.board ? ` (${parsed.board})` : ""}`;
 
@@ -287,8 +377,13 @@
 
     function pinTitle(gpio, pinObj, headerName) {
       const lines = [];
-      lines.push(`${headerName}-${pinObj.headerNo}: ${pinObj.label}`);
+      const baseLabel = pinObj?.label || (gpio != null ? `GPIO${gpio}` : "(no label)");
+      lines.push(`${headerName}-${pinObj.headerNo}: ${baseLabel}`);
+      if (pinObj.type) lines.push(`Type: ${pinObj.type}`);
       if (gpio != null) lines.push(`GPIO${gpio}`);
+
+      const usageLabel = gpio != null ? bestUsageLabelForGpio(gpio, parsed) : null;
+      if (usageLabel) lines.push(`Usage label: ${usageLabel}`);
 
       const usages = gpio != null ? parsed.usedPins.get(gpio) || [] : [];
       if (usages.length) {
@@ -296,6 +391,8 @@
         for (const u of usages) {
           lines.push(`- ${buildUsageLabel(u)} @ line ${u.line} (${u.key})`);
         }
+      } else if (gpio != null) {
+        lines.push("", "Used by:", "- (not used in YAML)");
       }
 
       const issues = gpio != null ? issuesByGpio.get(gpio) || [] : [];
@@ -307,15 +404,11 @@
       return lines.join("\n");
     }
 
-    function displayTextForPin(side, pinObj) {
-      const gpio = pinObj.gpio;
-
-      if (gpio == null) return pinObj.label;
-
-      const usedLabel = bestUsageLabelForGpio(gpio, parsed);
-      if (!usedLabel) return `GPIO${gpio}`;
-
-      return side === "left" ? `${usedLabel} - GPIO${gpio}` : `GPIO${gpio} - ${usedLabel}`;
+    function lineTspan(text, x, dy, maxWidth) {
+      const t = text || " ";
+      const estimated = estimateTextWidth(t);
+      const squeeze = maxWidth && estimated > maxWidth ? ` textLength="${maxWidth}" lengthAdjust="spacingAndGlyphs"` : "";
+      return `<tspan x="${x}" dy="${dy}"${squeeze}>${escapeXml(t)}</tspan>`;
     }
 
     function renderSide(header, side) {
@@ -329,7 +422,8 @@
           const anchor = isLeft ? "end" : "start";
           const gpio = p.gpio;
 
-          const label = displayTextForPin(side, p);
+          const lines = pinLabelLines(p);
+          const maxWidth = isLeft ? leftTextW : rightTextW;
 
           return `
           <g class="${pinClasses(gpio, p.type)}" data-gpio="${gpio ?? ""}">
@@ -342,7 +436,10 @@
               text-anchor="${anchor}"
               dominant-baseline="middle"
               data-gpio="${gpio ?? ""}"
-            >${escapeXml(label)}</text>
+            >
+              ${lineTspan(lines.primary, tx, "-6", maxWidth)}
+              ${lineTspan(lines.secondary, tx, "14", maxWidth)}
+            </text>
           </g>
         `;
         })
@@ -352,7 +449,9 @@
     return `
     <svg class="tm-svg"
          viewBox="0 0 ${W} ${H}"
-         style="width:${W}px; max-width:100%; height:auto;"
+         data-view-width="${W}"
+         data-view-height="${H}"
+         style="width:${W}px; height:${H}px;"
          role="img"
          aria-label="GPIO pinout">
       <defs>
@@ -443,7 +542,9 @@
     return `
       <svg class="tm-svg"
            viewBox="0 0 ${W} ${H}"
-           style="width:${W}px; max-width:100%; height:auto;"
+           data-view-width="${W}"
+           data-view-height="${H}"
+           style="width:${W}px; height:${H}px;"
            role="img"
            aria-label="GPIO grid">
         <text x="${W / 2}" y="34" class="tm-title" text-anchor="middle">${escapeXml(title)}</text>
@@ -468,7 +569,7 @@
     const id = pick?.id ? resolveTemplates(pick.id, parsed.substitutions) : null;
 
     let label = null;
-    if (name && id) label = `${name} (${id})`;
+    if (name && id) label = `${name} (id: ${id})`;
     else label = name || id || null;
 
     if (label && uses.length > 1) label += ` +${uses.length - 1}`;
@@ -533,7 +634,11 @@
         </div>
       `;
 
-    diagramEl.innerHTML = `<div class="tm-zoom-layer" style="transform: scale(${STATE.zoom});">${svg}</div>`;
+    diagramEl.innerHTML = `<div class="tm-zoom-layer">${svg}</div>`;
+    requestAnimationFrame(() => {
+      if (STATE.lastSig !== renderSig) return;
+      computeFitScale();
+    });
 
     diagramEl.querySelectorAll("[data-gpio]").forEach((el) => {
       const s = el.getAttribute("data-gpio");

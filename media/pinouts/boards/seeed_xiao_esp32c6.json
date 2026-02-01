@@ -7,30 +7,59 @@
       "name": "L",
       "side": "left",
       "pins": [
-        { "headerNo": 1, "label": "5V (VBUS)", "gpio": null, "type": "power" },
+        { "headerNo": 1, "label": "5V / VBUS", "gpio": null, "type": "power" },
         { "headerNo": 2, "label": "GND", "gpio": null, "type": "ground" },
-        { "headerNo": 3, "label": "3V3", "gpio": null, "type": "power" },
-        { "headerNo": 4, "label": "D0 / A0 (GPIO0)", "gpio": 0, "type": "gpio" },
-        { "headerNo": 5, "label": "D1 / A1 (GPIO1)", "gpio": 1, "type": "gpio" },
-        { "headerNo": 6, "label": "D2 / A2 (GPIO2)", "gpio": 2, "type": "gpio" },
-        { "headerNo": 7, "label": "D3 / SS (GPIO21)", "gpio": 21, "type": "gpio" }
+        { "headerNo": 3, "label": "3V3 / 3V3_OUT", "gpio": null, "type": "power" },
+        { "headerNo": 4, "label": "D0 / ADC / GPIO0 / LP_GPIO0", "gpio": 0, "type": "gpio" },
+        { "headerNo": 5, "label": "D1 / ADC / GPIO1 / LP_GPIO1", "gpio": 1, "type": "gpio" },
+        { "headerNo": 6, "label": "D2 / ADC / GPIO2 / LP_GPIO2", "gpio": 2, "type": "gpio" },
+        { "headerNo": 7, "label": "D3 / GPIO21 / SDIO_DATA1", "gpio": 21, "type": "gpio" }
       ]
     },
     {
       "name": "R",
       "side": "right",
       "pins": [
-        { "headerNo": 1, "label": "D10 / MOSI (GPIO18)", "gpio": 18, "type": "gpio" },
-        { "headerNo": 2, "label": "D9 / MISO (GPIO20)", "gpio": 20, "type": "gpio" },
-        { "headerNo": 3, "label": "D8 / SCK (GPIO19)", "gpio": 19, "type": "gpio" },
-        { "headerNo": 4, "label": "D7 / RX (GPIO17)", "gpio": 17, "type": "gpio" },
-        { "headerNo": 5, "label": "D6 / TX (GPIO16)", "gpio": 16, "type": "gpio" },
-        { "headerNo": 6, "label": "D5 / SCL (GPIO23)", "gpio": 23, "type": "gpio" },
-        { "headerNo": 7, "label": "D4 / SDA (GPIO22)", "gpio": 22, "type": "gpio" }
+        { "headerNo": 1, "label": "D10 / MOSI / GPIO18 / SDIO_CMD", "gpio": 18, "type": "gpio" },
+        { "headerNo": 2, "label": "D9 / MISO / GPIO20 / SDIO_DATA0", "gpio": 20, "type": "gpio" },
+        { "headerNo": 3, "label": "D8 / SCK / GPIO19 / SDIO_CLK", "gpio": 19, "type": "gpio" },
+        { "headerNo": 4, "label": "D7 / RX / GPIO17", "gpio": 17, "type": "gpio" },
+        { "headerNo": 5, "label": "D6 / TX / GPIO16", "gpio": 16, "type": "gpio" },
+        { "headerNo": 6, "label": "D5 / SCL / GPIO23 / SDIO_DATA3", "gpio": 23, "type": "gpio" },
+        { "headerNo": 7, "label": "D4 / SDA / GPIO22 / SDIO_DATA2", "gpio": 22, "type": "gpio" }
       ]
     }
   ],
+  "pinIssues": [
+    {
+      "gpios": [4],
+      "severity": "danger",
+      "text": "Strapping pin MTMS (GPIO4). Default level: floating at reset; use external pulls if needed."
+    },
+    {
+      "gpios": [5],
+      "severity": "danger",
+      "text": "Strapping pin MTDI (GPIO5). Default level: floating at reset; use external pulls if needed."
+    },
+    {
+      "gpios": [8],
+      "severity": "danger",
+      "text": "Strapping pin GPIO8. Default level: floating at reset; use external pulls if needed."
+    },
+    {
+      "gpios": [9],
+      "severity": "danger",
+      "text": "Strapping pin GPIO9 (Boot). Default level: weak pull-up at reset; use external pulls if needed."
+    },
+    {
+      "gpios": [15],
+      "severity": "danger",
+      "text": "Strapping pin GPIO15. Default level: floating at reset; use external pulls if needed."
+    }
+  ],
   "notes": [
-    "ESP32-C6 has strapping pins. Keep external circuitry boot-safe."
+    "Extra pads: MTDO/GPIO7 (JTAG), MTDI/GPIO5 (JTAG/ADC), MTCK/GPIO6 (JTAG/ADC), MTMS/GPIO4 (JTAG/ADC).",
+    "Other signals: EN/CHIP_PU (reset), Boot/GPIO9 (boot mode), RF Switch Port Select/GPIO14, RF Switch Power/GPIO3, Light/GPIO15 (user LED).",
+    "Strapping pin defaults are set by internal weak pull-up/down at reset when not driven externally."
   ]
 }

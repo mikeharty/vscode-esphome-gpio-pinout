@@ -1,6 +1,7 @@
 node_modules/
 .vscode-test/
 *.vsix
+build/
 out/
 dist/
 coverage/

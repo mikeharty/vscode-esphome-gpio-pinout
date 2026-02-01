@@ -18,7 +18,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "node ./test/runTest.js",
-    "build": "vsce package --no-dependencies"
+    "build": "mkdir -p build && vsce package --no-dependencies --out build/esphome-gpio-pinout-${npm_package_version}.vsix"
   },
   "contributes": {
     "commands": [

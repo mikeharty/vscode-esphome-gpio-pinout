@@ -60,6 +60,44 @@
       ]
     }
   ],
+  "pinIssues": [
+    {
+      "gpios": [0, 3, 45, 46],
+      "severity": "danger",
+      "text": "Strapping pin (can affect boot mode)."
+    },
+    {
+      "gpioRange": [26, 32],
+      "severity": "warn",
+      "text": "Often used for flash/PSRAM on modules; avoid for general GPIO."
+    },
+    {
+      "gpioRange": [33, 37],
+      "severity": "danger",
+      "text": "Octal flash/PSRAM commonly uses GPIO33 to GPIO37; treat as reserved on many modules.",
+      "when": {
+        "psramModeIncludes": "octal"
+      }
+    },
+    {
+      "gpioRange": [33, 37],
+      "severity": "warn",
+      "text": "GPIO33 to GPIO37 often tied to flash/PSRAM depending on module.",
+      "when": {
+        "psramModeExcludes": "octal"
+      }
+    },
+    {
+      "gpios": [19, 20],
+      "severity": "warn",
+      "text": "USB-JTAG default; repurposing may disable USB-JTAG."
+    },
+    {
+      "gpios": [38, 48],
+      "severity": "info",
+      "text": "May be onboard RGB LED depending on revision."
+    }
+  ],
   "notes": [
     "Multiple revisions exist; onboard RGB LED may be GPIO38 or GPIO48 depending on revision."
   ]
