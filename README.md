@@ -12,14 +12,6 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
 3. Click a pin or line button to jump to the YAML location.
 4. Use the zoom controls to scale the diagram.
 
-## Marketplace
-
-VS Code Marketplace listing:
-
-```
-https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout&ssr=false
-```
-
 ## Development
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for setup, debugging, testing, and packaging details.
