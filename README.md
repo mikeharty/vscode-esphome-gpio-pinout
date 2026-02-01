@@ -1,4 +1,7 @@
 # ESPHome GPIO Pinout
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/mikeharty.esphome-gpio-pinout?style=flat)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/mikeharty.esphome-gpio-pinout?style=flat)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/mikeharty.esphome-gpio-pinout?style=flat)
 
 This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspects the active ESPHome YAML file, detects used GPIO pins, and renders a board pinout. Warnings are displayed for pins used in the YAML that are problematic or not available on the selected board.
 
@@ -8,6 +11,14 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
 2. From the command palette, run: **ESPHome: GPIO Pinout**.
 3. Click a pin or line button to jump to the YAML location.
 4. Use the zoom controls to scale the diagram.
+
+## Marketplace
+
+VS Code Marketplace listing:
+
+```
+https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout&ssr=false
+```
 
 ## Development
 

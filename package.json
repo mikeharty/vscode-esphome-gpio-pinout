@@ -12,7 +12,7 @@
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Visualization"
   ],
   "main": "./extension.js",
   "scripts": {
