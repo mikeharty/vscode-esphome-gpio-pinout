@@ -1,0 +1,35 @@
+{
+  "id": "adafruit_itsybitsy_esp32",
+  "displayName": "Adafruit ItsyBitsy ESP32",
+  "kind": "soc-grid",
+  "socRef": "esp32",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    12,
+    13,
+    14,
+    15,
+    19,
+    21,
+    22,
+    25,
+    26,
+    27,
+    32,
+    33,
+    35,
+    36,
+    37,
+    38
+  ],
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ]
+}

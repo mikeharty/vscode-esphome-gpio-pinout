@@ -1,0 +1,10 @@
+build/
+node_modules/
+.vscode-test/
+media/pinouts/assets/
+media/pinouts/boards/generated/
+media/pinouts/generated-manifest.json
+media/pinouts/index.json
+media/pinouts/soc/
+media/pinouts/targets.json
+scripts/pinout-sources.lock.json

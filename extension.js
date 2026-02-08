@@ -2,12 +2,15 @@ const vscode = require("vscode");
 
 const VIEW_TYPE = "esphomeGpioPinout";
 const UPDATE_DEBOUNCE_MS = 250;
+const AUTO_OPEN_SETTING = "esphomeGpioPinout.autoOpen";
+const ESPHOME_YAML_HEURISTIC = /(^|\\n)\\s*(esphome|esp32|esp8266|rp2040|nrf52)\\s*:/m;
 
 let panel;
 let lastActiveDocument = null;
 let lastActiveDocumentUri = null;
 let lastActiveViewColumn = null;
 let updateTimer = null;
+const autoOpenedDocumentUris = new Set();
 
 function activate(context) {
   rememberActiveEditor(vscode.window.activeTextEditor);
@@ -20,16 +23,11 @@ function activate(context) {
         return;
       }
 
-      panel = vscode.window.createWebviewPanel(
-        VIEW_TYPE,
-        "ESPHome GPIO Pinout",
-        vscode.ViewColumn.Beside,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true,
-          localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "media")]
-        }
-      );
+      panel = vscode.window.createWebviewPanel(VIEW_TYPE, "ESPHome GPIO Pinout", vscode.ViewColumn.Beside, {
+        enableScripts: true,
+        retainContextWhenHidden: true,
+        localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "media")],
+      });
 
       panel.webview.html = getWebviewHtml(panel.webview, context.extensionUri);
 
@@ -55,15 +53,16 @@ function activate(context) {
       });
 
       sendUpdate();
-    })
+    }),
   );
 
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor) rememberActiveEditor(editor);
+      void maybeAutoOpenPanel(editor);
       if (!panel || !editor) return;
       scheduleUpdate();
-    })
+    }),
   );
 
   context.subscriptions.push(
@@ -77,11 +76,16 @@ function activate(context) {
       if (lastActiveDocument && lastActiveDocument === event.document) {
         scheduleUpdate();
       }
-    })
+    }),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((doc) => {
+      if (!panel) {
+        const active = vscode.window.activeTextEditor;
+        if (active && active.document === doc) void maybeAutoOpenPanel(active);
+      }
+
       if (!panel) return;
       const active = vscode.window.activeTextEditor;
       if (active && active.document === doc) {
@@ -91,8 +95,10 @@ function activate(context) {
       if (lastActiveDocumentUri && doc.uri.toString() === lastActiveDocumentUri) {
         sendUpdate();
       }
-    })
+    }),
   );
+
+  void maybeAutoOpenPanel(vscode.window.activeTextEditor);
 }
 
 function scheduleUpdate() {
@@ -131,7 +137,7 @@ function getActiveEditorPayload() {
 
   return {
     ok: false,
-    reason: "No active editor. Open an ESPHome YAML file to begin."
+    reason: "No active editor. Open an ESPHome YAML file to begin.",
   };
 }
 
@@ -148,7 +154,9 @@ async function jumpToLine(lineNumber) {
     const viewColumn = lastActiveViewColumn ?? vscode.ViewColumn.One;
     editor = await vscode.window.showTextDocument(doc, { viewColumn });
   } else {
-    editor = await vscode.window.showTextDocument(editor.document, { viewColumn: editor.viewColumn ?? lastActiveViewColumn });
+    editor = await vscode.window.showTextDocument(editor.document, {
+      viewColumn: editor.viewColumn ?? lastActiveViewColumn,
+    });
   }
 
   if (!editor) return;
@@ -174,7 +182,7 @@ function buildPayloadFromDocument(doc) {
     fileName: doc.fileName,
     languageId: doc.languageId,
     isDirty: doc.isDirty,
-    uri: doc.uri.toString()
+    uri: doc.uri.toString(),
   };
 }
 
@@ -190,9 +198,37 @@ async function focusLastActiveEditor() {
     const viewColumn = lastActiveViewColumn ?? vscode.ViewColumn.One;
     editor = await vscode.window.showTextDocument(doc, { viewColumn });
   } else {
-    editor = await vscode.window.showTextDocument(editor.document, { viewColumn: editor.viewColumn ?? lastActiveViewColumn });
+    editor = await vscode.window.showTextDocument(editor.document, {
+      viewColumn: editor.viewColumn ?? lastActiveViewColumn,
+    });
   }
   if (editor) rememberActiveEditor(editor);
+}
+
+function isYamlDocument(doc) {
+  if (!doc) return false;
+  if (doc.languageId === "yaml") return true;
+  const file = String(doc.fileName || "").toLowerCase();
+  return file.endsWith(".yaml") || file.endsWith(".yml");
+}
+
+function looksLikeEsphomeDocument(doc) {
+  if (!isYamlDocument(doc)) return false;
+  const text = doc.getText().slice(0, 120000);
+  return ESPHOME_YAML_HEURISTIC.test(text);
+}
+
+async function maybeAutoOpenPanel(editor) {
+  if (panel) return;
+  if (!editor || !editor.document) return;
+  if (!vscode.workspace.getConfiguration().get(AUTO_OPEN_SETTING, false)) return;
+  if (!looksLikeEsphomeDocument(editor.document)) return;
+
+  const uri = editor.document.uri.toString();
+  if (autoOpenedDocumentUris.has(uri)) return;
+  autoOpenedDocumentUris.add(uri);
+
+  await vscode.commands.executeCommand("esphomeGpioPinout.open");
 }
 
 function getWebviewHtml(webview, extensionUri) {
@@ -204,10 +240,10 @@ function getWebviewHtml(webview, extensionUri) {
 
   const csp = [
     "default-src 'none'",
-    "img-src data:",
+    `img-src ${webview.cspSource} data:`,
     `connect-src ${webview.cspSource}`,
     `style-src ${webview.cspSource} 'unsafe-inline'`,
-    `script-src ${webview.cspSource}`
+    `script-src ${webview.cspSource}`,
   ].join("; ");
 
   return `<!DOCTYPE html>
@@ -245,9 +281,9 @@ function getWebviewHtml(webview, extensionUri) {
 </html>`;
 }
 
-function deactivate() { }
+function deactivate() {}
 
 module.exports = {
   activate,
-  deactivate
+  deactivate,
 };

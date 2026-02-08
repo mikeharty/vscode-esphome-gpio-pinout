@@ -1,0 +1,60 @@
+{
+  "id": "esp8266",
+  "variant": "esp8266",
+  "kind": "soc-grid",
+  "displayName": "ESP8266 (SoC pin grid)",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "pinIssues": [
+    {
+      "gpios": [
+        0,
+        2,
+        15
+      ],
+      "severity": "danger",
+      "text": "Boot strapping pin; keep external pull state boot-safe."
+    },
+    {
+      "gpioRange": [
+        6,
+        11
+      ],
+      "severity": "danger",
+      "text": "Connected to SPI flash interface; avoid for external GPIO use."
+    },
+    {
+      "gpios": [
+        1,
+        3
+      ],
+      "severity": "info",
+      "text": "Default UART TX/RX pins used for serial logging/flashing."
+    },
+    {
+      "gpios": [
+        17
+      ],
+      "severity": "warn",
+      "text": "ADC-only pin (TOUT); cannot be used as digital GPIO."
+    }
+  ]
+}

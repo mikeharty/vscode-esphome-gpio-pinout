@@ -1,0 +1,141 @@
+{
+  "id": "esp32cam",
+  "displayName": "AI Thinker ESP32-CAM",
+  "kind": "svg-board",
+  "socRef": "esp32",
+  "svgPath": "assets/wokwi/esp32cam.svg",
+  "sizeMm": {
+    "width": 27.2,
+    "height": 40.42
+  },
+  "pins": [
+    {
+      "label": "5V.1",
+      "x": 1.9,
+      "y": 4.95,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "3V3",
+      "x": 24.76,
+      "y": 4.95,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GND.1",
+      "x": 1.9,
+      "y": 7.49,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "16",
+      "x": 24.76,
+      "y": 7.49,
+      "targetRaw": "GPIO16",
+      "gpio": 16,
+      "type": "gpio"
+    },
+    {
+      "label": "12",
+      "x": 1.9,
+      "y": 10.03,
+      "targetRaw": "GPIO12",
+      "gpio": 12,
+      "type": "gpio"
+    },
+    {
+      "label": "0",
+      "x": 24.76,
+      "y": 10.03,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "13",
+      "x": 1.9,
+      "y": 12.57,
+      "targetRaw": "GPIO13",
+      "gpio": 13,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.2",
+      "x": 24.76,
+      "y": 12.57,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "15",
+      "x": 1.9,
+      "y": 15.11,
+      "targetRaw": "GPIO15",
+      "gpio": 15,
+      "type": "gpio"
+    },
+    {
+      "label": "VCC",
+      "x": 24.76,
+      "y": 15.11,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "14",
+      "x": 1.9,
+      "y": 17.65,
+      "targetRaw": "GPIO14",
+      "gpio": 14,
+      "type": "gpio"
+    },
+    {
+      "label": "RX",
+      "x": 24.76,
+      "y": 17.65,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "2",
+      "x": 1.9,
+      "y": 20.19,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "TX",
+      "x": 24.76,
+      "y": 20.19,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "4",
+      "x": 1.9,
+      "y": 22.73,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "GNd.3",
+      "x": 24.76,
+      "y": 22.73,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    }
+  ]
+}

@@ -29,32 +29,40 @@ npm run lint
 npm test
 ```
 
+## Pinout data sync
+
+Pinout files under `media/pinouts/` are generated from locked upstream commits.
+
+Update lock + regenerate:
+
+```sh
+npm run pinouts:update
+```
+
+Regenerate from current lock:
+
+```sh
+npm run pinouts:build
+```
+
+Verify committed generated outputs match the lock:
+
+```sh
+npm run pinouts:check
+```
+
 ## Build (package)
 
 ```sh
 npm run build
 ```
 
- The build command produces a `.vsix` package in `./build/`.
-
-## Release
-
-Releases are automated from git tags that match `vX.Y.Z`.
-
-1. Update `package.json` version (semver) and commit.
-2. Create and push a tag that matches the version:
-
-```sh
-git tag v0.1.3
-git push origin v0.1.3
-```
-
-The release workflow builds the VSIX, creates a GitHub Release, and publishes to the VS Code Marketplace.
-Ensure the repo secret `VSCE_PAT` is set with a Marketplace Personal Access Token.
+The build command produces a `.vsix` package in `./build/`.
 
 ## Project layout
 
 - `extension.js`: Extension activation + VS Code integration
 - `media/`: Webview UI (JS/CSS)
+- `scripts/sync-pinouts.mjs`: pinout ingestion/generation pipeline
 - `test/`: Extension test harness
 - `.vscode/`: Debug configuration for Extension Host

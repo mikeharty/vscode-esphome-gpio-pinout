@@ -2,11 +2,11 @@ module.exports = {
   root: true,
   env: {
     es2021: true,
-    node: true
+    node: true,
   },
   extends: ["eslint:recommended"],
   parserOptions: {
-    ecmaVersion: "latest"
+    ecmaVersion: "latest",
   },
   ignorePatterns: ["node_modules", ".vscode-test", "out", "dist"],
   overrides: [
@@ -14,19 +14,19 @@ module.exports = {
       files: ["media/**/*.js"],
       env: {
         browser: true,
-        es2021: true
+        es2021: true,
       },
       globals: {
-        acquireVsCodeApi: "readonly"
-      }
+        acquireVsCodeApi: "readonly",
+      },
     },
     {
       files: ["test/**/*.js"],
       env: {
         mocha: true,
         node: true,
-        es2021: true
-      }
-    }
-  ]
+        es2021: true,
+      },
+    },
+  ],
 };

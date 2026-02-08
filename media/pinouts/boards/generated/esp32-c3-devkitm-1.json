@@ -1,0 +1,253 @@
+{
+  "id": "esp32-c3-devkitm-1",
+  "displayName": "Espressif ESP32-C3-DevKitM-1",
+  "kind": "svg-board",
+  "socRef": "esp32c3",
+  "svgPath": "assets/wokwi/esp32-c3-devkitm-1.svg",
+  "sizeMm": {
+    "width": 25.4,
+    "height": 42.91
+  },
+  "pins": [
+    {
+      "label": "GND.1",
+      "x": 1,
+      "y": 5.16,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.10",
+      "x": 24.2,
+      "y": 5.16,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "3V3.1",
+      "x": 1,
+      "y": 7.7,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "TX",
+      "x": 24.2,
+      "y": 7.7,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3.2",
+      "x": 1,
+      "y": 10.24,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "RX",
+      "x": 24.2,
+      "y": 10.24,
+      "targetRaw": "GPIO20",
+      "gpio": 20,
+      "type": "gpio"
+    },
+    {
+      "label": "2",
+      "x": 1,
+      "y": 12.78,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.9",
+      "x": 24.2,
+      "y": 12.78,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "3",
+      "x": 1,
+      "y": 15.32,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "9",
+      "x": 24.2,
+      "y": 15.32,
+      "targetRaw": "GPIO9",
+      "gpio": 9,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.2",
+      "x": 1,
+      "y": 17.86,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "8",
+      "x": 24.2,
+      "y": 17.86,
+      "targetRaw": "GPIO8",
+      "gpio": 8,
+      "type": "gpio"
+    },
+    {
+      "label": "RST",
+      "x": 1,
+      "y": 20.4,
+      "targetRaw": "CHIP_PU",
+      "gpio": null,
+      "type": "reset"
+    },
+    {
+      "label": "GND.8",
+      "x": 24.2,
+      "y": 20.4,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.3",
+      "x": 1,
+      "y": 22.94,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "7",
+      "x": 24.2,
+      "y": 22.94,
+      "targetRaw": "GPIO7",
+      "gpio": 7,
+      "type": "gpio"
+    },
+    {
+      "label": "0",
+      "x": 1,
+      "y": 25.48,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "6",
+      "x": 24.2,
+      "y": 25.48,
+      "targetRaw": "GPIO6",
+      "gpio": 6,
+      "type": "gpio"
+    },
+    {
+      "label": "1",
+      "x": 1,
+      "y": 28.02,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "5",
+      "x": 24.2,
+      "y": 28.02,
+      "targetRaw": "GPIO5",
+      "gpio": 5,
+      "type": "gpio"
+    },
+    {
+      "label": "10",
+      "x": 1,
+      "y": 30.56,
+      "targetRaw": "GPIO10",
+      "gpio": 10,
+      "type": "gpio"
+    },
+    {
+      "label": "4",
+      "x": 24.2,
+      "y": 30.56,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.4",
+      "x": 1,
+      "y": 33.1,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.7",
+      "x": 24.2,
+      "y": 33.1,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "5V.1",
+      "x": 1,
+      "y": 35.64,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "18",
+      "x": 24.2,
+      "y": 35.64,
+      "targetRaw": "GPIO18",
+      "gpio": 18,
+      "type": "gpio"
+    },
+    {
+      "label": "5V.2",
+      "x": 1,
+      "y": 38.18,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "19",
+      "x": 24.2,
+      "y": 38.18,
+      "targetRaw": "GPIO19",
+      "gpio": 19,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.5",
+      "x": 1,
+      "y": 40.72,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.6",
+      "x": 24.2,
+      "y": 40.72,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    }
+  ]
+}

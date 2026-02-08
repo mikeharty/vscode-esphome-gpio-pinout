@@ -1,0 +1,27 @@
+{
+  "id": "adafruit_qtpy_esp32s3_n4r2",
+  "displayName": "Adafruit QT Py ESP32-S3 (4M Flash 2M PSRAM)",
+  "kind": "soc-grid",
+  "socRef": "esp32s3",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    16,
+    17,
+    18,
+    35,
+    36,
+    37,
+    39
+  ],
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ]
+}

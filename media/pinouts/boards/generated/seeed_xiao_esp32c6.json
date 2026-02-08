@@ -1,0 +1,125 @@
+{
+  "id": "seeed_xiao_esp32c6",
+  "displayName": "Seeed Studio XIAO ESP32C6",
+  "kind": "svg-board",
+  "socRef": "esp32c6",
+  "svgPath": "assets/wokwi/seeed_xiao_esp32c6.svg",
+  "sizeMm": {
+    "width": 18.1,
+    "height": 23.4
+  },
+  "pins": [
+    {
+      "label": "D0",
+      "x": 1.4335,
+      "y": 4.9305,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "5V",
+      "x": 16.51,
+      "y": 4.9305,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "D1",
+      "x": 1.4335,
+      "y": 7.4705,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "GND",
+      "x": 16.51,
+      "y": 7.4705,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "D2",
+      "x": 1.4335,
+      "y": 10.0105,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3",
+      "x": 16.51,
+      "y": 10.0105,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "D3",
+      "x": 1.4335,
+      "y": 12.5505,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "D10",
+      "x": 16.51,
+      "y": 12.5505,
+      "targetRaw": "GPIO18",
+      "gpio": 18,
+      "type": "gpio"
+    },
+    {
+      "label": "D4",
+      "x": 1.4335,
+      "y": 15.0905,
+      "targetRaw": "GPIO22",
+      "gpio": 22,
+      "type": "gpio"
+    },
+    {
+      "label": "D9",
+      "x": 16.51,
+      "y": 15.0905,
+      "targetRaw": "GPIO20",
+      "gpio": 20,
+      "type": "gpio"
+    },
+    {
+      "label": "D5",
+      "x": 1.4335,
+      "y": 17.6305,
+      "targetRaw": "GPIO23",
+      "gpio": 23,
+      "type": "gpio"
+    },
+    {
+      "label": "D8",
+      "x": 16.51,
+      "y": 17.6305,
+      "targetRaw": "GPIO19",
+      "gpio": 19,
+      "type": "gpio"
+    },
+    {
+      "label": "D6",
+      "x": 1.4335,
+      "y": 20.1705,
+      "targetRaw": "GPIO16",
+      "gpio": 16,
+      "type": "gpio"
+    },
+    {
+      "label": "D7",
+      "x": 16.51,
+      "y": 20.1705,
+      "targetRaw": "GPIO17",
+      "gpio": 17,
+      "type": "gpio"
+    }
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "id": "rpipicow",
+  "displayName": "Raspberry Pi Pico W",
+  "kind": "svg-board",
+  "socRef": "rp2040",
+  "svgPath": "assets/wokwi/rpipicow.svg",
+  "sizeMm": {
+    "width": 20.9,
+    "height": 52.75
+  },
+  "pins": [
+    {
+      "label": "GP0",
+      "x": 1.6,
+      "y": 3.4,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "VBUS",
+      "x": 19.3,
+      "y": 3.4,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GP1",
+      "x": 1.6,
+      "y": 5.94,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "VSYS",
+      "x": 19.3,
+      "y": 5.94,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GND.1",
+      "x": 1.6,
+      "y": 8.48,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.8",
+      "x": 19.3,
+      "y": 8.48,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GP2",
+      "x": 1.6,
+      "y": 11.02,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3_EN",
+      "x": 19.3,
+      "y": 11.02,
+      "targetRaw": null,
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GP3",
+      "x": 1.6,
+      "y": 13.56,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3",
+      "x": 19.3,
+      "y": 13.56,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GP4",
+      "x": 1.6,
+      "y": 16.1,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "ADC_VREF",
+      "x": 19.3,
+      "y": 16.1,
+      "targetRaw": null,
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "GP5",
+      "x": 1.6,
+      "y": 18.64,
+      "targetRaw": "GPIO5",
+      "gpio": 5,
+      "type": "gpio"
+    },
+    {
+      "label": "GP28",
+      "x": 19.3,
+      "y": 18.64,
+      "targetRaw": "GPIO28",
+      "gpio": 28,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.2",
+      "x": 1.6,
+      "y": 21.18,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.7",
+      "x": 19.3,
+      "y": 21.18,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GP6",
+      "x": 1.6,
+      "y": 23.72,
+      "targetRaw": "GPIO6",
+      "gpio": 6,
+      "type": "gpio"
+    },
+    {
+      "label": "GP27",
+      "x": 19.3,
+      "y": 23.72,
+      "targetRaw": "GPIO27",
+      "gpio": 27,
+      "type": "gpio"
+    },
+    {
+      "label": "GP7",
+      "x": 1.6,
+      "y": 26.26,
+      "targetRaw": "GPIO7",
+      "gpio": 7,
+      "type": "gpio"
+    },
+    {
+      "label": "GP26",
+      "x": 19.3,
+      "y": 26.26,
+      "targetRaw": "GPIO26",
+      "gpio": 26,
+      "type": "gpio"
+    },
+    {
+      "label": "GP8",
+      "x": 1.6,
+      "y": 28.8,
+      "targetRaw": "GPIO8",
+      "gpio": 8,
+      "type": "gpio"
+    },
+    {
+      "label": "RUN",
+      "x": 19.3,
+      "y": 28.8,
+      "targetRaw": null,
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "GP9",
+      "x": 1.6,
+      "y": 31.34,
+      "targetRaw": "GPIO9",
+      "gpio": 9,
+      "type": "gpio"
+    },
+    {
+      "label": "GP22",
+      "x": 19.3,
+      "y": 31.34,
+      "targetRaw": "GPIO22",
+      "gpio": 22,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.3",
+      "x": 1.6,
+      "y": 33.88,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.6",
+      "x": 19.3,
+      "y": 33.88,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GP10",
+      "x": 1.6,
+      "y": 36.42,
+      "targetRaw": "GPIO10",
+      "gpio": 10,
+      "type": "gpio"
+    },
+    {
+      "label": "GP21",
+      "x": 19.3,
+      "y": 36.42,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "GP11",
+      "x": 1.6,
+      "y": 38.96,
+      "targetRaw": "GPIO11",
+      "gpio": 11,
+      "type": "gpio"
+    },
+    {
+      "label": "GP20",
+      "x": 19.3,
+      "y": 38.96,
+      "targetRaw": "GPIO20",
+      "gpio": 20,
+      "type": "gpio"
+    },
+    {
+      "label": "GP12",
+      "x": 1.6,
+      "y": 41.49,
+      "targetRaw": "GPIO12",
+      "gpio": 12,
+      "type": "gpio"
+    },
+    {
+      "label": "GP19",
+      "x": 19.3,
+      "y": 41.49,
+      "targetRaw": "GPIO19",
+      "gpio": 19,
+      "type": "gpio"
+    },
+    {
+      "label": "GP13",
+      "x": 1.6,
+      "y": 44.03,
+      "targetRaw": "GPIO13",
+      "gpio": 13,
+      "type": "gpio"
+    },
+    {
+      "label": "GP18",
+      "x": 19.3,
+      "y": 44.03,
+      "targetRaw": "GPIO18",
+      "gpio": 18,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.4",
+      "x": 1.6,
+      "y": 46.57,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GND.5",
+      "x": 19.3,
+      "y": 46.57,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GP14",
+      "x": 1.6,
+      "y": 49.11,
+      "targetRaw": "GPIO14",
+      "gpio": 14,
+      "type": "gpio"
+    },
+    {
+      "label": "GP17",
+      "x": 19.3,
+      "y": 49.11,
+      "targetRaw": "GPIO17",
+      "gpio": 17,
+      "type": "gpio"
+    },
+    {
+      "label": "GP15",
+      "x": 1.6,
+      "y": 51.65,
+      "targetRaw": "GPIO15",
+      "gpio": 15,
+      "type": "gpio"
+    },
+    {
+      "label": "GP16",
+      "x": 19.3,
+      "y": 51.65,
+      "targetRaw": "GPIO16",
+      "gpio": 16,
+      "type": "gpio"
+    }
+  ]
+}

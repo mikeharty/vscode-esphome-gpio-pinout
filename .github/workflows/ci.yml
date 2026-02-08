@@ -16,6 +16,7 @@ jobs:
           node-version: "20"
           cache: "npm"
       - run: npm ci
+      - run: npm run pinouts:check
       - run: npm run lint
       - run: xvfb-run -a npm test
       - run: npm run build

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-02-08T02:29:12.492Z",
+  "sources": {
+    "platformio_espressif32": {
+      "owner": "platformio",
+      "repo": "platform-espressif32",
+      "branch": "develop",
+      "commit": "3c076807e1f55b90799b50b946e76a0508e97778"
+    },
+    "platformio_espressif8266": {
+      "owner": "platformio",
+      "repo": "platform-espressif8266",
+      "branch": "develop",
+      "commit": "668c2a2e4f16bd83b6c812f1ee0605c62b3ce2d2"
+    },
+    "wippersnapper_boards": {
+      "owner": "adafruit",
+      "repo": "Wippersnapper_Boards",
+      "branch": "main",
+      "commit": "35e65a1bd92fd6de3d21f67d1b50d1f9d3e8e019"
+    },
+    "wokwi_boards": {
+      "owner": "wokwi",
+      "repo": "wokwi-boards",
+      "branch": "main",
+      "commit": "3c5cdc3dc5fdd53e929936d0890dce22531cdfa3"
+    }
+  }
+}

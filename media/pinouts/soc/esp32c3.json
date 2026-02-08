@@ -3,5 +3,55 @@
   "variant": "esp32c3",
   "kind": "soc-grid",
   "displayName": "ESP32-C3 (SoC pin grid)",
-  "gpios": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "pinIssues": [
+    {
+      "gpios": [
+        2,
+        8,
+        9
+      ],
+      "severity": "danger",
+      "text": "Strapping pin (can affect boot mode)."
+    },
+    {
+      "gpioRange": [
+        12,
+        17
+      ],
+      "severity": "warn",
+      "text": "Often connected to flash by default on modules."
+    },
+    {
+      "gpios": [
+        18,
+        19
+      ],
+      "severity": "warn",
+      "text": "USB-JTAG default; repurposing may disable USB-JTAG."
+    }
+  ]
 }

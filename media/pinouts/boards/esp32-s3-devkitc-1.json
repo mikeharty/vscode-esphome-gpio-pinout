@@ -98,7 +98,5 @@
       "text": "May be onboard RGB LED depending on revision."
     }
   ],
-  "notes": [
-    "Multiple revisions exist; onboard RGB LED may be GPIO38 or GPIO48 depending on revision."
-  ]
+  "notes": ["Multiple revisions exist; onboard RGB LED may be GPIO38 or GPIO48 depending on revision."]
 }

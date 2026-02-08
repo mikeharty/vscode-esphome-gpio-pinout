@@ -4,12 +4,13 @@ const path = require("path");
 function run() {
   const mocha = new Mocha({
     ui: "tdd",
-    color: true
+    color: true,
   });
 
   const testsRoot = __dirname;
   mocha.addFile(path.resolve(testsRoot, "./extension.test.js"));
   mocha.addFile(path.resolve(testsRoot, "./logic.test.js"));
+  mocha.addFile(path.resolve(testsRoot, "./pinout-data.test.js"));
 
   return new Promise((resolve, reject) => {
     mocha.run((failures) => {
@@ -23,5 +24,5 @@ function run() {
 }
 
 module.exports = {
-  run
+  run,
 };

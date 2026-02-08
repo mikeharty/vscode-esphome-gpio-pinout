@@ -2,9 +2,9 @@
   "name": "esphome-gpio-pinout",
   "displayName": "ESPHome GPIO Pinout",
   "description": "GPIO pinout overlay for ESPHome board GPIO pins in VS Code.",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "publisher": "mikeharty",
-  "icon": "media/esphome-gpio-pinout-crop.jpg",
+  "icon": "media/esphome-gpio-pinout-128.jpg",
   "repository": {
     "type": "git",
     "url": "https://github.com/mikeharty/vscode-esphome-gpio-pinout.git"
@@ -15,24 +15,57 @@
   "categories": [
     "Visualization"
   ],
+  "activationEvents": [
+    "onLanguage:yaml"
+  ],
   "main": "./extension.js",
   "scripts": {
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "node ./test/runTest.js",
-    "build": "mkdir -p build && vsce package --no-dependencies --out build/esphome-gpio-pinout-${npm_package_version}.vsix"
+    "build": "mkdir -p build && vsce package --no-dependencies --out build/esphome-gpio-pinout-${npm_package_version}.vsix",
+    "pinouts:update": "node ./scripts/sync-pinouts.mjs --mode update",
+    "pinouts:build": "node ./scripts/sync-pinouts.mjs --mode build",
+    "pinouts:check": "node ./scripts/sync-pinouts.mjs --mode check"
   },
   "contributes": {
     "commands": [
       {
         "command": "esphomeGpioPinout.open",
-        "title": "ESPHome: GPIO Pinout"
+        "title": "ESPHome GPIO Pinout",
+        "shortTitle": "GPIO Pinout",
+        "icon": {
+          "light": "media/esphome-gpio-pinout-icon.svg",
+          "dark": "media/esphome-gpio-pinout-icon.svg"
+        }
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "esphomeGpioPinout.open",
+          "when": "resourceLangId == yaml",
+          "group": "navigation@90"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ESPHome GPIO Pinout",
+      "properties": {
+        "esphomeGpioPinout.autoOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open the GPIO pinout panel when a YAML file appears to be an ESPHome config."
+        }
+      }
+    }
   },
   "devDependencies": {
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^2.24.0",
     "eslint": "^8.57.0",
-    "mocha": "^10.3.0"
+    "mocha": "^10.3.0",
+    "prettier": "^3.6.2"
   }
 }

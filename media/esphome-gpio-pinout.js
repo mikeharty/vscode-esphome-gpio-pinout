@@ -6,13 +6,13 @@
   const CONFIG = {
     zoomMin: 0.75,
     zoomMax: 8.0,
-    zoomStep: 0.25
+    zoomStep: 0.25,
   };
 
   const STATE = {
     zoom: 1.0,
     fitScale: 1.0,
-    lastSig: null
+    lastSig: null,
   };
 
   const subtitleEl = document.getElementById("tm-esphome-pinout-subtitle");
@@ -22,15 +22,19 @@
   document.getElementById("tm-esphome-pinout-refresh").addEventListener("click", () => {
     vscode.postMessage({ type: "requestRefresh" });
   });
-  document.getElementById("tm-esphome-pinout-zoomout").addEventListener("click", () => setZoom(STATE.zoom - CONFIG.zoomStep));
-  document.getElementById("tm-esphome-pinout-zoomin").addEventListener("click", () => setZoom(STATE.zoom + CONFIG.zoomStep));
+  document
+    .getElementById("tm-esphome-pinout-zoomout")
+    .addEventListener("click", () => setZoom(STATE.zoom - CONFIG.zoomStep));
+  document
+    .getElementById("tm-esphome-pinout-zoomin")
+    .addEventListener("click", () => setZoom(STATE.zoom + CONFIG.zoomStep));
 
   document.addEventListener(
     "mousedown",
     () => {
       vscode.postMessage({ type: "focusEditor" });
     },
-    true
+    true,
   );
 
   window.addEventListener("message", (event) => {
@@ -55,7 +59,22 @@
 
   function applyZoom() {
     const layer = document.querySelector("#tm-esphome-pinout-diagram .tm-zoom-layer");
-    if (layer) layer.style.transform = `scale(${STATE.zoom * STATE.fitScale})`;
+    const svg = layer?.querySelector("svg.tm-svg");
+    if (!layer || !svg) return;
+
+    const viewW = parseFloat(svg.getAttribute("data-view-width")) || svg.viewBox?.baseVal?.width || 0;
+    const viewH = parseFloat(svg.getAttribute("data-view-height")) || svg.viewBox?.baseVal?.height || 0;
+    if (!viewW || !viewH) return;
+
+    const scale = STATE.zoom * STATE.fitScale;
+    const scaledW = Math.max(1, viewW * scale);
+    const scaledH = Math.max(1, viewH * scale);
+
+    layer.style.width = `${scaledW}px`;
+    layer.style.height = `${scaledH}px`;
+    layer.style.transform = "";
+    svg.style.width = `${scaledW}px`;
+    svg.style.height = `${scaledH}px`;
   }
 
   function computeFitScale() {
@@ -86,7 +105,13 @@
       return;
     }
 
-    const fit = Math.min(availW / viewW, availH / viewH);
+    const fitMode = svg.getAttribute("data-fit-mode") || "contain";
+    const fitRefW = fitMode === "tall-board" ? parseFloat(svg.getAttribute("data-fit-width")) || viewW : viewW;
+    const fitRefH = fitMode === "tall-board" ? parseFloat(svg.getAttribute("data-fit-height")) || viewH : viewH;
+    const fitW = availW / fitRefW;
+    const fitH = availH / fitRefH;
+    // For board-photo layouts, fit to width so panel height tracks actual board content.
+    const fit = fitMode === "tall-board" ? fitW : Math.min(fitW, fitH);
     STATE.fitScale = Math.max(0.1, Math.min(fit * 0.98, 12));
     applyZoom();
   }
@@ -102,7 +127,7 @@
       psramMode: null,
       usedPins: new Map(),
       unresolved: [],
-      substitutions: {}
+      substitutions: {},
     }));
   const resolveTemplates = LOGIC.resolveTemplates || ((str) => str);
 
@@ -124,7 +149,6 @@
       .replaceAll("'", "&#039;");
   }
 
-
   const PINOUT_BASE_URI = document.body.getAttribute("data-pinout-base") || "";
   const PINOUT_INDEX_URI = document.body.getAttribute("data-pinout-index") || "";
 
@@ -132,7 +156,7 @@
     index: null,
     indexPromise: null,
     defCache: new Map(),
-    defPromises: new Map()
+    defPromises: new Map(),
   };
 
   async function fetchJson(url) {
@@ -186,7 +210,31 @@
   function resolveBoardId(boardId, index) {
     if (!boardId) return null;
     if (index?.aliases && index.aliases[boardId]) return index.aliases[boardId];
+    const lower = String(boardId).toLowerCase();
+    if (index?.aliases && index.aliases[lower]) return index.aliases[lower];
+    if (index?.boards && index.boards[lower]) return lower;
+    if (index?.boardSocAliases && index.boardSocAliases[lower]) return lower;
     return boardId;
+  }
+
+  async function mergeSocRules(index, def) {
+    if (!def || !index) return def;
+    const socRef = def.socRef;
+    if (!socRef || !index?.soc?.[socRef]) return def;
+
+    const socDef = await loadPinoutDefinition(index.soc[socRef]);
+    if (!socDef) return def;
+
+    const mergedIssues = [
+      ...(Array.isArray(socDef.pinIssues) ? socDef.pinIssues : []),
+      ...(Array.isArray(def.pinIssues) ? def.pinIssues : []),
+    ];
+
+    return {
+      ...def,
+      variant: def.variant || socDef.variant || socRef,
+      pinIssues: mergedIssues.length ? mergedIssues : undefined,
+    };
   }
 
   async function getBoardDefinition(parsed) {
@@ -195,7 +243,7 @@
 
     if (index && boardId && index.boards && index.boards[boardId]) {
       const def = await loadPinoutDefinition(index.boards[boardId]);
-      if (def) return def;
+      if (def) return mergeSocRules(index, def);
     }
 
     if (index && boardId && index.boardSocAliases && index.boardSocAliases[boardId]) {
@@ -204,19 +252,21 @@
       const socPath = socKey && index.soc ? index.soc[socKey] : null;
       const socDef = await loadPinoutDefinition(socPath);
       if (socDef) {
-        return {
+        const def = {
           ...socDef,
           id: boardId,
+          socRef: socKey,
           displayName: alias.displayName || socDef.displayName,
-          variant: socDef.variant || socKey
+          variant: socDef.variant || socKey,
         };
+        return mergeSocRules(index, def);
       }
     }
 
     const variant = (parsed.variant || "").toLowerCase();
     if (index && variant && index.soc && index.soc[variant]) {
       const def = await loadPinoutDefinition(index.soc[variant]);
-      if (def) return def;
+      if (def) return mergeSocRules(index, def);
     }
 
     return { kind: "unknown", displayName: boardId ? `Unknown board: ${boardId}` : "Unknown board", gpios: [] };
@@ -278,6 +328,16 @@
     return meta ? `${head} (${meta})` : head;
   }
 
+  function buildBoardTitleLines(boardDef, parsed) {
+    const displayName = String(boardDef?.displayName || "").trim();
+    const boardId = String(parsed?.board || "").trim();
+
+    if (displayName && boardId && displayName.toLowerCase() !== boardId.toLowerCase()) {
+      return { line1: displayName, line2: boardId };
+    }
+    return { line1: displayName || boardId || "Board", line2: null };
+  }
+
   function buildIssuesSummary(parsed, boardDef) {
     const issuesByGpio = new Map();
     const variant = (parsed.variant || "").toLowerCase() || null;
@@ -287,12 +347,15 @@
       for (const h of boardDef.headers) for (const p of h.pins) if (p.gpio != null) availableGpios.add(p.gpio);
     } else if (boardDef.kind === "soc-grid") {
       for (const g of boardDef.gpios || []) availableGpios.add(g);
+    } else if (boardDef.kind === "svg-board") {
+      for (const p of boardDef.pins || []) if (p.gpio != null) availableGpios.add(p.gpio);
     }
 
     for (const [gpio] of parsed.usedPins.entries()) {
       const list = [];
       list.push(...getPinIssues(boardDef, parsed, gpio));
-      if (availableGpios.size && !availableGpios.has(gpio)) list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
+      if (availableGpios.size && !availableGpios.has(gpio))
+        list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
       if (list.length) issuesByGpio.set(gpio, list);
     }
 
@@ -303,8 +366,10 @@
     const left = boardDef.headers.find((h) => h.side === "left");
     const right = boardDef.headers.find((h) => h.side === "right");
     const nPins = Math.max(left?.pins.length ?? 0, right?.pins.length ?? 0);
+    const titleLines = buildBoardTitleLines(boardDef, parsed);
+    const titleOffset = titleLines.line2 ? 18 : 0;
 
-    const marginTop = 84;
+    const marginTop = 84 + titleOffset;
     const marginBottom = 76;
     const spacing = 44;
     const H = marginTop + marginBottom + (nPins - 1) * spacing + 40;
@@ -312,7 +377,7 @@
     const pad = 18;
     const gapTextToPin = 18;
     const gapPinToBoard = 18;
-    const boardY = 60;
+    const boardY = 60 + titleOffset;
     const boardW = 260;
     const boardH = H - 108;
 
@@ -352,14 +417,12 @@
     const rightTextX = rightPinX + gapTextToPin;
     const W = rightTextX + rightTextW + pad;
 
-    const title = `${boardDef.displayName}${parsed.board ? ` (${parsed.board})` : ""}`;
-
     function pinClasses(gpio, type) {
       const isUsed = gpio != null && parsed.usedPins.has(gpio);
       const issues = gpio != null ? issuesByGpio.get(gpio) || [] : [];
       const worst = issues.reduce(
         (acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc),
-        "none"
+        "none",
       );
 
       const cls = ["tm-pin"];
@@ -407,7 +470,8 @@
     function lineTspan(text, x, dy, maxWidth) {
       const t = text || " ";
       const estimated = estimateTextWidth(t);
-      const squeeze = maxWidth && estimated > maxWidth ? ` textLength="${maxWidth}" lengthAdjust="spacingAndGlyphs"` : "";
+      const squeeze =
+        maxWidth && estimated > maxWidth ? ` textLength="${maxWidth}" lengthAdjust="spacingAndGlyphs"` : "";
       return `<tspan x="${x}" dy="${dy}"${squeeze}>${escapeXml(t)}</tspan>`;
     }
 
@@ -462,13 +526,14 @@
 
       <rect x="${boardX}" y="${boardY}" width="${boardW}" height="${boardH}" rx="14" class="tm-board" filter="url(#tmShadow)"></rect>
 
-      <text x="${W / 2}" y="26" class="tm-title" text-anchor="middle">${escapeXml(title)}</text>
-      <text x="${W / 2}" y="44" class="tm-subtitle" text-anchor="middle">
+      <text x="${W / 2}" y="26" class="tm-title" text-anchor="middle">${escapeXml(titleLines.line1)}</text>
+      ${titleLines.line2 ? `<text x="${W / 2}" y="44" class="tm-title tm-title-secondary" text-anchor="middle">${escapeXml(titleLines.line2)}</text>` : ""}
+      <text x="${W / 2}" y="${titleLines.line2 ? 62 : 44}" class="tm-subtitle" text-anchor="middle">
         ${escapeXml(
-      [parsed.variant ? `variant: ${parsed.variant}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null]
-        .filter(Boolean)
-        .join(" | ")
-    )}
+          [parsed.variant ? `variant: ${parsed.variant}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null]
+            .filter(Boolean)
+            .join(" | "),
+        )}
       </text>
 
       ${renderSide(left, "left")}
@@ -479,12 +544,13 @@
 
   function buildSocGridSvg({ boardDef, parsed, issuesByGpio }) {
     const gpios = boardDef.gpios || [];
+    const titleLines = buildBoardTitleLines(boardDef, parsed);
 
     const cols = 6;
     const cellW = 140;
     const cellH = 64;
     const pad = 18;
-    const headerH = 74;
+    const headerH = titleLines.line2 ? 92 : 74;
 
     const rows = Math.ceil(gpios.length / cols);
     const W = pad * 2 + cols * cellW;
@@ -521,8 +587,6 @@
       return lines.join("\n");
     }
 
-    const title = `${boardDef.displayName}${parsed.variant ? ` (${parsed.variant})` : ""}`;
-
     const cells = gpios
       .map((gpio, idx) => {
         const r = Math.floor(idx / cols);
@@ -547,11 +611,293 @@
            style="width:${W}px; height:${H}px;"
            role="img"
            aria-label="GPIO grid">
-        <text x="${W / 2}" y="34" class="tm-title" text-anchor="middle">${escapeXml(title)}</text>
-        <text x="${W / 2}" y="58" class="tm-subtitle" text-anchor="middle">
+        <text x="${W / 2}" y="34" class="tm-title" text-anchor="middle">${escapeXml(titleLines.line1)}</text>
+        ${titleLines.line2 ? `<text x="${W / 2}" y="54" class="tm-title tm-title-secondary" text-anchor="middle">${escapeXml(titleLines.line2)}</text>` : ""}
+        <text x="${W / 2}" y="${titleLines.line2 ? 76 : 58}" class="tm-subtitle" text-anchor="middle">
           ${escapeXml([parsed.board ? `board: ${parsed.board}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null].filter(Boolean).join(" | "))}
         </text>
         ${cells}
+      </svg>
+    `;
+  }
+
+  function buildSvgBoardSvg({ boardDef, parsed, issuesByGpio, boardSvgUrl }) {
+    const pins = Array.isArray(boardDef.pins) ? boardDef.pins : [];
+    const sizeMm = boardDef.sizeMm || {};
+    const widthMm = Number(sizeMm.width);
+    const heightMm = Number(sizeMm.height);
+
+    if (!Number.isFinite(widthMm) || !Number.isFinite(heightMm) || widthMm <= 0 || heightMm <= 0) {
+      return `
+        <div class="tm-empty">
+          <div class="tm-empty-title">Invalid board layout</div>
+          <div class="tm-empty-body">Board SVG metadata is incomplete for this board definition.</div>
+        </div>
+      `;
+    }
+
+    const mmScale = 12;
+    const titleLines = buildBoardTitleLines(boardDef, parsed);
+    const boardX = 24;
+    const boardY = titleLines.line2 ? 92 : 74;
+    const boardW = widthMm * mmScale;
+    const boardH = heightMm * mmScale;
+    const pinR = 7;
+    const labelOffsetX = 22;
+    const labelOffsetY = 4;
+    const labelCharW = 6.6;
+    const labelHeight = 14;
+    const maxLabelChars = 44;
+    const maxLabelWidth = 280;
+    const fitReferenceWidth = boardW + 2 * (maxLabelWidth + labelOffsetX + 24);
+    const fitReferenceHeight = boardH + (titleLines.line2 ? 136 : 116);
+
+    function worstSeverity(gpio) {
+      if (gpio == null) return "none";
+      const issues = issuesByGpio.get(gpio) || [];
+      return issues.reduce((acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc), "none");
+    }
+
+    function pinClasses(pin) {
+      const gpio = pin?.gpio;
+      const cls = ["tm-pin"];
+      if (pin?.type === "power") cls.push("tm-power");
+      if (pin?.type === "ground") cls.push("tm-ground");
+      if (pin?.type === "reset") cls.push("tm-reset");
+      if (gpio != null) cls.push("tm-gpio");
+
+      if (gpio != null && parsed.usedPins.has(gpio)) cls.push("tm-used", "tm-clickable");
+
+      const worst = worstSeverity(gpio);
+      if (worst === "danger") cls.push("tm-danger");
+      if (worst === "warn") cls.push("tm-warn");
+      if (worst === "info") cls.push("tm-info");
+
+      return cls.join(" ");
+    }
+
+    function pinTitle(pin) {
+      const lines = [];
+      const gpio = pin?.gpio;
+      const pinLabel = pin?.label || "(no label)";
+      const pinTag = shortPinTag(pin, gpio);
+      const gpioLabel = gpio != null ? `GPIO${gpio}` : null;
+
+      if (pinTag && gpioLabel && pinTag !== gpioLabel) lines.push(`${pinTag} (${gpioLabel})`);
+      else lines.push(pinTag || gpioLabel || pinLabel);
+
+      if (pinLabel && pinTag && pinLabel !== pinTag) lines.push(`Board label: ${pinLabel}`);
+
+      const targetRaw = pin?.targetRaw ? String(pin.targetRaw).trim() : null;
+      if (targetRaw && !(gpio != null && /^GPIO\s*\d+$/i.test(targetRaw))) {
+        lines.push(`Target: ${targetRaw}`);
+      }
+
+      const usages = gpio != null ? parsed.usedPins.get(gpio) || [] : [];
+      if (usages.length) {
+        lines.push("Used by:");
+        for (const u of usages) lines.push(`- ${buildUsageLabel(u)} @ line ${u.line} (${u.key})`);
+      } else if (gpio != null) {
+        lines.push("Not used in current YAML.");
+      }
+
+      const issues = gpio != null ? issuesByGpio.get(gpio) || [] : [];
+      if (issues.length) {
+        for (const it of issues) lines.push(`[${it.severity}] ${it.text}`);
+      }
+
+      return lines.join("\n");
+    }
+
+    function shortPinTag(pin, gpio) {
+      const raw = String(pin?.label || "").trim();
+      if (raw) {
+        const dMatch = raw.match(/\bD\s*([0-9]+)\b/i);
+        if (dMatch) return `D${parseInt(dMatch[1], 10)}`;
+
+        const gpioMatch = raw.match(/\bGPIO\s*([0-9]+)\b/i);
+        if (gpioMatch) return `GPIO${parseInt(gpioMatch[1], 10)}`;
+      }
+
+      if (gpio != null) return `GPIO${gpio}`;
+      return raw || "";
+    }
+
+    function bestUsageNameOrIdForGpio(gpio) {
+      const uses = parsed.usedPins.get(gpio) || [];
+      if (!uses.length) return null;
+
+      const pick =
+        uses.find((u) => u?.name && String(u.name).trim().length) ||
+        uses.find((u) => u?.id && String(u.id).trim().length) ||
+        null;
+      if (!pick) return null;
+
+      const name = pick?.name ? resolveTemplates(pick.name, parsed.substitutions) : null;
+      const id = pick?.id ? resolveTemplates(pick.id, parsed.substitutions) : null;
+      return name || id || null;
+    }
+
+    function buildPinLabel(pin, gpio, placeRight) {
+      const pinTag = shortPinTag(pin, gpio);
+      if (!pinTag) return null;
+      const usageName = gpio != null ? bestUsageNameOrIdForGpio(gpio) : null;
+      const compactPinTag = compactLabelText(pinTag);
+      if (!usageName) {
+        return {
+          pinTag: compactPinTag,
+          usageName: null,
+          pinFirst: true,
+          fullText: compactPinTag,
+        };
+      }
+
+      const compactUsageName = compactLabelText(usageName);
+      const pinFirst = placeRight;
+      const fullText = pinFirst ? `${compactPinTag} ${compactUsageName}` : `${compactUsageName} ${compactPinTag}`;
+      return {
+        pinTag: compactPinTag,
+        usageName: compactUsageName,
+        pinFirst,
+        fullText,
+      };
+    }
+
+    function compactLabelText(raw) {
+      const input = String(raw || "").trim();
+      if (!input) return "";
+
+      // Keep labels useful, but bounded so they don't dominate scaling.
+      const stripped = input.replace(/\s+/g, " ").trim();
+
+      if (stripped.length <= maxLabelChars) return stripped;
+      return `${stripped.slice(0, maxLabelChars - 1)}…`;
+    }
+
+    const renderPins = [];
+    const boardCenterX = boardX + boardW / 2;
+    let minX = boardX - pinR - 4;
+    let maxX = boardX + boardW + pinR + 4;
+    let minY = boardY - pinR - 4;
+    let maxY = boardY + boardH + pinR + 4;
+
+    for (const pin of pins) {
+      const px = boardX + Number(pin.x) * mmScale;
+      const py = boardY + Number(pin.y) * mmScale;
+      const gpio = pin.gpio;
+      const placeRight = px >= boardX + boardW / 2;
+      const label = buildPinLabel(pin, gpio, placeRight);
+
+      if (!Number.isFinite(px) || !Number.isFinite(py)) continue;
+
+      minX = Math.min(minX, px - pinR);
+      maxX = Math.max(maxX, px + pinR);
+      minY = Math.min(minY, py - pinR);
+      maxY = Math.max(maxY, py + pinR);
+
+      let text = null;
+      if (gpio != null && label?.fullText) {
+        const estimatedWidth = Math.max(40, String(label.fullText).length * labelCharW);
+        const textWidth = Math.min(maxLabelWidth, estimatedWidth);
+        const tx = placeRight ? px + labelOffsetX : px - labelOffsetX;
+        const ty = py + labelOffsetY;
+
+        if (placeRight) {
+          minX = Math.min(minX, tx);
+          maxX = Math.max(maxX, tx + textWidth);
+        } else {
+          minX = Math.min(minX, tx - textWidth);
+          maxX = Math.max(maxX, tx);
+        }
+        minY = Math.min(minY, ty - labelHeight);
+        maxY = Math.max(maxY, ty + 4);
+
+        text = {
+          pinTag: label.pinTag,
+          usageName: label.usageName,
+          pinFirst: label.pinFirst,
+          x: tx,
+          y: ty,
+          anchor: placeRight ? "start" : "end",
+        };
+      }
+
+      renderPins.push({ pin, gpio, px, py, text });
+    }
+
+    const padX = 42;
+    const padY = 20;
+    const leftExtent = Math.max(0, boardCenterX - minX);
+    const rightExtent = Math.max(0, maxX - boardCenterX);
+    const halfSpanX = Math.max(leftExtent, rightExtent) + padX;
+    const W = Math.ceil(halfSpanX * 2);
+    const shiftX = W / 2 - boardCenterX;
+    const shiftY = minY < padY ? padY - minY : 0;
+    const H = Math.ceil(maxY + shiftY + padY);
+
+    const boardRenderX = boardX + shiftX;
+    const boardRenderY = boardY + shiftY;
+    const pinLayers = renderPins
+      .map((item) => {
+        const px = item.px + shiftX;
+        const py = item.py + shiftY;
+        const textClass =
+          item.gpio != null && parsed.usedPins.has(item.gpio) ? "tm-svg-pin-label tm-clickable" : "tm-svg-pin-label";
+        const labelSpans = item.text
+          ? item.text.usageName
+            ? item.text.pinFirst
+              ? `<tspan class="tm-svg-pin-tag">${escapeXml(item.text.pinTag)}</tspan><tspan class="tm-svg-pin-name"> ${escapeXml(item.text.usageName)}</tspan>`
+              : `<tspan class="tm-svg-pin-name">${escapeXml(item.text.usageName)} </tspan><tspan class="tm-svg-pin-tag">${escapeXml(item.text.pinTag)}</tspan>`
+            : `<tspan class="tm-svg-pin-tag">${escapeXml(item.text.pinTag)}</tspan>`
+          : "";
+        const text = item.text
+          ? `<text x="${item.text.x + shiftX}" y="${item.text.y + shiftY}" text-anchor="${item.text.anchor}" class="${textClass}" data-gpio="${item.gpio ?? ""}">${labelSpans}</text>`
+          : "";
+        return `
+          <g class="${pinClasses(item.pin)}" data-gpio="${item.gpio ?? ""}">
+            <title>${escapeXml(pinTitle(item.pin))}</title>
+            <circle cx="${px}" cy="${py}" r="${pinR}" class="tm-pin-dot"></circle>
+            ${text}
+          </g>
+        `;
+      })
+      .join("\n");
+
+    return `
+      <svg class="tm-svg"
+           viewBox="0 0 ${W} ${H}"
+           data-view-width="${W}"
+           data-view-height="${H}"
+           data-fit-width="${Math.ceil(fitReferenceWidth)}"
+           data-fit-height="${Math.ceil(fitReferenceHeight)}"
+           data-fit-mode="tall-board"
+           style="width:${W}px; height:${H}px;"
+           role="img"
+           aria-label="GPIO board layout">
+        <defs>
+          <filter id="tmShadowSvgBoard" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.35"/>
+          </filter>
+        </defs>
+        <text x="${W / 2}" y="30" class="tm-title" text-anchor="middle">${escapeXml(titleLines.line1)}</text>
+        ${titleLines.line2 ? `<text x="${W / 2}" y="50" class="tm-title tm-title-secondary" text-anchor="middle">${escapeXml(titleLines.line2)}</text>` : ""}
+        <text x="${W / 2}" y="${titleLines.line2 ? 72 : 54}" class="tm-subtitle" text-anchor="middle">
+          ${escapeXml(
+            [
+              parsed.variant ? `variant: ${parsed.variant}` : null,
+              parsed.psramMode ? `psram: ${parsed.psramMode}` : null,
+            ]
+              .filter(Boolean)
+              .join(" | "),
+          )}
+        </text>
+        <rect x="${boardRenderX}" y="${boardRenderY}" width="${boardW}" height="${boardH}" class="tm-board" filter="url(#tmShadowSvgBoard)"></rect>
+        ${
+          boardSvgUrl
+            ? `<image href="${escapeXml(boardSvgUrl)}" x="${boardRenderX}" y="${boardRenderY}" width="${boardW}" height="${boardH}" preserveAspectRatio="none" class="tm-board-image"></image>`
+            : ""
+        }
+        ${pinLayers}
       </svg>
     `;
   }
@@ -592,9 +938,7 @@
     }
 
     const yamlText = payload.yamlText || "";
-    const source = payload.fileName
-      ? `${payload.fileName}${payload.isDirty ? " (unsaved)" : ""}`
-      : "Active Editor";
+    const source = payload.fileName ? `${payload.fileName}${payload.isDirty ? " (unsaved)" : ""}` : "Active Editor";
 
     const sig = `${source}|${yamlText.length}`;
     if (sig === STATE.lastSig) return;
@@ -618,13 +962,16 @@
     const boardDef = (await getBoardDefinition(parsed)) || { kind: "unknown", displayName: "Unknown board", gpios: [] };
     if (STATE.lastSig !== renderSig) return;
     const { issuesByGpio, availableGpios, variant } = buildIssuesSummary(parsed, boardDef);
+    const boardSvgUrl = boardDef.kind === "svg-board" ? resolvePinoutUrl(boardDef.svgPath) : null;
 
     const svg =
       boardDef.kind === "header-board"
         ? buildHeaderBoardSvg({ boardDef, parsed, issuesByGpio })
         : boardDef.kind === "soc-grid"
           ? buildSocGridSvg({ boardDef, parsed, issuesByGpio })
-          : `
+          : boardDef.kind === "svg-board"
+            ? buildSvgBoardSvg({ boardDef, parsed, issuesByGpio, boardSvgUrl })
+            : `
         <div class="tm-empty">
           <div class="tm-empty-title">No layout available</div>
           <div class="tm-empty-body">
@@ -663,41 +1010,47 @@
       used.length === 0
         ? `<div class="tm-muted">No <code>pin:</code> or <code>*_pin:</code> fields detected yet.</div>`
         : used
-          .map(([gpio, usages]) => {
-            const issues = issuesByGpio.get(gpio) || [];
-            const worst = issues.reduce((acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc), "none");
-            const badge =
-              worst === "danger"
-                ? `<span class="tm-badge tm-badge-danger">DANGER</span>`
-                : worst === "warn"
-                  ? `<span class="tm-badge tm-badge-warn">WARN</span>`
-                  : worst === "info"
-                    ? `<span class="tm-badge tm-badge-info">INFO</span>`
-                    : `<span class="tm-badge tm-badge-ok">OK</span>`;
+            .map(([gpio, usages]) => {
+              const issues = issuesByGpio.get(gpio) || [];
+              const worst = issues.reduce(
+                (acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc),
+                "none",
+              );
+              const badge =
+                worst === "danger"
+                  ? `<span class="tm-badge tm-badge-danger">DANGER</span>`
+                  : worst === "warn"
+                    ? `<span class="tm-badge tm-badge-warn">WARN</span>`
+                    : worst === "info"
+                      ? `<span class="tm-badge tm-badge-info">INFO</span>`
+                      : `<span class="tm-badge tm-badge-ok">OK</span>`;
 
-            const usageLines = usages
-              .map(
-                (u) => `
+              const usageLines = usages
+                .map(
+                  (u) => `
                   <div class="tm-usage-row">
                     <button class="tm-link" data-jump-line="${u.line}">line ${u.line}</button>
                     <span class="tm-usage-label">${escapeHtml(buildUsageLabel(u))}</span>
                     <span class="tm-usage-key">${escapeHtml(u.key)}</span>
                   </div>
-                `
-              )
-              .join("");
+                `,
+                )
+                .join("");
 
-            const issueLines = issues.length
-              ? `
+              const issueLines = issues.length
+                ? `
                   <div class="tm-issues">
                     ${issues
-                .map((it) => `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}">[${escapeHtml(it.severity)}] ${escapeHtml(it.text)}</div>`)
-                .join("")}
+                      .map(
+                        (it) =>
+                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}">[${escapeHtml(it.severity)}] ${escapeHtml(it.text)}</div>`,
+                      )
+                      .join("")}
                   </div>
                 `
-              : "";
+                : "";
 
-            return `
+              return `
                 <div class="tm-used-pin">
                   <div class="tm-used-pin-head">
                     <div class="tm-used-pin-title">GPIO${gpio}</div>
@@ -707,8 +1060,8 @@
                   ${issueLines}
                 </div>
               `;
-          })
-          .join("");
+            })
+            .join("");
 
     const availability =
       availableGpios && availableGpios.size

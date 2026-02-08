@@ -7,7 +7,7 @@
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
-  const YAML_HEURISTICS = ["esphome:", "esp32:", "esp8266:", "rp2040:", "bk72xx:", "rtl87xx:"];
+  const YAML_HEURISTICS = ["esphome:", "esp32:", "esp8266:", "rp2040:", "nrf52:", "bk72xx:", "rtl87xx:"];
 
   function looksLikeEsphomeYaml(text) {
     if (!text) return false;
@@ -71,13 +71,17 @@
       return blockLines;
     }
 
-    const esp32Block = parseBlock("esp32");
-    if (esp32Block) {
-      for (const { line } of esp32Block) {
+    const platformBlocks = ["esp32", "esp8266", "rp2040", "nrf52"];
+    for (const platformBlock of platformBlocks) {
+      const block = parseBlock(platformBlock);
+      if (!block) continue;
+      for (const { line } of block) {
         const mBoard = line.match(/^\s*board:\s*([^\s#]+)\s*$/);
-        if (mBoard) board = stripOuterQuotes(mBoard[1]);
-        const mVar = line.match(/^\s*variant:\s*([^\s#]+)\s*$/);
-        if (mVar) variant = stripOuterQuotes(mVar[1]);
+        if (mBoard && !board) board = stripOuterQuotes(mBoard[1]);
+        if (platformBlock === "esp32") {
+          const mVar = line.match(/^\s*variant:\s*([^\s#]+)\s*$/);
+          if (mVar) variant = stripOuterQuotes(mVar[1]);
+        }
       }
     }
 
@@ -105,7 +109,12 @@
     if (v.startsWith("{") && v.includes("number")) {
       const nm = v.match(/number\s*:\s*("?)(GPIO)?\s*(\d+)\1/i);
       if (nm) return { gpio: parseInt(nm[3], 10), resolvedFrom: v };
+      const nrfNm = v.match(/number\s*:\s*P([01])\.(\d+)/i);
+      if (nrfNm) return { gpio: parseInt(nrfNm[1], 10) * 32 + parseInt(nrfNm[2], 10), resolvedFrom: v };
     }
+
+    const nrf = v.match(/^P([01])\.(\d+)\s*$/i);
+    if (nrf) return { gpio: parseInt(nrf[1], 10) * 32 + parseInt(nrf[2], 10), resolvedFrom: v };
 
     const m = v.match(/^(GPIO)?\s*(\d+)\s*$/i);
     if (m) return { gpio: parseInt(m[2], 10), resolvedFrom: v };
@@ -164,7 +173,13 @@
         const rest = listM[2].trim();
         const platM = rest.match(/^platform:\s*([^\s#]+)\s*$/);
         if (platM) {
-          currentItem = { section: currentSection, platform: stripOuterQuotes(platM[1]), id: null, name: null, itemIndent };
+          currentItem = {
+            section: currentSection,
+            platform: stripOuterQuotes(platM[1]),
+            id: null,
+            name: null,
+            itemIndent,
+          };
           currentItemIndent = itemIndent;
         } else if (currentItem && itemIndent === currentItemIndent) {
           currentItem = { section: currentSection, platform: null, id: null, name: null, itemIndent };
@@ -219,11 +234,19 @@
         section: currentItem?.section ?? currentSection ?? null,
         platform: currentItem?.platform ?? null,
         id: currentItem?.id ?? null,
-        name: currentItem?.name ?? null
+        name: currentItem?.name ?? null,
+        context: currentItem || null,
       });
     }
 
-    for (const list of usedPins.values()) list.sort((a, b) => a.line - b.line);
+    for (const list of usedPins.values()) {
+      for (const usage of list) {
+        if (usage.id == null && usage.context?.id != null) usage.id = usage.context.id;
+        if (usage.name == null && usage.context?.name != null) usage.name = usage.context.name;
+        delete usage.context;
+      }
+      list.sort((a, b) => a.line - b.line);
+    }
     return { usedPins, unresolved };
   }
 
@@ -237,7 +260,7 @@
         psramMode: null,
         usedPins: new Map(),
         unresolved: [],
-        substitutions: {}
+        substitutions: {},
       };
     }
     const lines = yamlText.split(/\r?\n/);
@@ -261,6 +284,6 @@
     pinValueToGpio,
     parsePinUsages,
     parseEsphomeYaml,
-    resolveTemplates
+    resolveTemplates,
   };
 });

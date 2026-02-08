@@ -102,17 +102,10 @@
   ],
   "pinIssues": [
     {
-      "gpios": [
-        0,
-        3,
-        45,
-        46
-      ],
+      "gpios": [0, 3, 45, 46],
       "severity": "danger",
       "text": "Strapping pin (can affect boot mode)."
     }
   ],
-  "notes": [
-    "D2 maps to GPIO3 (strap) on ESP32-S3. Treat as risky at boot."
-  ]
+  "notes": ["D2 maps to GPIO3 (strap) on ESP32-S3. Treat as risky at boot."]
 }

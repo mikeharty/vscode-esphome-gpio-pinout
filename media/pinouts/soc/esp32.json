@@ -3,5 +3,75 @@
   "variant": "esp32",
   "kind": "soc-grid",
   "displayName": "ESP32 (SoC pin grid)",
-  "gpios": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33, 34, 35, 36, 37, 38, 39]
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    21,
+    22,
+    23,
+    25,
+    26,
+    27,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "pinIssues": [
+    {
+      "gpios": [
+        0,
+        2,
+        5,
+        12,
+        15
+      ],
+      "severity": "danger",
+      "text": "Strapping pin (can affect boot mode)."
+    },
+    {
+      "gpioRanges": [
+        [
+          6,
+          11
+        ],
+        [
+          16,
+          17
+        ]
+      ],
+      "severity": "danger",
+      "text": "Commonly used by internal flash/PSRAM; avoid for general GPIO."
+    },
+    {
+      "gpioRange": [
+        34,
+        39
+      ],
+      "severity": "warn",
+      "text": "Input-only pins; no internal pull-up/pull-down."
+    }
+  ]
 }
