@@ -2,7 +2,7 @@
   "name": "esphome-gpio-pinout",
   "displayName": "ESPHome GPIO Pinout",
   "description": "GPIO pinout overlay for ESPHome board GPIO pins in VS Code.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "mikeharty",
   "icon": "media/esphome-gpio-pinout-128.jpg",
   "repository": {
@@ -16,7 +16,9 @@
     "Visualization"
   ],
   "activationEvents": [
-    "onLanguage:yaml"
+    "onLanguage:yaml",
+    "onLanguage:yml",
+    "onLanguage:esphome"
   ],
   "main": "./extension.js",
   "scripts": {
@@ -36,8 +38,8 @@
         "title": "ESPHome GPIO Pinout",
         "shortTitle": "GPIO Pinout",
         "icon": {
-          "light": "media/esphome-gpio-pinout-icon.svg",
-          "dark": "media/esphome-gpio-pinout-icon.svg"
+          "light": "media/esphome-gpio-pinout-light.svg",
+          "dark": "media/esphome-gpio-pinout-dark.svg"
         }
       }
     ],
@@ -45,7 +47,7 @@
       "editor/title": [
         {
           "command": "esphomeGpioPinout.open",
-          "when": "resourceLangId == yaml",
+          "when": "resourceLangId == yaml || resourceLangId == yml || resourceLangId == esphome",
           "group": "navigation@90"
         }
       ]
