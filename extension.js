@@ -18,8 +18,9 @@ function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("esphomeGpioPinout.open", () => {
       if (panel) {
+        // Rebuild HTML so UI changes are reflected without requiring manual panel disposal.
+        panel.webview.html = getWebviewHtml(panel.webview, context.extensionUri);
         panel.reveal(vscode.ViewColumn.Beside);
-        sendUpdate();
         return;
       }
 
@@ -266,6 +267,12 @@ function getWebviewHtml(webview, extensionUri) {
         <button class="tm-btn" id="tm-esphome-pinout-zoomout">-</button>
         <div class="tm-zoom-label" id="tm-esphome-pinout-zoomlabel">100%</div>
         <button class="tm-btn" id="tm-esphome-pinout-zoomin">+</button>
+        <div class="tm-select-wrap" id="tm-esphome-pinout-labelstyle-wrap" hidden>
+          <select class="tm-select" id="tm-esphome-pinout-labelstyle" aria-label="Pin label style">
+            <option value="gpio">GPIO labels</option>
+            <option value="board">Silkscreen labels</option>
+          </select>
+        </div>
         <button class="tm-btn" id="tm-esphome-pinout-refresh">Refresh</button>
       </div>
     </div>
@@ -281,7 +288,7 @@ function getWebviewHtml(webview, extensionUri) {
 </html>`;
 }
 
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
   activate,

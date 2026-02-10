@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generated": {
-    "generatedAt": "2026-02-08T02:29:12.492Z",
+    "generatedAt": "2026-02-10T02:27:07.236Z",
     "sources": {
       "platformio_espressif32": {
         "repo": "platformio/platform-espressif32",

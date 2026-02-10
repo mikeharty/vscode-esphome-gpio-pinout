@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.2.3] - 2026-02-09
+
+- Added a light theme
+- Added UI component to switch between GPIO / Silkscreen labels
+  - Saves user preference
+  - Only rendered if silkscreen labels are meaningfully different from GPIO labels
+- Reworked zoom/centering: boards stay centered, horizontal scroll appears only when needed
+
+## [0.2.2] - 2026-02-09
+
+- Fixed editor icon SVG locations in package.json
+
+## [0.2.1] - 2026-02-09
+
+- Fixed ESPHome language YAML files not triggering extension
+
 ## [0.2.0] - 2026-02-08
 
 - Added automated pinout ingestion from locked upstream sources with `pinouts:update`, `pinouts:build`, and `pinouts:check`.
