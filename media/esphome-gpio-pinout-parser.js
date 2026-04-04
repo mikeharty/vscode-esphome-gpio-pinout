@@ -267,7 +267,15 @@
     const substitutions = parseSubstitutions(lines);
     const { board, variant, psramMode } = parseBoardVariantAndPsram(lines);
     const { usedPins, unresolved } = parsePinUsages(lines, substitutions);
-    return { ok: true, board, variant, psramMode, usedPins, unresolved, substitutions };
+    return {
+      ok: true,
+      board: resolveTemplates(board, substitutions),
+      variant: resolveTemplates(variant, substitutions),
+      psramMode,
+      usedPins,
+      unresolved,
+      substitutions,
+    };
   }
 
   function resolveTemplates(str, subs) {
