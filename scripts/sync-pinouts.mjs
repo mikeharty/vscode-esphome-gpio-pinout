@@ -61,12 +61,23 @@ const EXTRA_TARGETS = [
     socRef: "rp2040",
     displayName: "Raspberry Pi Pico W",
   },
+  {
+    id: "nologo_esp32c3_super_mini",
+    socRef: "esp32c3",
+    displayName: "ESP32-C3 SuperMini",
+  },
 ];
 
 const WOKWI_EXPLICIT_MAP = {
   "arduino-nano-esp32": ["arduino_nano_esp32"],
   "esp32-c3-devkitm-1": ["esp32-c3-devkitm-1"],
   "esp32-c6-devkitc-1": ["esp32-c6-devkitc-1"],
+  "aitewinrobot-esp32c3-supermini": ["nologo_esp32c3_super_mini", "aitewinrobot-esp32c3-supermini"],
+  "esp-01": ["esp01_1m", "esp01"],
+  "franzininho-wifi": ["franzininho_wifi_esp32s2"],
+  "m5stack-core-s3": ["m5stack-cores3"],
+  "pi-pico": ["rpipico"],
+  "wemos-lolin32-lite": ["lolin32_lite"],
   "esp32-cam": ["esp32cam"],
   "esp32-devkit-v1": ["esp32dev", "esp32doit-devkit-v1"],
   "esp32-s2-devkitm-1": ["esp32-s2-devkitm-1"],
