@@ -297,7 +297,8 @@
       "adafruit_feather_nrf52840",
       "adafruit_itsybitsy_nrf52840",
       "xiao_ble",
-      "rpipicow"
+      "rpipicow",
+      "nologo_esp32c3_super_mini"
     ]
   },
   "all": [
@@ -503,6 +504,7 @@
     "nodemcu-32s",
     "nodemcu-32s2",
     "nodemcuv2",
+    "nologo_esp32c3_super_mini",
     "nscreen-32",
     "oak",
     "odroid_esp32",

@@ -1,0 +1,77 @@
+{
+  "id": "esp01",
+  "displayName": "Espressif Generic ESP8266 ESP-01 512k",
+  "kind": "svg-board",
+  "socRef": "esp8266",
+  "svgPath": "assets/wokwi/esp01.svg",
+  "sizeMm": {
+    "width": 24.8,
+    "height": 14.574
+  },
+  "pins": [
+    {
+      "label": "TX",
+      "x": 1.4,
+      "y": 3.88,
+      "targetRaw": "esp:U0TXD",
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "GND",
+      "x": 4.1,
+      "y": 3.88,
+      "targetRaw": "esp:GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "CH_PD",
+      "x": 1.4,
+      "y": 6,
+      "targetRaw": "esp:CH_EN",
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "GPIO2",
+      "x": 4.1,
+      "y": 6,
+      "targetRaw": "esp:GPIO2",
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "RESET",
+      "x": 1.4,
+      "y": 8.74,
+      "targetRaw": "esp:RESET",
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "GPIO0",
+      "x": 4.1,
+      "y": 8.74,
+      "targetRaw": "esp:GPIO0",
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "VCC",
+      "x": 1.4,
+      "y": 11.34,
+      "targetRaw": "esp:VCC",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "RX",
+      "x": 4.1,
+      "y": 11.34,
+      "targetRaw": "esp:U0RXD",
+      "gpio": null,
+      "type": "other"
+    }
+  ]
+}
