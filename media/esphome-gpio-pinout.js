@@ -488,11 +488,13 @@
       for (const p of boardDef.pins || []) if (p.gpio != null) availableGpios.add(p.gpio);
     }
 
-    for (const [gpio] of parsed.usedPins.entries()) {
+    for (const [gpio, usages] of parsed.usedPins.entries()) {
       const list = [];
       list.push(...getPinIssues(boardDef, parsed, gpio));
       if (availableGpios.size && !availableGpios.has(gpio))
         list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
+      if (usages.some((u) => u.isGuessed))
+        list.push({ severity: "warn", text: "GPIO number guessed from unresolved value." });
       if (list.length) issuesByGpio.set(gpio, list);
     }
 
@@ -500,7 +502,14 @@
   }
 
   function sameNormalizedLabel(a, b) {
-    return String(a || "").replace(/\s+/g, "").toUpperCase() === String(b || "").replace(/\s+/g, "").toUpperCase();
+    return (
+      String(a || "")
+        .replace(/\s+/g, "")
+        .toUpperCase() ===
+      String(b || "")
+        .replace(/\s+/g, "")
+        .toUpperCase()
+    );
   }
 
   function gpioTag(gpio) {
@@ -607,7 +616,10 @@
     const right = boardDef.headers.find((h) => h.side === "right");
     const nPins = Math.max(left?.pins.length ?? 0, right?.pins.length ?? 0);
     const titleLines = buildBoardTitleLines(boardDef, parsed);
-    const subtitleText = [parsed.variant ? `variant: ${parsed.variant}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null]
+    const subtitleText = [
+      parsed.variant ? `variant: ${parsed.variant}` : null,
+      parsed.psramMode ? `psram: ${parsed.psramMode}` : null,
+    ]
       .filter(Boolean)
       .join(" | ");
     const hasSubtitle = subtitleText.length > 0;
@@ -632,7 +644,8 @@
     function pinLabelLines(pinObj) {
       if (labelCache.has(pinObj)) return labelCache.get(pinObj);
       const gpio = pinObj?.gpio;
-      const primary = formatPinTagForStyle(pinObj, gpio, labelStyle) || pinObj?.label || (gpio != null ? `GPIO${gpio}` : "");
+      const primary =
+        formatPinTagForStyle(pinObj, gpio, labelStyle) || pinObj?.label || (gpio != null ? `GPIO${gpio}` : "");
       const usageLabel = gpio != null ? bestUsageLabelForGpio(gpio, parsed) : null;
       const secondary = usageLabel || "";
       const lines = { primary, secondary };
@@ -797,7 +810,10 @@
   function buildSocGridSvg({ boardDef, parsed, issuesByGpio }) {
     const gpios = boardDef.gpios || [];
     const titleLines = buildBoardTitleLines(boardDef, parsed);
-    const subtitleText = [parsed.board ? `board: ${parsed.board}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null]
+    const subtitleText = [
+      parsed.board ? `board: ${parsed.board}` : null,
+      parsed.psramMode ? `psram: ${parsed.psramMode}` : null,
+    ]
       .filter(Boolean)
       .join(" | ");
     const hasSubtitle = subtitleText.length > 0;
@@ -806,7 +822,7 @@
     const cellW = 140;
     const cellH = 64;
     const pad = 18;
-    const headerH = hasSubtitle ? (titleLines.line2 ? 92 : 74) : (titleLines.line2 ? 70 : 50);
+    const headerH = hasSubtitle ? (titleLines.line2 ? 92 : 74) : titleLines.line2 ? 70 : 50;
     const subtitleY = titleLines.line2 ? 76 : 58;
 
     const rows = Math.ceil(gpios.length / cols);
@@ -825,8 +841,8 @@
       if (parsed.usedPins.has(gpio)) cls.push("tm-used");
       const worst = worstSeverity(gpio);
       if (worst === "danger") cls.push("tm-danger");
-      if (worst === "warn") cls.push("tm-warn");
-      if (worst === "info") cls.push("tm-info");
+      else if (worst === "warn") cls.push("tm-warn");
+      else if (worst === "info") cls.push("tm-info");
       if (parsed.usedPins.has(gpio)) cls.push("tm-clickable");
       return cls.join(" ");
     }
@@ -897,14 +913,17 @@
 
     const mmScale = 12;
     const titleLines = buildBoardTitleLines(boardDef, parsed);
-    const subtitleText = [parsed.variant ? `variant: ${parsed.variant}` : null, parsed.psramMode ? `psram: ${parsed.psramMode}` : null]
+    const subtitleText = [
+      parsed.variant ? `variant: ${parsed.variant}` : null,
+      parsed.psramMode ? `psram: ${parsed.psramMode}` : null,
+    ]
       .filter(Boolean)
       .join(" | ");
     const hasSubtitle = subtitleText.length > 0;
     const titleY = 30;
     const titleLine2Y = 50;
     const subtitleY = titleLines.line2 ? 72 : 54;
-    const lastHeaderY = hasSubtitle ? subtitleY : (titleLines.line2 ? titleLine2Y : titleY);
+    const lastHeaderY = hasSubtitle ? subtitleY : titleLines.line2 ? titleLine2Y : titleY;
     const boardX = 24;
     const boardY = lastHeaderY + 20;
     const boardW = widthMm * mmScale;
@@ -938,8 +957,8 @@
 
       const worst = worstSeverity(gpio);
       if (worst === "danger") cls.push("tm-danger");
-      if (worst === "warn") cls.push("tm-warn");
-      if (worst === "info") cls.push("tm-info");
+      else if (worst === "warn") cls.push("tm-warn");
+      else if (worst === "info") cls.push("tm-info");
 
       return cls.join(" ");
     }
@@ -1153,10 +1172,11 @@
         ${titleLines.line2 ? `<text x="${boardRenderCenterX}" y="${titleLine2Y}" class="tm-title tm-title-secondary" text-anchor="middle">${escapeXml(titleLines.line2)}</text>` : ""}
         ${hasSubtitle ? `<text x="${boardRenderCenterX}" y="${subtitleY}" class="tm-subtitle" text-anchor="middle">${escapeXml(subtitleText)}</text>` : ""}
         <rect x="${boardRenderX}" y="${boardRenderY}" width="${boardW}" height="${boardH}" class="tm-board" filter="url(#tmShadowSvgBoard)"></rect>
-        ${boardSvgUrl
-        ? `<image href="${escapeXml(boardSvgUrl)}" x="${boardRenderX}" y="${boardRenderY}" width="${boardW}" height="${boardH}" preserveAspectRatio="none" class="tm-board-image"></image>`
-        : ""
-      }
+        ${
+          boardSvgUrl
+            ? `<image href="${escapeXml(boardSvgUrl)}" x="${boardRenderX}" y="${boardRenderY}" width="${boardW}" height="${boardH}" preserveAspectRatio="none" class="tm-board-image"></image>`
+            : ""
+        }
         ${pinLayers}
       </svg>
     `;
@@ -1275,47 +1295,50 @@
       used.length === 0
         ? `<div class="tm-muted">No <code>pin:</code> or <code>*_pin:</code> fields detected yet.</div>`
         : used
-          .map(([gpio, usages]) => {
-            const issues = issuesByGpio.get(gpio) || [];
-            const worst = issues.reduce(
-              (acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc),
-              "none",
-            );
-            const badge =
-              worst === "danger"
-                ? `<span class="tm-badge tm-badge-danger">DANGER</span>`
-                : worst === "warn"
-                  ? `<span class="tm-badge tm-badge-warn">WARN</span>`
-                  : worst === "info"
-                    ? `<span class="tm-badge tm-badge-info">INFO</span>`
-                    : `<span class="tm-badge tm-badge-ok">OK</span>`;
+            .map(([gpio, usages]) => {
+              const issues = issuesByGpio.get(gpio) || [];
+              const worst = issues.reduce(
+                (acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc),
+                "none",
+              );
+              const isGuessed = issues.some((it) => it.text === "GPIO number guessed from unresolved value.");
+              const badge =
+                worst === "danger"
+                  ? `<span class="tm-badge tm-badge-danger">DANGER</span>`
+                  : worst === "warn" && isGuessed
+                    ? `<span class="tm-badge tm-badge-warn">GUESSED</span>`
+                    : worst === "warn"
+                      ? `<span class="tm-badge tm-badge-warn">WARN</span>`
+                      : worst === "info"
+                        ? `<span class="tm-badge tm-badge-info">INFO</span>`
+                        : `<span class="tm-badge tm-badge-ok">OK</span>`;
 
-            const usageLines = usages
-              .map(
-                (u) => `
+              const usageLines = usages
+                .map(
+                  (u) => `
                   <div class="tm-usage-row">
                     <button class="tm-link" data-jump-line="${u.line}">line ${u.line}</button>
                     <span class="tm-usage-label">${escapeHtml(buildUsageLabel(u))}</span>
                     <span class="tm-usage-key">${escapeHtml(u.key)}</span>
                   </div>
                 `,
-              )
-              .join("");
+                )
+                .join("");
 
-            const issueLines = issues.length
-              ? `
+              const issueLines = issues.length
+                ? `
                   <div class="tm-issues">
                     ${issues
-                .map(
-                  (it) =>
-                    `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}">[${escapeHtml(it.severity)}] ${escapeHtml(it.text)}</div>`,
-                )
-                .join("")}
+                      .map(
+                        (it) =>
+                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}">[${escapeHtml(it.severity)}] ${escapeHtml(it.text)}</div>`,
+                      )
+                      .join("")}
                   </div>
                 `
-              : "";
+                : "";
 
-            return `
+              return `
                 <div class="tm-used-pin">
                   <div class="tm-used-pin-head">
                     <div class="tm-used-pin-title">GPIO${gpio}</div>
@@ -1325,13 +1348,37 @@
                   ${issueLines}
                 </div>
               `;
-          })
-          .join("");
+            })
+            .join("");
 
     const availability =
       availableGpios && availableGpios.size
         ? `<div class="tm-muted">Pins in layout: <b>${availableGpios.size}</b></div>`
         : `<div class="tm-muted">Pin availability unknown.</div>`;
+
+    const unresolvedHtml =
+      (parsed.unresolved || []).length === 0
+        ? ""
+        : `
+      <div class="tm-section">
+        <div class="tm-section-title">Unresolved Pins</div>
+        ${parsed.unresolved
+          .map(
+            (u) => `
+          <div class="tm-used-pin">
+            <div class="tm-used-pin-head">
+              <div class="tm-used-pin-title">${escapeHtml(u.rawValue)}</div>
+              <span class="tm-badge tm-badge-warn">UNRESOLVED</span>
+            </div>
+            <div class="tm-usage-row">
+              <button class="tm-link" data-jump-line="${u.line}">line ${u.line}</button>
+              <span class="tm-usage-key">${escapeHtml(u.key)}</span>
+            </div>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>`;
 
     sideEl.innerHTML = `
       <div class="tm-section">
@@ -1347,6 +1394,32 @@
         <div class="tm-section-title">Used GPIOs</div>
         ${usedHtml}
       </div>
+
+      ${unresolvedHtml}
+
+      ${
+        (parsed.unusedGpioSubstitutions || []).length === 0
+          ? ""
+          : `
+      <div class="tm-section">
+        <div class="tm-section-title">Unused GPIO Substitutions</div>
+        ${parsed.unusedGpioSubstitutions
+          .map(
+            (s) => `
+          <div class="tm-used-pin">
+            <div class="tm-used-pin-head">
+              <div class="tm-used-pin-title">GPIO${s.gpio}</div>
+              <span class="tm-badge tm-badge-info">UNUSED</span>
+            </div>
+            <div class="tm-usage-row">
+              <span class="tm-usage-label">\${${escapeHtml(s.key)}}: ${escapeHtml(s.value)}</span>
+            </div>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>`
+      }
 
       <div class="tm-footnote">
         Notes:
