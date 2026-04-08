@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
   "generated": {
-    "generatedAt": "2026-02-10T02:27:07.236Z",
+    "generatedAt": "2026-04-04T03:30:28.744Z",
     "sources": {
       "platformio_espressif32": {
         "repo": "platformio/platform-espressif32",
         "branch": "develop",
-        "commit": "3c076807e1f55b90799b50b946e76a0508e97778"
+        "commit": "10253f81451bcca2e042361c46d0be2e911982ab"
       },
       "platformio_espressif8266": {
         "repo": "platformio/platform-espressif8266",
@@ -16,23 +16,23 @@
       "wippersnapper_boards": {
         "repo": "adafruit/Wippersnapper_Boards",
         "branch": "main",
-        "commit": "35e65a1bd92fd6de3d21f67d1b50d1f9d3e8e019"
+        "commit": "a1bf6499871401933be90675a52e89291221963b"
       },
       "wokwi_boards": {
         "repo": "wokwi/wokwi-boards",
         "branch": "main",
-        "commit": "3c5cdc3dc5fdd53e929936d0890dce22531cdfa3"
+        "commit": "0cffc5bdac4acfab9c2d0771bd6ef31a56c6d3c8"
       }
     },
     "boardCounts": {
-      "targets": 291,
+      "targets": 292,
       "esp32Targets": 242,
       "esp8266Targets": 45,
-      "extraTargets": 4,
-      "boardDefinitions": 27,
-      "wokwiBoards": 13,
+      "extraTargets": 5,
+      "boardDefinitions": 32,
+      "wokwiBoards": 18,
       "wippersnapperBoards": 14,
-      "socFallbackBoards": 264
+      "socFallbackBoards": 260
     }
   },
   "boards": {
@@ -51,6 +51,8 @@
     "adafruit_qtpy_esp32s3_n4r2": "boards/generated/adafruit_qtpy_esp32s3_n4r2.json",
     "arduino_nano_esp32": "boards/generated/arduino_nano_esp32.json",
     "dfrobot_beetle_esp32c3": "boards/generated/dfrobot_beetle_esp32c3.json",
+    "esp01": "boards/generated/esp01.json",
+    "esp01_1m": "boards/generated/esp01_1m.json",
     "esp32-c3-devkitm-1": "boards/generated/esp32-c3-devkitm-1.json",
     "esp32-c6-devkitc-1": "boards/generated/esp32-c6-devkitc-1.json",
     "esp32-s3-devkitc-1": "boards/generated/esp32-s3-devkitc-1.json",
@@ -58,7 +60,10 @@
     "esp32dev": "boards/generated/esp32dev.json",
     "esp32doit-devkit-v1": "boards/generated/esp32doit-devkit-v1.json",
     "esp32s3box": "boards/generated/esp32s3box.json",
+    "lolin32_lite": "boards/generated/lolin32_lite.json",
     "lolin_s2_mini": "boards/generated/lolin_s2_mini.json",
+    "m5stack-cores3": "boards/generated/m5stack-cores3.json",
+    "nologo_esp32c3_super_mini": "boards/generated/nologo_esp32c3_super_mini.json",
     "rpipicow": "boards/generated/rpipicow.json",
     "seeed_xiao_esp32c3": "boards/generated/seeed_xiao_esp32c3.json",
     "seeed_xiao_esp32c6": "boards/generated/seeed_xiao_esp32c6.json",
@@ -222,6 +227,7 @@
     "nina-w10": "nina_w10",
     "nodemcu_32s": "nodemcu-32s",
     "nodemcu_32s2": "nodemcu-32s2",
+    "nologo-esp32c3-super-mini": "nologo_esp32c3_super_mini",
     "nscreen_32": "nscreen-32",
     "odroid-esp32": "odroid_esp32",
     "oroca-edubot": "oroca_edubot",
@@ -504,14 +510,6 @@
     "esp-wrover-kit": {
       "soc": "esp32",
       "displayName": "Espressif ESP-WROVER-KIT (SoC pin grid)"
-    },
-    "esp01": {
-      "soc": "esp8266",
-      "displayName": "Espressif Generic ESP8266 ESP-01 512k (SoC pin grid)"
-    },
-    "esp01_1m": {
-      "soc": "esp8266",
-      "displayName": "Espressif Generic ESP8266 ESP-01 1M (SoC pin grid)"
     },
     "esp07": {
       "soc": "esp8266",
@@ -841,10 +839,6 @@
       "soc": "esp32",
       "displayName": "WEMOS LOLIN32 (SoC pin grid)"
     },
-    "lolin32_lite": {
-      "soc": "esp32",
-      "displayName": "WEMOS LOLIN32 Lite (SoC pin grid)"
-    },
     "lolin_c3_mini": {
       "soc": "esp32c3",
       "displayName": "WEMOS LOLIN C3 Mini (SoC pin grid)"
@@ -905,10 +899,6 @@
       "soc": "esp32",
       "displayName": "M5Stack-Core Ink (SoC pin grid)"
     },
-    "m5stack-cores3": {
-      "soc": "esp32s3",
-      "displayName": "M5Stack CoreS3 (SoC pin grid)"
-    },
     "m5stack-fire": {
       "soc": "esp32",
       "displayName": "M5Stack FIRE (SoC pin grid)"
@@ -967,7 +957,7 @@
     },
     "minimain_esp32s2": {
       "soc": "esp32s2",
-      "displayName": "Deparment of Alchemy MiniMain ESP32-S2 (SoC pin grid)"
+      "displayName": "Department of Alchemy MiniMain ESP32-S2 (SoC pin grid)"
     },
     "modwifi": {
       "soc": "esp8266",

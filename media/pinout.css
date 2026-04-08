@@ -469,7 +469,7 @@ body {
 
 .tm-pin.tm-warn .tm-pin-dot {
   fill: rgba(255, 138, 61, 0.35);
-  stroke: rgba(255, 77, 77, 0.98);
+  stroke: rgba(245, 137, 6, 0.95);
 }
 
 .tm-pin.tm-danger .tm-pin-dot {
@@ -542,7 +542,7 @@ body {
 
 .tm-soc-cell.tm-warn .tm-soc-rect {
   fill: rgba(255, 138, 61, 0.12);
-  stroke: rgba(255, 77, 77, 0.98);
+  stroke: rgba(245, 137, 6, 0.95);
 }
 
 .tm-soc-cell.tm-danger .tm-soc-rect {
