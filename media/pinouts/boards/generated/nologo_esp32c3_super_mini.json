@@ -1,0 +1,141 @@
+{
+  "id": "nologo_esp32c3_super_mini",
+  "displayName": "ESP32-C3 SuperMini",
+  "kind": "svg-board",
+  "socRef": "esp32c3",
+  "svgPath": "assets/wokwi/nologo_esp32c3_super_mini.svg",
+  "sizeMm": {
+    "width": 18,
+    "height": 24.576
+  },
+  "pins": [
+    {
+      "label": "5",
+      "x": 1.462,
+      "y": 3.238,
+      "targetRaw": "GPIO5",
+      "gpio": 5,
+      "type": "gpio"
+    },
+    {
+      "label": "5V",
+      "x": 16.702,
+      "y": 3.238,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "6",
+      "x": 1.462,
+      "y": 5.778,
+      "targetRaw": "GPIO6",
+      "gpio": 6,
+      "type": "gpio"
+    },
+    {
+      "label": "GND",
+      "x": 16.702,
+      "y": 5.778,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "7",
+      "x": 1.462,
+      "y": 8.318,
+      "targetRaw": "GPIO7",
+      "gpio": 7,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3",
+      "x": 16.702,
+      "y": 8.318,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "8",
+      "x": 1.462,
+      "y": 10.858,
+      "targetRaw": "GPIO8",
+      "gpio": 8,
+      "type": "gpio"
+    },
+    {
+      "label": "4",
+      "x": 16.702,
+      "y": 10.858,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "9",
+      "x": 1.462,
+      "y": 13.398,
+      "targetRaw": "GPIO9",
+      "gpio": 9,
+      "type": "gpio"
+    },
+    {
+      "label": "3",
+      "x": 16.702,
+      "y": 13.398,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "10",
+      "x": 1.462,
+      "y": 15.938,
+      "targetRaw": "GPIO10",
+      "gpio": 10,
+      "type": "gpio"
+    },
+    {
+      "label": "2",
+      "x": 16.702,
+      "y": 15.938,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "RX",
+      "x": 1.462,
+      "y": 18.478,
+      "targetRaw": "GPIO20",
+      "gpio": 20,
+      "type": "gpio"
+    },
+    {
+      "label": "1",
+      "x": 16.702,
+      "y": 18.478,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "TX",
+      "x": 1.462,
+      "y": 21.018,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "0",
+      "x": 16.702,
+      "y": 21.018,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    }
+  ]
+}

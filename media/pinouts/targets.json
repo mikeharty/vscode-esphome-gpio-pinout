@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-02-10T02:27:07.236Z",
+  "generatedAt": "2026-04-04T03:30:28.744Z",
   "boards": {
     "esp32": [
       "4d_systems_esp32s3_gen4_r8n16",
@@ -297,7 +297,8 @@
       "adafruit_feather_nrf52840",
       "adafruit_itsybitsy_nrf52840",
       "xiao_ble",
-      "rpipicow"
+      "rpipicow",
+      "nologo_esp32c3_super_mini"
     ]
   },
   "all": [
@@ -503,6 +504,7 @@
     "nodemcu-32s",
     "nodemcu-32s2",
     "nodemcuv2",
+    "nologo_esp32c3_super_mini",
     "nscreen-32",
     "oak",
     "odroid_esp32",

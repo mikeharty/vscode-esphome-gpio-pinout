@@ -1,0 +1,237 @@
+{
+  "id": "lolin32_lite",
+  "displayName": "WEMOS LOLIN32 Lite",
+  "kind": "svg-board",
+  "socRef": "esp32",
+  "svgPath": "assets/wokwi/lolin32_lite.svg",
+  "sizeMm": {
+    "width": 25.6,
+    "height": 50
+  },
+  "pins": [
+    {
+      "label": "VP",
+      "x": 1.4,
+      "y": 7.38,
+      "targetRaw": "GPIO36",
+      "gpio": 36,
+      "type": "gpio"
+    },
+    {
+      "label": "3V",
+      "x": 24.26,
+      "y": 7.38,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "VN",
+      "x": 1.4,
+      "y": 9.92,
+      "targetRaw": "GPIO39",
+      "gpio": 39,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO22",
+      "x": 24.26,
+      "y": 9.92,
+      "targetRaw": "GPIO22",
+      "gpio": 22,
+      "type": "gpio"
+    },
+    {
+      "label": "EN",
+      "x": 1.4,
+      "y": 12.46,
+      "targetRaw": "CHIP_PU",
+      "gpio": null,
+      "type": "reset"
+    },
+    {
+      "label": "GPIO19",
+      "x": 24.26,
+      "y": 12.46,
+      "targetRaw": "GPIO19",
+      "gpio": 19,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO34",
+      "x": 1.4,
+      "y": 15,
+      "targetRaw": "GPIO34",
+      "gpio": 34,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO23",
+      "x": 24.26,
+      "y": 15,
+      "targetRaw": "GPIO23",
+      "gpio": 23,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO35",
+      "x": 1.4,
+      "y": 17.54,
+      "targetRaw": "GPIO35",
+      "gpio": 35,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO18",
+      "x": 24.26,
+      "y": 17.54,
+      "targetRaw": "GPIO18",
+      "gpio": 18,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO32",
+      "x": 1.4,
+      "y": 20.08,
+      "targetRaw": "GPIO32",
+      "gpio": 32,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO5",
+      "x": 24.26,
+      "y": 20.08,
+      "targetRaw": "GPIO5",
+      "gpio": 5,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO33",
+      "x": 1.4,
+      "y": 22.62,
+      "targetRaw": "GPIO33",
+      "gpio": 33,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO17",
+      "x": 24.26,
+      "y": 22.62,
+      "targetRaw": "GPIO17",
+      "gpio": 17,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO25",
+      "x": 1.4,
+      "y": 25.16,
+      "targetRaw": "GPIO25",
+      "gpio": 25,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO16",
+      "x": 24.26,
+      "y": 25.16,
+      "targetRaw": "GPIO16",
+      "gpio": 16,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO26",
+      "x": 1.4,
+      "y": 27.7,
+      "targetRaw": "GPIO26",
+      "gpio": 26,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO4",
+      "x": 24.26,
+      "y": 27.7,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO27",
+      "x": 1.4,
+      "y": 30.24,
+      "targetRaw": "GPIO27",
+      "gpio": 27,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO0",
+      "x": 24.26,
+      "y": 30.24,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO14",
+      "x": 1.4,
+      "y": 32.78,
+      "targetRaw": "GPIO14",
+      "gpio": 14,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO2",
+      "x": 24.26,
+      "y": 32.78,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO12",
+      "x": 1.4,
+      "y": 35.32,
+      "targetRaw": "GPIO12",
+      "gpio": 12,
+      "type": "gpio"
+    },
+    {
+      "label": "GPIO15",
+      "x": 24.26,
+      "y": 35.32,
+      "targetRaw": "GPIO15",
+      "gpio": 15,
+      "type": "gpio"
+    },
+    {
+      "label": "GND",
+      "x": 1.4,
+      "y": 37.86,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "GPIO13",
+      "x": 24.26,
+      "y": 37.86,
+      "targetRaw": "GPIO13",
+      "gpio": 13,
+      "type": "gpio"
+    },
+    {
+      "label": "BAT+",
+      "x": 2.87,
+      "y": 49.3,
+      "targetRaw": "power(bat)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "BAT-",
+      "x": 5.41,
+      "y": 49.3,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    }
+  ]
+}
