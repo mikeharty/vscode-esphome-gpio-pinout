@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.2.4] - 2026-04-08
+
+- Substitution-aware board detection, GUESSED pin badge, and Unused GPIO Substitutions panel (thanks [@brookjordan](https://github.com/brookjordan))
+- New boards: `esp01`, `esp01_1m`, `lolin32_lite`, `m5stack-cores3`, `nologo_esp32c3_super_mini` (thanks [@brookjordan](https://github.com/brookjordan))
+
 ## [0.2.3] - 2026-02-09
 
 - Added a light theme
