@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.2.5] - 2026-04-10
+
+- Fixed commit attribution, thanks [@brookjordan](https://github.com/brookjordan))
+
 ## [0.2.4] - 2026-04-08
 
 - Substitution-aware board detection, GUESSED pin badge, and Unused GPIO Substitutions panel (thanks [@brookjordan](https://github.com/brookjordan))
