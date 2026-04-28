@@ -211,7 +211,7 @@
 
       const key = keyM[1];
       const value = keyM[2];
-      const isPinKey = key === "pin" || key.endsWith("_pin");
+      const isPinKey = key === "pin" || key.endsWith("_pin") || key === "scl" || key === "sda";
       if (!isPinKey || currentSection === "substitutions") continue;
 
       let gpio = null;
