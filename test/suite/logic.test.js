@@ -146,4 +146,84 @@ suite("Pinout logic", () => {
     assert.strictEqual(trigger.name, "Parking Distance Ultrasonic Sensor");
     assert.strictEqual(echo.name, "Parking Distance Ultrasonic Sensor");
   });
+
+  test("detects i2c sda and scl pin keys", () => {
+    const yaml = [
+      "esphome:",
+      "  name: test",
+      "esp32:",
+      "  board: esp32dev",
+      "i2c:",
+      "  sda: GPIO21",
+      "  scl: GPIO22",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected YAML to be detected as ESPHome");
+
+    const sdaUsage = (parsed.usedPins.get(21) || []).find((u) => u.key === "sda");
+    const sclUsage = (parsed.usedPins.get(22) || []).find((u) => u.key === "scl");
+
+    assert.ok(sdaUsage, "Expected sda usage on GPIO21");
+    assert.ok(sclUsage, "Expected scl usage on GPIO22");
+    assert.strictEqual(sdaUsage.line, 6);
+    assert.strictEqual(sclUsage.line, 7);
+    assert.strictEqual(sdaUsage.section, "i2c");
+    assert.strictEqual(sclUsage.section, "i2c");
+  });
+
+  test("detects i2c sda and scl pin keys in list items", () => {
+    const yaml = [
+      "esphome:",
+      "  name: test",
+      "esp32:",
+      "  board: esp32dev",
+      "i2c:",
+      "  - id: bus_a",
+      "    sda: GPIO18",
+      "    scl: GPIO19",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected YAML to be detected as ESPHome");
+
+    const sdaUsage = (parsed.usedPins.get(18) || []).find((u) => u.key === "sda");
+    const sclUsage = (parsed.usedPins.get(19) || []).find((u) => u.key === "scl");
+
+    assert.ok(sdaUsage, "Expected sda usage on GPIO18");
+    assert.ok(sclUsage, "Expected scl usage on GPIO19");
+    assert.strictEqual(sdaUsage.line, 7);
+    assert.strictEqual(sclUsage.line, 8);
+    assert.strictEqual(sdaUsage.section, "i2c");
+    assert.strictEqual(sclUsage.section, "i2c");
+  });
+
+  test("tracks sda and scl substitutions consistently", () => {
+    const yaml = [
+      "esphome:",
+      "  name: test",
+      "esp32:",
+      "  board: esp32dev",
+      "substitutions:",
+      "  sda: GPIO21",
+      "  scl: GPIO22",
+      "  spare_pin: GPIO23",
+      "i2c:",
+      "  sda: ${sda}",
+      "  scl: ${scl}",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected YAML to be detected as ESPHome");
+
+    const sdaUsages = parsed.usedPins.get(21) || [];
+    const sclUsages = parsed.usedPins.get(22) || [];
+
+    assert.ok(sdaUsages.some((u) => u.key === "sda" && u.section === "i2c" && u.line === 10));
+    assert.ok(sdaUsages.some((u) => u.key === "sda" && u.section === "substitutions" && u.line === 6));
+    assert.ok(sclUsages.some((u) => u.key === "scl" && u.section === "i2c" && u.line === 11));
+    assert.ok(sclUsages.some((u) => u.key === "scl" && u.section === "substitutions" && u.line === 7));
+
+    assert.deepStrictEqual(parsed.unusedGpioSubstitutions, [{ key: "spare_pin", value: "GPIO23", gpio: 23 }]);
+  });
 });

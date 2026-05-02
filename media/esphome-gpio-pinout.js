@@ -1295,7 +1295,7 @@
 
     const usedHtml =
       used.length === 0
-        ? `<div class="tm-muted">No <code>pin:</code> or <code>*_pin:</code> fields detected yet.</div>`
+        ? `<div class="tm-muted">No <code>pin:</code>, <code>*_pin:</code>, <code>sda:</code>, or <code>scl:</code> fields detected yet.</div>`
         : used
             .map(([gpio, usages]) => {
               const issues = issuesByGpio.get(gpio) || [];

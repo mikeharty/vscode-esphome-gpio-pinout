@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.2.6] - 2026-05-01
+
+- Added regression coverage for ESPHome `i2c` `sda`/`scl` pin detection, including list-form buses.
+- Fixed `sda`/`scl` substitutions so referenced I2C GPIO substitutions no longer appear as unused.
+
 ## [0.2.5] - 2026-04-10
 
 - Fixed commit attribution, thanks [@brookjordan](https://github.com/brookjordan))

@@ -100,6 +100,10 @@
     return { board, variant, psramMode };
   }
 
+  function isPinKeyName(key) {
+    return key === "pin" || key.endsWith("_pin") || key === "sda" || key === "scl";
+  }
+
   function pinValueToGpio(rawValue, substitutions) {
     if (rawValue == null) return { gpio: null, resolvedFrom: null };
     let v = stripOuterQuotes(String(rawValue).trim());
@@ -211,7 +215,7 @@
 
       const key = keyM[1];
       const value = keyM[2];
-      const isPinKey = key === "pin" || key.endsWith("_pin") || key === "scl" || key === "sda";
+      const isPinKey = isPinKeyName(key);
       if (!isPinKey || currentSection === "substitutions") continue;
 
       let gpio = null;
@@ -305,7 +309,7 @@
     const { usedPins, unresolved, referencedSubKeys } = parsePinUsages(lines, substitutions, subLines);
     const unusedGpioSubstitutions = [];
     for (const [key, val] of Object.entries(substitutions)) {
-      if (!(key === "pin" || key.endsWith("_pin"))) continue;
+      if (!isPinKeyName(key)) continue;
       if (referencedSubKeys.has(key)) continue;
       const { gpio } = pinValueToGpio(val, {});
       if (gpio != null) unusedGpioSubstitutions.push({ key, value: val, gpio });
