@@ -146,21 +146,65 @@ body {
   padding: 8px 10px;
   cursor: pointer;
   font: 700 12px/1 system-ui;
+  transition:
+    background 0.12s ease,
+    transform 0.06s ease;
 }
 
 .tm-btn:hover {
   background: var(--tm-control-bg-hover);
 }
 
+.tm-btn:active {
+  transform: scale(0.96);
+}
+
+.tm-btn:focus-visible,
+.tm-zoom-label:focus-visible,
+.tm-link:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder, #007fd4);
+  outline-offset: 1px;
+}
+
+.tm-zoom-group {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--tm-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tm-zoom-group .tm-btn,
+.tm-zoom-group .tm-zoom-label {
+  border: none;
+  border-radius: 0;
+}
+
+.tm-zoom-group .tm-btn {
+  min-width: 30px;
+}
+
 .tm-zoom-label {
-  min-width: 62px;
+  appearance: none;
+  min-width: 56px;
   text-align: center;
   font: 800 12px/1 system-ui;
   color: var(--tm-text);
   border: 1px solid var(--tm-border);
-  border-radius: 10px;
+  border-left: 1px solid var(--tm-border);
+  border-right: 1px solid var(--tm-border);
   padding: 8px 10px;
   background: var(--tm-control-bg-subtle);
+  cursor: pointer;
+}
+
+.tm-zoom-group .tm-zoom-label {
+  border-top: none;
+  border-bottom: none;
+}
+
+.tm-zoom-label:hover {
+  background: var(--tm-control-bg-hover);
 }
 
 .tm-select-wrap {
@@ -202,7 +246,15 @@ body {
   grid-template-columns: 1fr 420px;
 }
 
+.tm-diagram-wrap {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .tm-diagram {
+  flex: 1;
   min-width: 0;
   min-height: 0;
   padding: 10px 12px;
@@ -211,7 +263,62 @@ body {
     linear-gradient(var(--tm-diagram-surface), var(--tm-diagram-surface));
   overflow: auto;
   overscroll-behavior: auto;
-  display: block;
+}
+
+.tm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: center;
+  padding: 7px 14px;
+  border-top: 1px solid var(--tm-border);
+  background: var(--tm-panel);
+  font: 600 11px/1.2 system-ui;
+  color: var(--tm-muted);
+}
+
+.tm-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.tm-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--tm-pin-dot-stroke);
+  background: var(--tm-pin-dot-fill);
+}
+
+.tm-legend-used {
+  background: rgba(46, 204, 113, 0.45);
+  border-color: rgba(46, 204, 113, 0.95);
+}
+
+.tm-legend-warn {
+  background: rgba(255, 138, 61, 0.35);
+  border-color: rgba(245, 137, 6, 0.95);
+}
+
+.tm-legend-danger {
+  background: rgba(255, 77, 77, 0.45);
+  border-color: rgba(255, 77, 77, 0.95);
+}
+
+.tm-legend-info {
+  border-color: rgba(93, 173, 226, 0.95);
+}
+
+.tm-legend-power {
+  background: rgba(255, 99, 99, 0.25);
+  border-color: rgba(214, 69, 69, 0.85);
+}
+
+.tm-legend-ground {
+  background: rgba(120, 120, 120, 0.35);
+  border-color: rgba(90, 90, 90, 0.9);
 }
 
 .tm-zoom-layer {
@@ -232,9 +339,22 @@ body {
 .tm-empty {
   border: 1px dashed var(--tm-border);
   border-radius: 14px;
-  padding: 18px;
+  padding: 26px 18px;
   color: var(--tm-muted);
   background: var(--tm-surface-soft);
+  text-align: center;
+  max-width: 460px;
+  margin: 24px auto;
+}
+
+.tm-empty-icon {
+  color: var(--tm-muted);
+  opacity: 0.75;
+  margin-bottom: 10px;
+}
+
+.tm-empty-icon svg {
+  display: inline-block;
 }
 
 .tm-empty-title {
@@ -299,12 +419,66 @@ body {
   font-weight: 800;
 }
 
+.tm-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tm-chip {
+  font: 800 11px/1 system-ui;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--tm-border);
+  background: var(--tm-surface-raised-strong);
+  color: var(--tm-text);
+  letter-spacing: 0.01em;
+}
+
+.tm-chip-ok {
+  color: var(--tm-ok);
+  border-color: rgba(46, 204, 113, 0.45);
+}
+
+.tm-chip-warn {
+  color: var(--tm-warn);
+  border-color: rgba(245, 137, 6, 0.45);
+}
+
+.tm-chip-danger {
+  color: var(--tm-danger);
+  border-color: rgba(255, 77, 77, 0.45);
+}
+
+.tm-chip-muted {
+  color: var(--tm-muted);
+}
+
+.tm-alias-chip {
+  display: inline-block;
+  font: 800 10px/1 system-ui;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--tm-border);
+  background: var(--tm-control-bg);
+  color: var(--tm-text);
+}
+
 .tm-used-pin {
   border: 1px solid var(--tm-border);
   border-radius: 12px;
   padding: 10px;
   margin: 10px 0;
   background: var(--tm-surface-raised);
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+
+.tm-used-pin[data-hl-gpio]:hover {
+  border-color: var(--vscode-focusBorder, #007fd4);
+  background: var(--tm-surface-raised-strong);
 }
 
 .tm-used-pin-head {
@@ -457,7 +631,7 @@ body {
   user-select: none;
 }
 
-.tm-pin-text tspan+tspan {
+.tm-pin-text tspan + tspan {
   fill: var(--tm-muted);
   font: 700 11px/1 system-ui;
 }
@@ -512,7 +686,7 @@ body {
   fill: var(--tm-warn-text);
 }
 
-.tm-pin.tm-warn .tm-pin-text tspan+tspan {
+.tm-pin.tm-warn .tm-pin-text tspan + tspan {
   fill: var(--tm-warn-text-secondary);
 }
 
@@ -533,6 +707,28 @@ body {
   fill: var(--tm-text);
   font: 900 14px/1 system-ui;
   user-select: none;
+}
+
+.tm-soc-subtext {
+  fill: var(--tm-muted);
+  font: 700 10px/1 system-ui;
+  user-select: none;
+}
+
+/* Cross-highlight from side panel cards to diagram pins */
+.tm-pin.tm-highlight .tm-pin-dot {
+  stroke-width: 3;
+  stroke: var(--vscode-focusBorder, #007fd4);
+}
+
+.tm-pin.tm-highlight .tm-pin-text,
+.tm-pin.tm-highlight .tm-svg-pin-label .tm-svg-pin-tag {
+  text-decoration: underline;
+}
+
+.tm-soc-cell.tm-highlight .tm-soc-rect {
+  stroke-width: 3;
+  stroke: var(--vscode-focusBorder, #007fd4);
 }
 
 .tm-soc-cell.tm-used .tm-soc-rect {
@@ -558,6 +754,10 @@ body {
     display: block;
     overflow-x: hidden;
     overflow-y: auto;
+  }
+
+  .tm-diagram-wrap {
+    display: block;
   }
 
   .tm-diagram {

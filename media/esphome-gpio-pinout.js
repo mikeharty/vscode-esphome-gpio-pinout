@@ -5,6 +5,12 @@
   const LABEL_STYLE_PREF_KEY = "labelStylePreference";
   const LABEL_STYLE_STORAGE_KEY = "esphomeGpioPinout.labelStylePreference";
   const ISSUE_TEXT_GPIO_GUESSED = "GPIO number guessed from unresolved value.";
+  const EMPTY_STATE_ICON = `
+    <svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <rect x="12" y="12" width="24" height="24" rx="4"></rect>
+      <rect x="19" y="19" width="10" height="10" rx="2"></rect>
+      <path d="M17 12V6M24 12V6M31 12V6M17 42v-6M24 42v-6M31 42v-6M12 17H6M12 24H6M12 31H6M42 17h-6M42 24h-6M42 31h-6"></path>
+    </svg>`;
   const LABEL_STYLES = Object.freeze({
     GPIO: "gpio",
     BOARD: "board",
@@ -58,11 +64,24 @@
 
   let centerBoardRaf = null;
 
+  const titleEl = document.getElementById("tm-esphome-pinout-board");
   const subtitleEl = document.getElementById("tm-esphome-pinout-subtitle");
   const diagramEl = document.getElementById("tm-esphome-pinout-diagram");
+  const legendEl = document.getElementById("tm-esphome-pinout-legend");
   const sideEl = document.getElementById("tm-esphome-pinout-side");
   const labelStyleWrapEl = document.getElementById("tm-esphome-pinout-labelstyle-wrap");
   const labelStyleSelectEl = document.getElementById("tm-esphome-pinout-labelstyle");
+
+  // FNV-1a content hash: the render signature must reflect the actual YAML text,
+  // not just its length, so same-length edits (GPIO4 -> GPIO5) re-render.
+  function hashText(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return (h >>> 0).toString(36);
+  }
 
   if (labelStyleSelectEl) {
     labelStyleSelectEl.value = STATE.labelStylePreference;
@@ -76,6 +95,7 @@
   }
 
   document.getElementById("tm-esphome-pinout-refresh").addEventListener("click", () => {
+    STATE.lastSig = null; // force a re-render even if content is unchanged
     vscode.postMessage({ type: "requestRefresh" });
   });
   document
@@ -84,12 +104,33 @@
   document
     .getElementById("tm-esphome-pinout-zoomin")
     .addEventListener("click", () => setZoom(STATE.zoom + CONFIG.zoomStep));
+  document.getElementById("tm-esphome-pinout-zoomlabel").addEventListener("click", () => setZoom(1.0));
+
+  // Ctrl/Cmd + wheel zooms the diagram, matching editor conventions.
+  diagramEl.addEventListener(
+    "wheel",
+    (event) => {
+      if (!event.ctrlKey && !event.metaKey) return;
+      event.preventDefault();
+      setZoom(STATE.zoom + (event.deltaY < 0 ? CONFIG.zoomStep : -CONFIG.zoomStep));
+    },
+    { passive: false },
+  );
+
+  document.addEventListener("keydown", (event) => {
+    if (event.target instanceof HTMLSelectElement || event.target instanceof HTMLInputElement) return;
+    if (event.key === "+" || event.key === "=") setZoom(STATE.zoom + CONFIG.zoomStep);
+    else if (event.key === "-" || event.key === "_") setZoom(STATE.zoom - CONFIG.zoomStep);
+    else if (event.key === "0") setZoom(1.0);
+  });
 
   document.addEventListener(
     "mousedown",
     (event) => {
       const target = event.target;
-      if (target instanceof Element && target.closest(".tm-select-wrap")) return;
+      // Interactive controls keep focus in the panel; empty space hands focus
+      // back to the editor so typing keeps flowing into the YAML.
+      if (target instanceof Element && target.closest(".tm-select-wrap, .tm-btn, .tm-link, .tm-zoom-label")) return;
       vscode.postMessage({ type: "focusEditor" });
     },
     true,
@@ -241,7 +282,8 @@
     const fitW = availW / fitRefW;
     const fitH = availH / fitRefH;
     // For board-photo layouts, fit to width so panel height tracks actual board content.
-    let fit = fitMode === "tall-board" ? fitW : Math.min(fitW, fitH);
+    // Contain layouts divide out the base scale so 100% zoom means "fits the panel".
+    let fit = fitMode === "tall-board" ? fitW : Math.min(fitW, fitH) / CONFIG.zoomBaseScale;
 
     if (fitMode === "tall-board") {
       const maxFitForDefaultWidth = availW / (viewW * CONFIG.zoomBaseScale);
@@ -367,11 +409,15 @@
       ...(Array.isArray(socDef.pinIssues) ? socDef.pinIssues : []),
       ...(Array.isArray(def.pinIssues) ? def.pinIssues : []),
     ];
+    const mergedAliases = { ...(socDef.pinAliases || {}), ...(def.pinAliases || {}) };
+    const mergedLabels = { ...(socDef.pinLabels || {}), ...(def.pinLabels || {}) };
 
     return {
       ...def,
       variant: def.variant || socDef.variant || socRef,
       pinIssues: mergedIssues.length ? mergedIssues : undefined,
+      pinAliases: Object.keys(mergedAliases).length ? mergedAliases : undefined,
+      pinLabels: Object.keys(mergedLabels).length ? mergedLabels : undefined,
     };
   }
 
@@ -390,12 +436,17 @@
       const socPath = socKey && index.soc ? index.soc[socKey] : null;
       const socDef = await loadPinoutDefinition(socPath);
       if (socDef) {
+        // Only carry the SoC's layout here; pinIssues/pinAliases/pinLabels are
+        // contributed by mergeSocRules so they are not duplicated.
         const def = {
-          ...socDef,
           id: boardId,
+          kind: socDef.kind,
+          gpios: socDef.gpios,
           socRef: socKey,
           displayName: alias.displayName || socDef.displayName,
           variant: socDef.variant || socKey,
+          ...(alias.pinAliases ? { pinAliases: alias.pinAliases } : {}),
+          ...(alias.pinLabels ? { pinLabels: alias.pinLabels } : {}),
         };
         return mergeSocRules(index, def);
       }
@@ -466,6 +517,41 @@
     return meta ? `${head} (${meta})` : head;
   }
 
+  const PLATFORM_DISPLAY_NAMES = {
+    esp32: "ESP32",
+    esp8266: "ESP8266",
+    rp2040: "RP2040",
+    nrf52: "nRF52",
+    bk72xx: "Beken BK72xx (LibreTiny)",
+    rtl87xx: "Realtek RTL87xx (LibreTiny)",
+  };
+
+  const LEGEND_ITEMS = [
+    { cls: "tm-legend-used", label: "Used" },
+    { cls: "tm-legend-warn", label: "Warning" },
+    { cls: "tm-legend-danger", label: "Danger" },
+    { cls: "tm-legend-info", label: "Info" },
+    { cls: "tm-legend-power", label: "Power" },
+    { cls: "tm-legend-ground", label: "Ground" },
+  ];
+
+  function renderLegend(boardKind) {
+    if (!legendEl) return;
+    if (!boardKind || boardKind === "unknown") {
+      legendEl.hidden = true;
+      legendEl.innerHTML = "";
+      return;
+    }
+    const items = boardKind === "soc-grid" ? LEGEND_ITEMS.slice(0, 4) : LEGEND_ITEMS;
+    legendEl.innerHTML = items
+      .map(
+        (item) =>
+          `<span class="tm-legend-item"><span class="tm-legend-dot ${item.cls}"></span>${escapeHtml(item.label)}</span>`,
+      )
+      .join("");
+    legendEl.hidden = false;
+  }
+
   function buildBoardTitleLines(boardDef, parsed) {
     const displayName = String(boardDef?.displayName || "").trim();
     const boardId = String(parsed?.board || "").trim();
@@ -494,8 +580,7 @@
       list.push(...getPinIssues(boardDef, parsed, gpio));
       if (availableGpios.size && !availableGpios.has(gpio))
         list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
-      if (usages.some((u) => u.isGuessed))
-        list.push({ severity: "warn", text: ISSUE_TEXT_GPIO_GUESSED });
+      if (usages.some((u) => u.isGuessed)) list.push({ severity: "warn", text: ISSUE_TEXT_GPIO_GUESSED });
       if (list.length) issuesByGpio.set(gpio, list);
     }
 
@@ -553,6 +638,18 @@
 
   function getAvailableLabelStyles(boardDef) {
     const styles = new Set();
+
+    if (boardDef?.kind === "soc-grid") {
+      styles.add(LABEL_STYLES.GPIO);
+      const labels = boardDef.pinLabels || {};
+      const meaningful = (boardDef.gpios || []).filter((g) => {
+        const label = labels[g];
+        return label && !sameNormalizedLabel(label, gpioTag(g));
+      });
+      if (meaningful.length) styles.add(LABEL_STYLES.BOARD);
+      return styles;
+    }
+
     const pins = getBoardPins(boardDef);
     const gpioPins = pins.filter((p) => p && p.gpio != null);
 
@@ -589,6 +686,12 @@
     if (availableStyles.has(LABEL_STYLES.BOARD)) return LABEL_STYLES.BOARD;
     if (availableStyles.has(LABEL_STYLES.GPIO)) return LABEL_STYLES.GPIO;
     return LABEL_STYLES.GPIO;
+  }
+
+  function hideLabelStyleControl() {
+    if (!labelStyleWrapEl) return;
+    labelStyleWrapEl.hidden = true;
+    labelStyleWrapEl.style.display = "none";
   }
 
   function updateLabelStyleControl(boardDef) {
@@ -808,8 +911,9 @@
   `;
   }
 
-  function buildSocGridSvg({ boardDef, parsed, issuesByGpio }) {
+  function buildSocGridSvg({ boardDef, parsed, issuesByGpio, labelStyle }) {
     const gpios = boardDef.gpios || [];
+    const pinLabels = boardDef.pinLabels || null;
     const titleLines = buildBoardTitleLines(boardDef, parsed);
     const subtitleText = [
       parsed.board ? `board: ${parsed.board}` : null,
@@ -832,6 +936,23 @@
     const boardCenterX = W / 2;
     const boardCenterY = H / 2;
 
+    function silkLabel(gpio) {
+      const label = pinLabels ? pinLabels[gpio] : null;
+      return label && String(label).trim().length ? String(label).trim() : null;
+    }
+
+    function primaryLabel(gpio) {
+      const silk = silkLabel(gpio);
+      if (silk && labelStyle !== LABEL_STYLES.GPIO) return silk;
+      return `GPIO${gpio}`;
+    }
+
+    function secondaryLabel(gpio) {
+      const silk = silkLabel(gpio);
+      if (silk && labelStyle !== LABEL_STYLES.GPIO) return `GPIO${gpio}`;
+      return silk;
+    }
+
     function worstSeverity(gpio) {
       const issues = issuesByGpio.get(gpio) || [];
       return issues.reduce((acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc), "none");
@@ -849,7 +970,8 @@
     }
 
     function cellTitle(gpio) {
-      const lines = [`GPIO${gpio}`];
+      const silk = silkLabel(gpio);
+      const lines = [silk ? `${silk} (GPIO${gpio})` : `GPIO${gpio}`];
       const usages = parsed.usedPins.get(gpio) || [];
       if (usages.length) {
         lines.push("", "Used by:");
@@ -869,11 +991,17 @@
         const c = idx % cols;
         const x = pad + c * cellW;
         const y = headerH + pad + r * cellH;
+        const secondary = secondaryLabel(gpio);
+        const primaryY = secondary ? y + 28 : y + 36;
+        const secondaryText = secondary
+          ? `<text x="${x + (cellW - 10) / 2}" y="${y + 45}" text-anchor="middle" class="tm-soc-subtext">${escapeXml(secondary)}</text>`
+          : "";
         return `
           <g class="${clsFor(gpio)}" data-gpio="${gpio}">
             <title>${escapeXml(cellTitle(gpio))}</title>
             <rect x="${x}" y="${y}" width="${cellW - 10}" height="${cellH - 10}" rx="12" class="tm-soc-rect"></rect>
-            <text x="${x + (cellW - 10) / 2}" y="${y + 36}" text-anchor="middle" class="tm-soc-text">GPIO${gpio}</text>
+            <text x="${x + (cellW - 10) / 2}" y="${primaryY}" text-anchor="middle" class="tm-soc-text">${escapeXml(primaryLabel(gpio))}</text>
+            ${secondaryText}
           </g>
         `;
       })
@@ -1207,10 +1335,13 @@
     if (!payload || !payload.ok) {
       STATE.lastPayload = payload || null;
       const reason = payload?.reason || "No data available.";
+      if (titleEl) titleEl.textContent = "ESPHome GPIO Pinout";
       if (subtitleEl) subtitleEl.textContent = reason;
-      if (labelStyleWrapEl) labelStyleWrapEl.hidden = true;
+      hideLabelStyleControl();
+      renderLegend(null);
       diagramEl.innerHTML = `
         <div class="tm-empty">
+          <div class="tm-empty-icon" aria-hidden="true">${EMPTY_STATE_ICON}</div>
           <div class="tm-empty-title">No ESPHome YAML</div>
           <div class="tm-empty-body">${escapeHtml(reason)}</div>
         </div>
@@ -1224,18 +1355,21 @@
     const yamlText = payload.yamlText || "";
     const source = payload.fileName ? `${payload.fileName}${payload.isDirty ? " (unsaved)" : ""}` : "Active Editor";
 
-    const sig = `${source}|${yamlText.length}|${STATE.labelStylePreference}`;
+    const sig = `${hashText(yamlText)}|${source}|${STATE.labelStylePreference}`;
     if (sig === STATE.lastSig) return;
     STATE.lastSig = sig;
     const renderSig = sig;
 
     if (subtitleEl) subtitleEl.textContent = `YAML source: ${source}`;
 
-    const parsed = parseEsphomeYaml(yamlText);
+    let parsed = parseEsphomeYaml(yamlText);
     if (!parsed.ok) {
-      if (labelStyleWrapEl) labelStyleWrapEl.hidden = true;
+      if (titleEl) titleEl.textContent = "ESPHome GPIO Pinout";
+      hideLabelStyleControl();
+      renderLegend(null);
       diagramEl.innerHTML = `
         <div class="tm-empty">
+          <div class="tm-empty-icon" aria-hidden="true">${EMPTY_STATE_ICON}</div>
           <div class="tm-empty-title">Not an ESPHome YAML</div>
           <div class="tm-empty-body">${escapeHtml(parsed.reason || "")}</div>
         </div>
@@ -1246,19 +1380,33 @@
 
     const boardDef = (await getBoardDefinition(parsed)) || { kind: "unknown", displayName: "Unknown board", gpios: [] };
     if (STATE.lastSig !== renderSig) return;
+
+    // Second parse pass with the board's silkscreen alias table so D1 / A0 / LED /
+    // PA05 style pins resolve to real GPIO numbers.
+    if (boardDef.pinAliases && Object.keys(boardDef.pinAliases).length) {
+      parsed = parseEsphomeYaml(yamlText, { pinAliases: boardDef.pinAliases });
+    }
+
     updateLabelStyleControl(boardDef);
     const { issuesByGpio, availableGpios, variant } = buildIssuesSummary(parsed, boardDef);
     const boardSvgUrl = boardDef.kind === "svg-board" ? resolvePinoutUrl(boardDef.svgPath) : null;
+
+    if (titleEl) {
+      const titleLines = buildBoardTitleLines(boardDef, parsed);
+      titleEl.textContent = titleLines.line1 || "ESPHome GPIO Pinout";
+    }
+    renderLegend(boardDef.kind);
 
     const svg =
       boardDef.kind === "header-board"
         ? buildHeaderBoardSvg({ boardDef, parsed, issuesByGpio, labelStyle: STATE.activeLabelStyle })
         : boardDef.kind === "soc-grid"
-          ? buildSocGridSvg({ boardDef, parsed, issuesByGpio })
+          ? buildSocGridSvg({ boardDef, parsed, issuesByGpio, labelStyle: STATE.activeLabelStyle })
           : boardDef.kind === "svg-board"
             ? buildSvgBoardSvg({ boardDef, parsed, issuesByGpio, boardSvgUrl, labelStyle: STATE.activeLabelStyle })
             : `
         <div class="tm-empty">
+          <div class="tm-empty-icon" aria-hidden="true">${EMPTY_STATE_ICON}</div>
           <div class="tm-empty-title">No layout available</div>
           <div class="tm-empty-body">
             board: <code>${escapeHtml(parsed.board || "(none)")}</code><br/>
@@ -1293,6 +1441,36 @@
 
     const used = Array.from(parsed.usedPins.entries()).sort((a, b) => a[0] - b[0]);
 
+    // Header summary chips: pins used, plus warning/danger counts at a glance.
+    let warnPins = 0;
+    let dangerPins = 0;
+    for (const [gpio] of used) {
+      const issues = issuesByGpio.get(gpio) || [];
+      const worst = issues.reduce(
+        (acc, it) => (severityRank(it.severity) > severityRank(acc) ? it.severity : acc),
+        "none",
+      );
+      if (worst === "danger") dangerPins += 1;
+      else if (worst === "warn") warnPins += 1;
+    }
+    const unresolvedCount = (parsed.unresolved || []).length;
+    const summaryChips = [
+      `<span class="tm-chip">${used.length} pin${used.length === 1 ? "" : "s"} used</span>`,
+      warnPins ? `<span class="tm-chip tm-chip-warn">${warnPins} warning${warnPins === 1 ? "" : "s"}</span>` : "",
+      dangerPins ? `<span class="tm-chip tm-chip-danger">${dangerPins} danger</span>` : "",
+      unresolvedCount ? `<span class="tm-chip tm-chip-muted">${unresolvedCount} unresolved</span>` : "",
+      !warnPins && !dangerPins && used.length ? `<span class="tm-chip tm-chip-ok">all clear</span>` : "",
+    ]
+      .filter(Boolean)
+      .join("");
+
+    function pinDisplayName(gpio) {
+      if (boardDef.kind === "soc-grid" && boardDef.pinLabels && boardDef.pinLabels[gpio]) {
+        return `${boardDef.pinLabels[gpio]} · GPIO${gpio}`;
+      }
+      return `GPIO${gpio}`;
+    }
+
     const usedHtml =
       used.length === 0
         ? `<div class="tm-muted">No <code>pin:</code>, <code>*_pin:</code>, <code>sda:</code>, or <code>scl:</code> fields detected yet.</div>`
@@ -1321,7 +1499,7 @@
                   <div class="tm-usage-row">
                     <button class="tm-link" data-jump-line="${u.line}">line ${u.line}</button>
                     <span class="tm-usage-label">${escapeHtml(buildUsageLabel(u))}</span>
-                    <span class="tm-usage-key">${escapeHtml(u.key)}</span>
+                    <span class="tm-usage-key">${u.alias ? `<span class="tm-alias-chip" title="Resolved from board alias">${escapeHtml(u.alias)}</span> ` : ""}${escapeHtml(u.key)}</span>
                   </div>
                 `,
                 )
@@ -1341,9 +1519,9 @@
                 : "";
 
               return `
-                <div class="tm-used-pin">
+                <div class="tm-used-pin" data-hl-gpio="${gpio}">
                   <div class="tm-used-pin-head">
-                    <div class="tm-used-pin-title">GPIO${gpio}</div>
+                    <div class="tm-used-pin-title">${escapeHtml(pinDisplayName(gpio))}</div>
                     ${badge}
                   </div>
                   ${usageLines}
@@ -1359,7 +1537,7 @@
         : `<div class="tm-muted">Pin availability unknown.</div>`;
 
     const unresolvedHtml =
-      (parsed.unresolved || []).length === 0
+      unresolvedCount === 0
         ? ""
         : `
       <div class="tm-section">
@@ -1374,6 +1552,9 @@
             </div>
             <div class="tm-usage-row">
               <button class="tm-link" data-jump-line="${u.line}">line ${u.line}</button>
+              <span class="tm-usage-label">${
+                u.aliasCandidate ? "Board pin alias not known for this board." : "Could not resolve to a GPIO number."
+              }</span>
               <span class="tm-usage-key">${escapeHtml(u.key)}</span>
             </div>
           </div>
@@ -1382,9 +1563,14 @@
           .join("")}
       </div>`;
 
+    const platformName = parsed.platform ? PLATFORM_DISPLAY_NAMES[parsed.platform] || parsed.platform : null;
+
     sideEl.innerHTML = `
+      <div class="tm-section tm-chip-row">${summaryChips}</div>
+
       <div class="tm-section">
         <div class="tm-section-title">Detected</div>
+        <div class="tm-kv"><span>Platform</span><code>${escapeHtml(platformName ?? "(none)")}</code></div>
         <div class="tm-kv"><span>Board</span><code>${escapeHtml(parsed.board ?? "(none)")}</code></div>
         <div class="tm-kv"><span>Variant</span><code>${escapeHtml(parsed.variant ?? variant ?? "(none)")}</code></div>
         <div class="tm-kv"><span>PSRAM</span><code>${escapeHtml(parsed.psramMode ?? "(none)")}</code></div>
@@ -1427,7 +1613,7 @@
         Notes:
         <ul class="tm-ul">
           <li>Click a pin or line button to jump to that line in the editor.</li>
-          <li>Zoom controls scale the diagram; the diagram area scrolls vertically.</li>
+          <li>Zoom: buttons, <code>Ctrl/Cmd + scroll</code>, or <code>+</code>/<code>-</code>/<code>0</code> keys.</li>
         </ul>
       </div>
     `;
@@ -1438,6 +1624,19 @@
         const ln = parseInt(btn.getAttribute("data-jump-line"), 10);
         if (!Number.isFinite(ln)) return;
         vscode.postMessage({ type: "jump", line: ln });
+      });
+    });
+
+    // Hovering a used-pin card highlights the matching pin in the diagram.
+    sideEl.querySelectorAll("[data-hl-gpio]").forEach((card) => {
+      const gpio = card.getAttribute("data-hl-gpio");
+      card.addEventListener("mouseenter", () => {
+        diagramEl
+          .querySelectorAll(`[data-gpio="${CSS.escape(gpio)}"]`)
+          .forEach((el) => el.classList.add("tm-highlight"));
+      });
+      card.addEventListener("mouseleave", () => {
+        diagramEl.querySelectorAll(".tm-highlight").forEach((el) => el.classList.remove("tm-highlight"));
       });
     });
   }
