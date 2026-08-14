@@ -1,8 +1,8 @@
 {
-  "id": "esp32c6",
-  "variant": "esp32c6",
+  "id": "esp32h2",
+  "variant": "esp32h2",
   "kind": "soc-grid",
-  "displayName": "ESP32-C6 (SoC pin grid)",
+  "displayName": "ESP32-H2 (SoC pin grid)",
   "gpios": [
     0,
     1,
@@ -31,38 +31,43 @@
     24,
     25,
     26,
-    27,
-    28,
-    29,
-    30
+    27
   ],
   "pinIssues": [
     {
       "gpios": [
-        4,
-        5,
+        2,
+        3,
         8,
         9,
-        15
+        25
       ],
       "severity": "danger",
-      "text": "Likely strapping pin on ESP32-C6; keep external circuits boot-safe."
+      "text": "Strapping pin (can affect boot mode)."
     },
     {
       "gpioRange": [
-        24,
-        30
+        15,
+        21
       ],
-      "severity": "warn",
-      "text": "Usually connected to SPI flash on modules; avoid for general GPIO."
+      "severity": "danger",
+      "text": "Usually connected to SPI flash; avoid for general GPIO."
     },
     {
       "gpios": [
-        12,
-        13
+        26,
+        27
       ],
       "severity": "warn",
       "text": "USB-JTAG default; repurposing may disable USB-JTAG."
+    },
+    {
+      "gpioRange": [
+        1,
+        5
+      ],
+      "severity": "info",
+      "text": "ADC-capable pin (ADC1)."
     }
   ]
 }

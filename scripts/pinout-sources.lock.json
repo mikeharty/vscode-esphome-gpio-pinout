@@ -1,12 +1,18 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-04-04T03:30:28.744Z",
+  "updatedAt": "2026-08-14T20:10:53.919Z",
   "sources": {
+    "libretiny": {
+      "owner": "libretiny-eu",
+      "repo": "libretiny",
+      "branch": "master",
+      "commit": "6514b26078a6b23c85290d7400194f92d50a5990"
+    },
     "platformio_espressif32": {
-      "owner": "platformio",
+      "owner": "pioarduino",
       "repo": "platform-espressif32",
-      "branch": "develop",
-      "commit": "10253f81451bcca2e042361c46d0be2e911982ab"
+      "branch": "main",
+      "commit": "dd01e49e4695933bc29c1bf6be9a19a6572527a6"
     },
     "platformio_espressif8266": {
       "owner": "platformio",
@@ -18,13 +24,13 @@
       "owner": "adafruit",
       "repo": "Wippersnapper_Boards",
       "branch": "main",
-      "commit": "a1bf6499871401933be90675a52e89291221963b"
+      "commit": "46b9c3456f84a3fcfcd6a652798a2b8269e8b66d"
     },
     "wokwi_boards": {
       "owner": "wokwi",
       "repo": "wokwi-boards",
       "branch": "main",
-      "commit": "0cffc5bdac4acfab9c2d0771bd6ef31a56c6d3c8"
+      "commit": "1f2ce028e6d88ef0d78bc2f15438a2e128a8aa6b"
     }
   }
 }

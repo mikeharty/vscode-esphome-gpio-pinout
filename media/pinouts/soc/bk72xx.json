@@ -1,0 +1,95 @@
+{
+  "id": "bk72xx",
+  "variant": "bk72xx",
+  "kind": "soc-grid",
+  "displayName": "Beken BK7231 (SoC pin grid)",
+  "gpios": [
+    0,
+    1,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15,
+    16,
+    17,
+    20,
+    21,
+    22,
+    23,
+    24,
+    26,
+    28
+  ],
+  "pinLabels": {
+    "0": "P0",
+    "1": "P1",
+    "6": "P6",
+    "7": "P7",
+    "8": "P8",
+    "9": "P9",
+    "10": "P10",
+    "11": "P11",
+    "14": "P14",
+    "15": "P15",
+    "16": "P16",
+    "17": "P17",
+    "20": "P20",
+    "21": "P21",
+    "22": "P22",
+    "23": "P23",
+    "24": "P24",
+    "26": "P26",
+    "28": "P28"
+  },
+  "pinIssues": [
+    {
+      "gpios": [
+        10,
+        11
+      ],
+      "severity": "warn",
+      "text": "UART1 (P10 RX1 / P11 TX1) — used for serial flashing of the module."
+    },
+    {
+      "gpios": [
+        0,
+        1
+      ],
+      "severity": "info",
+      "text": "UART2 (P0 TX2 / P1 RX2) — default LibreTiny log output."
+    },
+    {
+      "gpios": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "severity": "warn",
+      "text": "JTAG / SPI flash programming interface; often unavailable on modules."
+    },
+    {
+      "gpios": [
+        23
+      ],
+      "severity": "info",
+      "text": "ADC input (ADC3) — the only analog-capable pin on BK7231."
+    },
+    {
+      "gpios": [
+        6,
+        7,
+        8,
+        9,
+        24,
+        26
+      ],
+      "severity": "info",
+      "text": "PWM-capable pin (PWM0-PWM5)."
+    }
+  ]
+}

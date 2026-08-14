@@ -1,0 +1,39 @@
+{
+  "id": "wbr1",
+  "displayName": "WBR1 Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "rtl8720c",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "pinAliases": {
+    "D0": 14,
+    "D1": 13,
+    "D2": 2,
+    "D3": 3,
+    "D4": 16,
+    "D5": 4,
+    "D6": 11,
+    "D7": 15,
+    "D8": 12,
+    "D9": 17,
+    "D10": 18,
+    "D11": 0,
+    "D12": 1
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

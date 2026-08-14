@@ -1,0 +1,35 @@
+{
+  "id": "t1-2s",
+  "displayName": "T1-2S Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "bk72xx",
+  "gpios": [
+    0,
+    1,
+    6,
+    8,
+    9,
+    10,
+    11,
+    24,
+    26
+  ],
+  "pinAliases": {
+    "D0": 26,
+    "A0": 26,
+    "D1": 6,
+    "D4": 10,
+    "A1": 10,
+    "D2": 8,
+    "D5": 11,
+    "D3": 1,
+    "A2": 1,
+    "D6": 9,
+    "D7": 24,
+    "A3": 24,
+    "D11": 0
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

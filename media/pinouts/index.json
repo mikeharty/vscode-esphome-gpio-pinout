@@ -1,12 +1,17 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "generated": {
-    "generatedAt": "2026-04-04T03:30:28.744Z",
+    "generatedAt": "2026-08-14T20:10:53.919Z",
     "sources": {
+      "libretiny": {
+        "repo": "libretiny-eu/libretiny",
+        "branch": "master",
+        "commit": "6514b26078a6b23c85290d7400194f92d50a5990"
+      },
       "platformio_espressif32": {
-        "repo": "platformio/platform-espressif32",
-        "branch": "develop",
-        "commit": "10253f81451bcca2e042361c46d0be2e911982ab"
+        "repo": "pioarduino/platform-espressif32",
+        "branch": "main",
+        "commit": "dd01e49e4695933bc29c1bf6be9a19a6572527a6"
       },
       "platformio_espressif8266": {
         "repo": "platformio/platform-espressif8266",
@@ -16,27 +21,30 @@
       "wippersnapper_boards": {
         "repo": "adafruit/Wippersnapper_Boards",
         "branch": "main",
-        "commit": "a1bf6499871401933be90675a52e89291221963b"
+        "commit": "46b9c3456f84a3fcfcd6a652798a2b8269e8b66d"
       },
       "wokwi_boards": {
         "repo": "wokwi/wokwi-boards",
         "branch": "main",
-        "commit": "0cffc5bdac4acfab9c2d0771bd6ef31a56c6d3c8"
+        "commit": "1f2ce028e6d88ef0d78bc2f15438a2e128a8aa6b"
       }
     },
     "boardCounts": {
-      "targets": 292,
-      "esp32Targets": 242,
+      "targets": 402,
+      "esp32Targets": 296,
       "esp8266Targets": 45,
-      "extraTargets": 5,
-      "boardDefinitions": 32,
-      "wokwiBoards": 18,
-      "wippersnapperBoards": 14,
-      "socFallbackBoards": 260
+      "libretinyTargets": 56,
+      "extraTargets": 6,
+      "boardDefinitions": 96,
+      "wokwiBoards": 25,
+      "wippersnapperBoards": 15,
+      "libretinyBoards": 56,
+      "socFallbackBoards": 306
     }
   },
   "boards": {
     "adafruit_feather_esp32_v2": "boards/generated/adafruit_feather_esp32_v2.json",
+    "adafruit_feather_esp32c6": "boards/generated/adafruit_feather_esp32c6.json",
     "adafruit_feather_esp32s2": "boards/generated/adafruit_feather_esp32s2.json",
     "adafruit_feather_esp32s2_reversetft": "boards/generated/adafruit_feather_esp32s2_reversetft.json",
     "adafruit_feather_esp32s2_tft": "boards/generated/adafruit_feather_esp32s2_tft.json",
@@ -49,40 +57,111 @@
     "adafruit_qtpy_esp32c3": "boards/generated/adafruit_qtpy_esp32c3.json",
     "adafruit_qtpy_esp32s2": "boards/generated/adafruit_qtpy_esp32s2.json",
     "adafruit_qtpy_esp32s3_n4r2": "boards/generated/adafruit_qtpy_esp32s3_n4r2.json",
+    "afw121t": "boards/generated/afw121t.json",
     "arduino_nano_esp32": "boards/generated/arduino_nano_esp32.json",
+    "az-delivery-devkit-v4": "boards/generated/az-delivery-devkit-v4.json",
+    "bw12": "boards/generated/bw12.json",
+    "bw15": "boards/generated/bw15.json",
+    "cb1s": "boards/generated/cb1s.json",
+    "cb2l": "boards/generated/cb2l.json",
+    "cb2s": "boards/generated/cb2s.json",
+    "cb3l": "boards/generated/cb3l.json",
+    "cb3s": "boards/generated/cb3s.json",
+    "cb3se": "boards/generated/cb3se.json",
+    "cblc5": "boards/generated/cblc5.json",
+    "cbu": "boards/generated/cbu.json",
+    "cr3l": "boards/generated/cr3l.json",
     "dfrobot_beetle_esp32c3": "boards/generated/dfrobot_beetle_esp32c3.json",
     "esp01": "boards/generated/esp01.json",
     "esp01_1m": "boards/generated/esp01_1m.json",
     "esp32-c3-devkitm-1": "boards/generated/esp32-c3-devkitm-1.json",
+    "esp32-c5-devkitc-1": "boards/generated/esp32-c5-devkitc-1.json",
     "esp32-c6-devkitc-1": "boards/generated/esp32-c6-devkitc-1.json",
+    "esp32-h2-devkitm-1": "boards/generated/esp32-h2-devkitm-1.json",
+    "esp32-p4": "boards/generated/esp32-p4.json",
+    "esp32-p4-evboard": "boards/generated/esp32-p4-evboard.json",
     "esp32-s3-devkitc-1": "boards/generated/esp32-s3-devkitc-1.json",
     "esp32cam": "boards/generated/esp32cam.json",
     "esp32dev": "boards/generated/esp32dev.json",
     "esp32doit-devkit-v1": "boards/generated/esp32doit-devkit-v1.json",
     "esp32s3box": "boards/generated/esp32s3box.json",
+    "generic-bk7231n-qfn32": "boards/generated/generic-bk7231n-qfn32.json",
+    "generic-bk7231n-qfn32-tuya": "boards/generated/generic-bk7231n-qfn32-tuya.json",
+    "generic-bk7231t-qfn32-tuya": "boards/generated/generic-bk7231t-qfn32-tuya.json",
+    "generic-bk7238": "boards/generated/generic-bk7238.json",
+    "generic-bk7238-tuya": "boards/generated/generic-bk7238-tuya.json",
+    "generic-bk7252": "boards/generated/generic-bk7252.json",
+    "generic-rtl8710bn-2mb-468k": "boards/generated/generic-rtl8710bn-2mb-468k.json",
+    "generic-rtl8710bn-2mb-788k": "boards/generated/generic-rtl8710bn-2mb-788k.json",
+    "generic-rtl8710bx-4mb-980k": "boards/generated/generic-rtl8710bx-4mb-980k.json",
+    "generic-rtl8720cf-2mb-896k": "boards/generated/generic-rtl8720cf-2mb-896k.json",
+    "generic-rtl8720cf-2mb-992k": "boards/generated/generic-rtl8720cf-2mb-992k.json",
+    "generic-rtl8720cm-4mb-1712k": "boards/generated/generic-rtl8720cm-4mb-1712k.json",
+    "jczn_2432s028r": "boards/generated/jczn_2432s028r.json",
     "lolin32_lite": "boards/generated/lolin32_lite.json",
     "lolin_s2_mini": "boards/generated/lolin_s2_mini.json",
+    "lsc-lma35": "boards/generated/lsc-lma35.json",
+    "lsc-lma35-t": "boards/generated/lsc-lma35-t.json",
     "m5stack-cores3": "boards/generated/m5stack-cores3.json",
     "nologo_esp32c3_super_mini": "boards/generated/nologo_esp32c3_super_mini.json",
+    "rpipico": "boards/generated/rpipico.json",
     "rpipicow": "boards/generated/rpipicow.json",
     "seeed_xiao_esp32c3": "boards/generated/seeed_xiao_esp32c3.json",
     "seeed_xiao_esp32c6": "boards/generated/seeed_xiao_esp32c6.json",
-    "seeed_xiao_esp32s3": "boards/generated/seeed_xiao_esp32s3.json"
+    "seeed_xiao_esp32s3": "boards/generated/seeed_xiao_esp32s3.json",
+    "t1-2s": "boards/generated/t1-2s.json",
+    "t1-3s": "boards/generated/t1-3s.json",
+    "t1-m": "boards/generated/t1-m.json",
+    "t1-u": "boards/generated/t1-u.json",
+    "t102-v1.1": "boards/generated/t102-v1.1.json",
+    "t103-v1.0": "boards/generated/t103-v1.0.json",
+    "t112-v1.1": "boards/generated/t112-v1.1.json",
+    "wa2": "boards/generated/wa2.json",
+    "wb1s": "boards/generated/wb1s.json",
+    "wb2l": "boards/generated/wb2l.json",
+    "wb2l-m1": "boards/generated/wb2l-m1.json",
+    "wb2s": "boards/generated/wb2s.json",
+    "wb3l": "boards/generated/wb3l.json",
+    "wb3s": "boards/generated/wb3s.json",
+    "wblc5": "boards/generated/wblc5.json",
+    "wbr1": "boards/generated/wbr1.json",
+    "wbr3": "boards/generated/wbr3.json",
+    "wbru": "boards/generated/wbru.json",
+    "wr1": "boards/generated/wr1.json",
+    "wr1e": "boards/generated/wr1e.json",
+    "wr2": "boards/generated/wr2.json",
+    "wr2e": "boards/generated/wr2e.json",
+    "wr2l": "boards/generated/wr2l.json",
+    "wr2le": "boards/generated/wr2le.json",
+    "wr3": "boards/generated/wr3.json",
+    "wr3e": "boards/generated/wr3e.json",
+    "wr3l": "boards/generated/wr3l.json",
+    "wr3le": "boards/generated/wr3le.json",
+    "wr3n": "boards/generated/wr3n.json",
+    "xh-wb3s": "boards/generated/xh-wb3s.json"
   },
   "soc": {
+    "bk72xx": "soc/bk72xx.json",
     "esp32": "soc/esp32.json",
+    "esp32c2": "soc/esp32c2.json",
     "esp32c3": "soc/esp32c3.json",
+    "esp32c5": "soc/esp32c5.json",
     "esp32c6": "soc/esp32c6.json",
+    "esp32h2": "soc/esp32h2.json",
+    "esp32p4": "soc/esp32p4.json",
     "esp32s2": "soc/esp32s2.json",
     "esp32s3": "soc/esp32s3.json",
     "esp8266": "soc/esp8266.json",
     "nrf52840": "soc/nrf52840.json",
-    "rp2040": "soc/rp2040.json"
+    "rp2040": "soc/rp2040.json",
+    "rtl8710b": "soc/rtl8710b.json",
+    "rtl8720c": "soc/rtl8720c.json"
   },
   "aliases": {
     "4d-systems-esp32s3-gen4-r8n16": "4d_systems_esp32s3_gen4_r8n16",
     "adafruit-camera-esp32s3": "adafruit_camera_esp32s3",
     "adafruit-feather-esp32-v2": "adafruit_feather_esp32_v2",
+    "adafruit-feather-esp32c6": "adafruit_feather_esp32c6",
     "adafruit-feather-esp32s2": "adafruit_feather_esp32s2",
     "adafruit-feather-esp32s2-reversetft": "adafruit_feather_esp32s2_reversetft",
     "adafruit-feather-esp32s2-tft": "adafruit_feather_esp32s2_tft",
@@ -106,6 +185,7 @@
     "adafruit-qualia-s3-rgb666": "adafruit_qualia_s3_rgb666",
     "airm2m-core-esp32c3": "airm2m_core_esp32c3",
     "arduino-nano-esp32": "arduino_nano_esp32",
+    "arduino-nesso-n1": "arduino_nesso_n1",
     "atd147-s3": "atd147_s3",
     "atmegazero-esp32s2": "atmegazero_esp32s2",
     "aventen-s3-sync": "aventen_s3_sync",
@@ -117,8 +197,7 @@
     "bee-s3": "bee_s3",
     "bpi-leaf-s3": "bpi_leaf_s3",
     "bpi_bit": "bpi-bit",
-    "cezerio-dev-esp32c6": "cezerio_dev_esp32c6",
-    "cezerio-mini-dev-esp32c6": "cezerio_mini_dev_esp32c6",
+    "bpi_centi_s3": "bpi-centi-s3",
     "cnrs-aw2eth": "cnrs_aw2eth",
     "connaxio-espoir": "connaxio_espoir",
     "cytron-maker-feather-aiot-s3": "cytron_maker_feather_aiot_s3",
@@ -131,6 +210,7 @@
     "deneyapkart1av2": "deneyapkart1Av2",
     "denky-d4": "denky_d4",
     "dfrobot-beetle-esp32c3": "dfrobot_beetle_esp32c3",
+    "dfrobot-firebeetle2-esp32c6": "dfrobot_firebeetle2_esp32c6",
     "dfrobot-firebeetle2-esp32e": "dfrobot_firebeetle2_esp32e",
     "dfrobot-firebeetle2-esp32s3": "dfrobot_firebeetle2_esp32s3",
     "dfrobot-romeo-esp32s3": "dfrobot_romeo_esp32s3",
@@ -138,16 +218,28 @@
     "edgebox_esp_100": "edgebox-esp-100",
     "esp-wroom-02": "esp_wroom_02",
     "esp01-1m": "esp01_1m",
+    "esp32-p4-r3": "esp32-p4_r3",
+    "esp32-p4-r3-evboard": "esp32-p4_r3-evboard",
     "esp32-s3-devkitc-1-n16r8": "esp32-s3-devkitc-1",
     "esp32-s3-devkitc-1_n16r8": "esp32-s3-devkitc-1",
+    "esp32_c2_devkitm_1": "esp32-c2-devkitm-1",
     "esp32_c3_devkitc_02": "esp32-c3-devkitc-02",
     "esp32_c3_devkitm_1": "esp32-c3-devkitm-1",
     "esp32_c3_m1i_kit": "esp32-c3-m1i-kit",
+    "esp32_c5_devkitc1_n16r4": "esp32-c5-devkitc1-n16r4",
+    "esp32_c5_devkitc1_n4": "esp32-c5-devkitc1-n4",
+    "esp32_c5_devkitc1_n8r4": "esp32-c5-devkitc1-n8r4",
+    "esp32_c5_devkitc_1": "esp32-c5-devkitc-1",
     "esp32_c6_devkitc_1": "esp32-c6-devkitc-1",
     "esp32_c6_devkitm_1": "esp32-c6-devkitm-1",
     "esp32_devkitlipo": "esp32-devkitlipo",
     "esp32_evb": "esp32-evb",
     "esp32_gateway": "esp32-gateway",
+    "esp32_h2_devkitm_1": "esp32-h2-devkitm-1",
+    "esp32_p4": "esp32-p4",
+    "esp32_p4_evboard": "esp32-p4-evboard",
+    "esp32_p4_r3": "esp32-p4_r3",
+    "esp32_p4_r3_evboard": "esp32-p4_r3-evboard",
     "esp32_pico_devkitm_2": "esp32-pico-devkitm-2",
     "esp32_poe": "esp32-poe",
     "esp32_poe_iso": "esp32-poe-iso",
@@ -155,11 +247,23 @@
     "esp32_s2_franzininho": "esp32-s2-franzininho",
     "esp32_s2_kaluga_1": "esp32-s2-kaluga-1",
     "esp32_s2_saola_1": "esp32-s2-saola-1",
+    "esp32_s3_devkitc1_n16r16": "esp32-s3-devkitc1-n16r16",
+    "esp32_s3_devkitc1_n16r2": "esp32-s3-devkitc1-n16r2",
+    "esp32_s3_devkitc1_n16r8": "esp32-s3-devkitc1-n16r8",
+    "esp32_s3_devkitc1_n4r2": "esp32-s3-devkitc1-n4r2",
+    "esp32_s3_devkitc1_n4r8": "esp32-s3-devkitc1-n4r8",
+    "esp32_s3_devkitc1_n8r2": "esp32-s3-devkitc1-n8r2",
+    "esp32_s3_devkitc1_n8r8": "esp32-s3-devkitc1-n8r8",
     "esp32_s3_devkitc_1": "esp32-s3-devkitc-1",
+    "esp32_s3_devkitc_1_n32r8v": "esp32-s3-devkitc-1-n32r8v",
     "esp32_s3_devkitm_1": "esp32-s3-devkitm-1",
+    "esp32_s3_fh4r2": "esp32-s3-fh4r2",
+    "esp32_solo1": "esp32-solo1",
     "esp32doit_devkit_v1": "esp32doit-devkit-v1",
     "esp32doit_espduino": "esp32doit-espduino",
+    "esp32s3-120-16-8-qio-opi": "esp32s3_120_16_8-qio_opi",
     "esp32s3-powerfeather": "esp32s3_powerfeather",
+    "esp32s3_120_16_8_qio_opi": "esp32s3_120_16_8-qio_opi",
     "esp32thing-plus": "esp32thing_plus",
     "esp32vn_iot_uno": "esp32vn-iot-uno",
     "esp_wrover_kit": "esp-wrover-kit",
@@ -171,6 +275,19 @@
     "franzininho-wifi-msc-esp32s2": "franzininho_wifi_msc_esp32s2",
     "freenove-esp32-s3-wroom": "freenove_esp32_s3_wroom",
     "freenove-esp32-wrover": "freenove_esp32_wrover",
+    "freenove_esp32_s3_n8r8": "freenove-esp32-s3-n8r8",
+    "generic_bk7231n_qfn32": "generic-bk7231n-qfn32",
+    "generic_bk7231n_qfn32_tuya": "generic-bk7231n-qfn32-tuya",
+    "generic_bk7231t_qfn32_tuya": "generic-bk7231t-qfn32-tuya",
+    "generic_bk7238": "generic-bk7238",
+    "generic_bk7238_tuya": "generic-bk7238-tuya",
+    "generic_bk7252": "generic-bk7252",
+    "generic_rtl8710bn_2mb_468k": "generic-rtl8710bn-2mb-468k",
+    "generic_rtl8710bn_2mb_788k": "generic-rtl8710bn-2mb-788k",
+    "generic_rtl8710bx_4mb_980k": "generic-rtl8710bx-4mb-980k",
+    "generic_rtl8720cf_2mb_896k": "generic-rtl8720cf-2mb-896k",
+    "generic_rtl8720cf_2mb_992k": "generic-rtl8720cf-2mb-992k",
+    "generic_rtl8720cm_4mb_1712k": "generic-rtl8720cm-4mb-1712k",
     "heltec-wifi-kit-32": "heltec_wifi_kit_32",
     "heltec-wifi-kit-32-V3": "heltec_wifi_kit_32_V3",
     "heltec-wifi-kit-32-v2": "heltec_wifi_kit_32_v2",
@@ -183,9 +300,13 @@
     "heltec_wifi_kit_32_v3": "heltec_wifi_kit_32_V3",
     "heltec_wifi_lora_32_v2": "heltec_wifi_lora_32_V2",
     "heltec_wifi_lora_32_v3": "heltec_wifi_lora_32_V3",
+    "huidu-hd-wf1": "huidu_hd_wf1",
+    "huidu-hd-wf2": "huidu_hd_wf2",
+    "huidu-hd-wf4": "huidu_hd_wf4",
     "imbrios_logsens_v1p1": "imbrios-logsens-v1p1",
     "inex-openkb": "inex_openkb",
     "iotaap-magnolia": "iotaap_magnolia",
+    "jczn-2432s028r": "jczn_2432s028r",
     "kb32_ft": "kb32-ft",
     "kits_edu": "kits-edu",
     "labplus-mpython": "labplus_mpython",
@@ -193,6 +314,7 @@
     "lilygo_t3_s3": "lilygo-t3-s3",
     "lilygo_t_display": "lilygo-t-display",
     "lilygo_t_display_s3": "lilygo-t-display-s3",
+    "lilygo_t_energy_s3": "lilygo-t-energy-s3",
     "lolin-c3-mini": "lolin_c3_mini",
     "lolin-d32": "lolin_d32",
     "lolin-d32-pro": "lolin_d32_pro",
@@ -200,11 +322,16 @@
     "lolin-s2-pico": "lolin_s2_pico",
     "lolin-s3": "lolin_s3",
     "lolin-s3-mini": "lolin_s3_mini",
+    "lolin-s3-mini-pro": "lolin_s3_mini_pro",
     "lolin-s3-pro": "lolin_s3_pro",
     "lolin32-lite": "lolin32_lite",
+    "lsc_lma35": "lsc-lma35",
+    "lsc_lma35_t": "lsc-lma35-t",
     "m5stack-core-esp32-16m": "m5stack-core-esp32-16M",
+    "m5stack-paper": "m5stack_paper",
     "m5stack_atom": "m5stack-atom",
     "m5stack_atoms3": "m5stack-atoms3",
+    "m5stack_atoms3u": "m5stack-atoms3u",
     "m5stack_core2": "m5stack-core2",
     "m5stack_core_esp32": "m5stack-core-esp32",
     "m5stack_core_esp32_16M": "m5stack-core-esp32-16M",
@@ -214,6 +341,7 @@
     "m5stack_grey": "m5stack-grey",
     "m5stack_stamps3": "m5stack-stamps3",
     "m5stack_station": "m5stack-station",
+    "m5stack_tab5_p4": "m5stack-tab5-p4",
     "m5stack_timer_cam": "m5stack-timer-cam",
     "m5stamp_pico": "m5stamp-pico",
     "m5stick_c": "m5stick-c",
@@ -238,11 +366,11 @@
     "pycom-gpy": "pycom_gpy",
     "redpill-esp32s3": "redpill_esp32s3",
     "roboheart-hercules": "roboheart_hercules",
-    "rymcu_esp32_c3_devkitm_1": "rymcu-esp32-c3-devkitm-1",
-    "rymcu_esp32_devkitc": "rymcu-esp32-devkitc",
     "rymcu_esp32_s3_devkitc_1": "rymcu-esp32-s3-devkitc-1",
     "s-odi-ultra": "s_odi_ultra",
+    "seeed-xiao-esp32-s3-plus": "seeed_xiao_esp32_s3_plus",
     "seeed-xiao-esp32c3": "seeed_xiao_esp32c3",
+    "seeed-xiao-esp32c5": "seeed_xiao_esp32c5",
     "seeed-xiao-esp32c6": "seeed_xiao_esp32c6",
     "seeed-xiao-esp32s3": "seeed_xiao_esp32s3",
     "sensebox-mcu-esp32s2": "sensebox_mcu_esp32s2",
@@ -255,12 +383,23 @@
     "sonoff-sv": "sonoff_sv",
     "sonoff-th": "sonoff_th",
     "sparkfun-esp32-iot-redboard": "sparkfun_esp32_iot_redboard",
+    "sparkfun-esp32c6-thing-plus": "sparkfun_esp32c6_thing_plus",
     "sparkfun-esp32micromod": "sparkfun_esp32micromod",
     "sparkfun-esp32s2-thing-plus": "sparkfun_esp32s2_thing_plus",
     "sparkfun-esp32s2-thing-plus-c": "sparkfun_esp32s2_thing_plus_c",
+    "sparkfun-esp32s3-thing-plus": "sparkfun_esp32s3_thing_plus",
     "sparkfun-lora-gateway-1-channel": "sparkfun_lora_gateway_1-channel",
+    "sparkfun-pro-micro-esp32c3": "sparkfun_pro_micro_esp32c3",
+    "sparkfun-qwiic-pocket-esp32c6": "sparkfun_qwiic_pocket_esp32c6",
     "sparkfun_lora_gateway_1_channel": "sparkfun_lora_gateway_1-channel",
     "sparkfunblynk": "sparkfunBlynk",
+    "t102_v1.1": "t102-v1.1",
+    "t103_v1.0": "t103-v1.0",
+    "t112_v1.1": "t112-v1.1",
+    "t1_2s": "t1-2s",
+    "t1_3s": "t1-3s",
+    "t1_m": "t1-m",
+    "t1_u": "t1-u",
     "tamc-termod-s3": "tamc_termod_s3",
     "trueverit_iot_driver": "trueverit-iot-driver",
     "trueverit_iot_driver_mk2": "trueverit-iot-driver-mk2",
@@ -275,12 +414,18 @@
     "ttgo_t_oi_plus": "ttgo-t-oi-plus",
     "ttgo_t_watch": "ttgo-t-watch",
     "turta-iot-node": "turta_iot_node",
+    "um-bling": "um_bling",
+    "um-edges3-d": "um_edges3_d",
     "um-feathers2": "um_feathers2",
     "um-feathers2-neo": "um_feathers2_neo",
     "um-feathers3": "um_feathers3",
+    "um-feathers3-neo": "um_feathers3_neo",
     "um-nanos3": "um_nanos3",
+    "um-omgs3": "um_omgs3",
     "um-pros3": "um_pros3",
     "um-rmp": "um_rmp",
+    "um-squixl": "um_squixl",
+    "um-tinyc6": "um_tinyc6",
     "um-tinys2": "um_tinys2",
     "um-tinys3": "um_tinys3",
     "upesy-wroom": "upesy_wroom",
@@ -288,6 +433,9 @@
     "valtrack-v4-mfw-esp32-c3": "valtrack_v4_mfw_esp32_c3",
     "valtrack-v4-vts-esp32-c3": "valtrack_v4_vts_esp32_c3",
     "vintlabs_devkit_v1": "vintlabs-devkit-v1",
+    "waveshare-esp32-s3-zero": "waveshare_esp32_s3_zero",
+    "waveshare-esp32s3-touch-lcd-128": "waveshare_esp32s3_touch_lcd_128",
+    "wb2l_m1": "wb2l-m1",
     "weactstudio-esp32c3coreboard": "weactstudio_esp32c3coreboard",
     "wemos-d1-mini32": "wemos_d1_mini32",
     "wemos-d1-uno32": "wemos_d1_uno32",
@@ -295,7 +443,10 @@
     "wifi-slot": "wifi_slot",
     "wio-link": "wio_link",
     "wio-node": "wio_node",
+    "ws-esp32-s3-matrix": "ws_esp32_s3_matrix",
     "wt32_eth01": "wt32-eth01",
+    "wt32_sc01_plus": "wt32-sc01-plus",
+    "xh_wb3s": "xh-wb3s",
     "xiao-ble": "xiao_ble",
     "xiao-esp32c3": "seeed_xiao_esp32c3",
     "xiao-esp32c6": "seeed_xiao_esp32c6",
@@ -304,7 +455,13 @@
     "xiao_esp32c6": "seeed_xiao_esp32c6",
     "xiao_esp32s3": "seeed_xiao_esp32s3",
     "xinabox-cw01": "xinabox_cw01",
-    "xinabox-cw02": "xinabox_cw02"
+    "xinabox-cw02": "xinabox_cw02",
+    "yb-esp32s3-amp": "yb_esp32s3_amp",
+    "yb-esp32s3-amp-v2": "yb_esp32s3_amp_v2",
+    "yb-esp32s3-amp-v3": "yb_esp32s3_amp_v3",
+    "yb-esp32s3-dac": "yb_esp32s3_dac",
+    "yb-esp32s3-drv": "yb_esp32s3_drv",
+    "yb-esp32s3-eth": "yb_esp32s3_eth"
   },
   "boardSocAliases": {
     "4d_systems_esp32s3_gen4_r8n16": {
@@ -363,6 +520,10 @@
       "soc": "esp32",
       "displayName": "ALKS ESP32 (SoC pin grid)"
     },
+    "arduino_nesso_n1": {
+      "soc": "esp32c6",
+      "displayName": "Arduino Nesso-N1 (SoC pin grid)"
+    },
     "atd147_s3": {
       "soc": "esp32s3",
       "displayName": "ArtronShop ATD1.47-S3 (SoC pin grid)"
@@ -374,10 +535,6 @@
     "aventen_s3_sync": {
       "soc": "esp32s3",
       "displayName": "Aventen S3 Sync (SoC pin grid)"
-    },
-    "az-delivery-devkit-v4": {
-      "soc": "esp32",
-      "displayName": "AZ-Delivery ESP-32 Dev Kit C V4 (SoC pin grid)"
     },
     "bee_data_logger": {
       "soc": "esp32s3",
@@ -403,17 +560,13 @@
       "soc": "esp32",
       "displayName": "BPI-Bit (SoC pin grid)"
     },
+    "bpi-centi-s3": {
+      "soc": "esp32s3",
+      "displayName": "BPI-Centi-S3 (SoC pin grid)"
+    },
     "bpi_leaf_s3": {
       "soc": "esp32s3",
       "displayName": "BPI-Leaf-S3 (SoC pin grid)"
-    },
-    "cezerio_dev_esp32c6": {
-      "soc": "esp32c6",
-      "displayName": "cezerio dev ESP32C6 (SoC pin grid)"
-    },
-    "cezerio_mini_dev_esp32c6": {
-      "soc": "esp32c6",
-      "displayName": "cezerio mini dev ESP32C6 (SoC pin grid)"
     },
     "cnrs_aw2eth": {
       "soc": "esp32",
@@ -433,19 +586,126 @@
     },
     "d1": {
       "soc": "esp8266",
-      "displayName": "WEMOS D1 R1 (SoC pin grid)"
+      "displayName": "WEMOS D1 R1 (SoC pin grid)",
+      "pinAliases": {
+        "D0": 3,
+        "D1": 1,
+        "D2": 16,
+        "D3": 5,
+        "D4": 4,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 0,
+        "D9": 2,
+        "D10": 15,
+        "D11": 13,
+        "D12": 14,
+        "D13": 14,
+        "D14": 4,
+        "D15": 5,
+        "LED": 2
+      },
+      "pinLabels": {
+        "0": "D8",
+        "1": "D1",
+        "2": "D9",
+        "3": "D0",
+        "4": "D4",
+        "5": "D3",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D10",
+        "16": "D2"
+      }
     },
     "d1_mini": {
       "soc": "esp8266",
-      "displayName": "WeMos D1 R2 and mini (SoC pin grid)"
+      "displayName": "WeMos D1 R2 and mini (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "LED": 2
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "TX",
+        "2": "D4",
+        "3": "RX",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "d1_mini_lite": {
       "soc": "esp8266",
-      "displayName": "WeMos D1 mini Lite (SoC pin grid)"
+      "displayName": "WeMos D1 mini Lite (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "LED": 2
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "TX",
+        "2": "D4",
+        "3": "RX",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "d1_mini_pro": {
       "soc": "esp8266",
-      "displayName": "WeMos D1 mini Pro (SoC pin grid)"
+      "displayName": "WeMos D1 mini Pro (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "LED": 2
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "TX",
+        "2": "D4",
+        "3": "RX",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "d1_wroom_02": {
       "soc": "esp8266",
@@ -482,6 +742,10 @@
     "denky_d4": {
       "soc": "esp32",
       "displayName": "Denky D4 (PICO-V3-02) (SoC pin grid)"
+    },
+    "dfrobot_firebeetle2_esp32c6": {
+      "soc": "esp32c6",
+      "displayName": "DFRobot FireBeetle 2 ESP32-C6 (SoC pin grid)"
     },
     "dfrobot_firebeetle2_esp32e": {
       "soc": "esp32",
@@ -527,6 +791,10 @@
       "soc": "esp8266",
       "displayName": "SweetPea ESP-210 (SoC pin grid)"
     },
+    "esp32-c2-devkitm-1": {
+      "soc": "esp32c2",
+      "displayName": "Espressif ESP32-C2-DevKitM-1 (SoC pin grid)"
+    },
     "esp32-c3-devkitc-02": {
       "soc": "esp32c3",
       "displayName": "Espressif ESP32-C3-DevKitC-02 (SoC pin grid)"
@@ -534,6 +802,18 @@
     "esp32-c3-m1i-kit": {
       "soc": "esp32c3",
       "displayName": "Ai-Thinker ESP-C3-M1-I-Kit (SoC pin grid)"
+    },
+    "esp32-c5-devkitc1-n16r4": {
+      "soc": "esp32c5",
+      "displayName": "Espressif ESP32-C5-DevKitC-1 N16R4 (16 MB Flash Quad, 4 MB PSRAM Quad) (SoC pin grid)"
+    },
+    "esp32-c5-devkitc1-n4": {
+      "soc": "esp32c5",
+      "displayName": "Espressif ESP32-C5-DevKitC-1 N4 (4MB no PSRAM) (SoC pin grid)"
+    },
+    "esp32-c5-devkitc1-n8r4": {
+      "soc": "esp32c5",
+      "displayName": "Espressif ESP32-C5-DevKitC-1 N8R4 (8 MB Flash Quad, 4 MB PSRAM Quad) (SoC pin grid)"
     },
     "esp32-c6-devkitm-1": {
       "soc": "esp32c6",
@@ -550,6 +830,14 @@
     "esp32-gateway": {
       "soc": "esp32",
       "displayName": "OLIMEX ESP32-GATEWAY (SoC pin grid)"
+    },
+    "esp32-p4_r3": {
+      "soc": "esp32p4",
+      "displayName": "Espressif ESP32-P4 rev.300 generic (SoC pin grid)"
+    },
+    "esp32-p4_r3-evboard": {
+      "soc": "esp32p4",
+      "displayName": "Espressif ESP32-P4 Function EV Board v1.6 (rev.301) (SoC pin grid)"
     },
     "esp32-pico-devkitm-2": {
       "soc": "esp32",
@@ -579,9 +867,49 @@
       "soc": "esp32s2",
       "displayName": "Espressif ESP32-S2-Saola-1 (SoC pin grid)"
     },
+    "esp32-s3-devkitc-1-n32r8v": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N32R8V (32 MB Flash Octal, 8 MB PSRAM Octal) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n16r16": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N16R16V (16 MB Flash Quad, 16 MB PSRAM Octal) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n16r2": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N16R2 (16 MB Flash Quad, 2 MB PSRAM Quad) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n16r8": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N16R8V (16 MB Flash Quad, 8 MB PSRAM Octal) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n4r2": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N4R2 (4 MB Flash Quad, 2 MB PSRAM Quad) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n4r8": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N4R8 (4 MB Flash Quad, 8 MB PSRAM Octal) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n8r2": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N8R2 (8 MB Flash Quad, 2 MB PSRAM quad) (SoC pin grid)"
+    },
+    "esp32-s3-devkitc1-n8r8": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-DevKitC-1-N8R8 (8 MB Flash Quad, 8 MB PSRAM Octal) (SoC pin grid)"
+    },
     "esp32-s3-devkitm-1": {
       "soc": "esp32s3",
       "displayName": "Espressif ESP32-S3-DevKitM-1 (SoC pin grid)"
+    },
+    "esp32-s3-fh4r2": {
+      "soc": "esp32s3",
+      "displayName": "Espressif ESP32-S3-FH4R2 (4 MB QD, 2MB PSRAM) (SoC pin grid)"
+    },
+    "esp32-solo1": {
+      "soc": "esp32",
+      "displayName": "Espressif Generic ESP32-solo1 4M Flash (SoC pin grid)"
     },
     "esp320": {
       "soc": "esp32",
@@ -590,6 +918,10 @@
     "esp32doit-espduino": {
       "soc": "esp32",
       "displayName": "DOIT ESPduino32 (SoC pin grid)"
+    },
+    "esp32s3_120_16_8-qio_opi": {
+      "soc": "esp32s3",
+      "displayName": "ESP32-S3 16MB QIO, 8MB OPI PSRAM (SoC pin grid)"
     },
     "esp32s3_powerfeather": {
       "soc": "esp32s3",
@@ -625,7 +957,10 @@
     },
     "espduino": {
       "soc": "esp8266",
-      "displayName": "ESPDuino (ESP-13 Module) (SoC pin grid)"
+      "displayName": "ESPDuino (ESP-13 Module) (SoC pin grid)",
+      "pinAliases": {
+        "LED": 16
+      }
     },
     "espea32": {
       "soc": "esp32",
@@ -633,7 +968,11 @@
     },
     "espectro": {
       "soc": "esp8266",
-      "displayName": "ESPectro Core (SoC pin grid)"
+      "displayName": "ESPectro Core (SoC pin grid)",
+      "pinAliases": {
+        "LED": 15,
+        "BUTTON": 2
+      }
     },
     "espectro32": {
       "soc": "esp32",
@@ -641,7 +980,14 @@
     },
     "espino": {
       "soc": "esp8266",
-      "displayName": "ESPino (SoC pin grid)"
+      "displayName": "ESPino (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2,
+        "LED_RED": 2,
+        "LED_GREEN": 4,
+        "LED_BLUE": 5,
+        "BUTTON": 0
+      }
     },
     "espino32": {
       "soc": "esp32",
@@ -649,7 +995,10 @@
     },
     "espinotee": {
       "soc": "esp8266",
-      "displayName": "ThaiEasyElec ESPino (SoC pin grid)"
+      "displayName": "ThaiEasyElec ESPino (SoC pin grid)",
+      "pinAliases": {
+        "LED": 16
+      }
     },
     "espmxdevkit": {
       "soc": "esp8266",
@@ -657,11 +1006,17 @@
     },
     "espresso_lite_v1": {
       "soc": "esp8266",
-      "displayName": "ESPresso Lite 1.0 (SoC pin grid)"
+      "displayName": "ESPresso Lite 1.0 (SoC pin grid)",
+      "pinAliases": {
+        "LED": 16
+      }
     },
     "espresso_lite_v2": {
       "soc": "esp8266",
-      "displayName": "ESPresso Lite 2.0 (SoC pin grid)"
+      "displayName": "ESPresso Lite 2.0 (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2
+      }
     },
     "etboard": {
       "soc": "esp32",
@@ -690,6 +1045,10 @@
     "franzininho_wifi_msc_esp32s2": {
       "soc": "esp32s2",
       "displayName": "Franzininho WiFi MSC (SoC pin grid)"
+    },
+    "freenove-esp32-s3-n8r8": {
+      "soc": "esp32s3",
+      "displayName": "Freenove ESP32-S3 WROOM N8R8 (8MB Flash / 8MB PSRAM) (SoC pin grid)"
     },
     "freenove_esp32_s3_wroom": {
       "soc": "esp32s3",
@@ -725,7 +1084,32 @@
     },
     "heltec_wifi_kit_8": {
       "soc": "esp8266",
-      "displayName": "Heltec Wifi kit 8 (SoC pin grid)"
+      "displayName": "Heltec Wifi kit 8 (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "LED": 2
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "TX",
+        "2": "D4",
+        "3": "RX",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "heltec_wifi_lora_32": {
       "soc": "esp32",
@@ -759,9 +1143,44 @@
       "soc": "esp32",
       "displayName": "Hornbill ESP32 Minima (SoC pin grid)"
     },
+    "huidu_hd_wf1": {
+      "soc": "esp32s2",
+      "displayName": "Huidu HD-WF1 (SoC pin grid)"
+    },
+    "huidu_hd_wf2": {
+      "soc": "esp32s3",
+      "displayName": "Huidu HD-WF2 (SoC pin grid)"
+    },
+    "huidu_hd_wf4": {
+      "soc": "esp32s3",
+      "displayName": "Huidu HD-WF4 (SoC pin grid)"
+    },
     "huzzah": {
       "soc": "esp8266",
-      "displayName": "Adafruit HUZZAH ESP8266 (SoC pin grid)"
+      "displayName": "Adafruit HUZZAH ESP8266 (SoC pin grid)",
+      "pinAliases": {
+        "LED": 0,
+        "LED_RED": 0,
+        "LED_BLUE": 2,
+        "D4": 4,
+        "D5": 5,
+        "D12": 12,
+        "D13": 13,
+        "D14": 14,
+        "D15": 15,
+        "D16": 16
+      },
+      "pinLabels": {
+        "1": "TX",
+        "3": "RX",
+        "4": "D4",
+        "5": "D5",
+        "12": "D12",
+        "13": "D13",
+        "14": "D14",
+        "15": "D15",
+        "16": "D16"
+      }
     },
     "imbrios-logsens-v1p1": {
       "soc": "esp32",
@@ -823,6 +1242,10 @@
       "soc": "esp32s3",
       "displayName": "LilyGo T-Display-S3 (SoC pin grid)"
     },
+    "lilygo-t-energy-s3": {
+      "soc": "esp32s3",
+      "displayName": "LilyGo T-Energy-S3 (SoC pin grid)"
+    },
     "lilygo-t3-s3": {
       "soc": "esp32s3",
       "displayName": "LilyGo T3-S3 (SoC pin grid)"
@@ -863,6 +1286,10 @@
       "soc": "esp32s3",
       "displayName": "WEMOS LOLIN S3 Mini (SoC pin grid)"
     },
+    "lolin_s3_mini_pro": {
+      "soc": "esp32s3",
+      "displayName": "WEMOS LOLIN S3 Mini Pro (SoC pin grid)"
+    },
     "lolin_s3_pro": {
       "soc": "esp32s3",
       "displayName": "WEMOS LOLIN S3 PRO (SoC pin grid)"
@@ -882,6 +1309,10 @@
     "m5stack-atoms3": {
       "soc": "esp32s3",
       "displayName": "M5Stack AtomS3 (SoC pin grid)"
+    },
+    "m5stack-atoms3u": {
+      "soc": "esp32s3",
+      "displayName": "M5Stack AtomS3U (SoC pin grid)"
     },
     "m5stack-core-esp32": {
       "soc": "esp32",
@@ -915,9 +1346,17 @@
       "soc": "esp32",
       "displayName": "M5Stack Station (SoC pin grid)"
     },
+    "m5stack-tab5-p4": {
+      "soc": "esp32p4",
+      "displayName": "M5STACK Tab5 esp32-p4 Board (ES pre rev.300) (SoC pin grid)"
+    },
     "m5stack-timer-cam": {
       "soc": "esp32",
       "displayName": "M5Stack Timer CAM (SoC pin grid)"
+    },
+    "m5stack_paper": {
+      "soc": "esp32",
+      "displayName": "M5Stack Paper (SoC pin grid)"
     },
     "m5stamp-pico": {
       "soc": "esp32",
@@ -957,7 +1396,7 @@
     },
     "minimain_esp32s2": {
       "soc": "esp32s2",
-      "displayName": "Department of Alchemy MiniMain ESP32-S2 (SoC pin grid)"
+      "displayName": "Deparment of Alchemy MiniMain ESP32-S2 (SoC pin grid)"
     },
     "modwifi": {
       "soc": "esp8266",
@@ -993,7 +1432,34 @@
     },
     "nodemcu": {
       "soc": "esp8266",
-      "displayName": "NodeMCU 0.9 (ESP-12 Module) (SoC pin grid)"
+      "displayName": "NodeMCU 0.9 (ESP-12 Module) (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "D9": 3,
+        "D10": 1,
+        "LED": 16
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "D10",
+        "2": "D4",
+        "3": "D9",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "nodemcu-32s": {
       "soc": "esp32",
@@ -1005,7 +1471,34 @@
     },
     "nodemcuv2": {
       "soc": "esp8266",
-      "displayName": "NodeMCU 1.0 (ESP-12E Module) (SoC pin grid)"
+      "displayName": "NodeMCU 1.0 (ESP-12E Module) (SoC pin grid)",
+      "pinAliases": {
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "D9": 3,
+        "D10": 1,
+        "LED": 16
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "D10",
+        "2": "D4",
+        "3": "D9",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "nscreen-32": {
       "soc": "esp32",
@@ -1013,7 +1506,22 @@
     },
     "oak": {
       "soc": "esp8266",
-      "displayName": "DigiStump Oak (SoC pin grid)"
+      "displayName": "DigiStump Oak (SoC pin grid)",
+      "pinAliases": {
+        "P0": 2,
+        "P1": 5,
+        "P2": 0,
+        "P3": 3,
+        "P4": 1,
+        "P5": 4,
+        "P6": 15,
+        "P7": 13,
+        "P8": 12,
+        "P9": 14,
+        "P10": 16,
+        "P11": 17,
+        "LED": 5
+      }
     },
     "odroid_esp32": {
       "soc": "esp32",
@@ -1029,11 +1537,17 @@
     },
     "phoenix_v1": {
       "soc": "esp8266",
-      "displayName": "Phoenix 1.0 (SoC pin grid)"
+      "displayName": "Phoenix 1.0 (SoC pin grid)",
+      "pinAliases": {
+        "LED": 16
+      }
     },
     "phoenix_v2": {
       "soc": "esp8266",
-      "displayName": "Phoenix 2.0 (SoC pin grid)"
+      "displayName": "Phoenix 2.0 (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2
+      }
     },
     "pico32": {
       "soc": "esp32",
@@ -1067,14 +1581,6 @@
       "soc": "esp32",
       "displayName": "RoboHeart Hercules (SoC pin grid)"
     },
-    "rymcu-esp32-c3-devkitm-1": {
-      "soc": "esp32c3",
-      "displayName": "RYMCU ESP32-C3-DevKitM-1 (SoC pin grid)"
-    },
-    "rymcu-esp32-devkitc": {
-      "soc": "esp32",
-      "displayName": "RYMCU ESP32-DevKitC (SoC pin grid)"
-    },
     "rymcu-esp32-s3-devkitc-1": {
       "soc": "esp32s3",
       "displayName": "RYMCU ESP32-S3-DevKitC-1-N8R2 (8 MB QD, 2 MB PSRAM) (SoC pin grid)"
@@ -1082,6 +1588,14 @@
     "s_odi_ultra": {
       "soc": "esp32",
       "displayName": "S.ODI Ultra v1 (SoC pin grid)"
+    },
+    "seeed_xiao_esp32_s3_plus": {
+      "soc": "esp32s3",
+      "displayName": "Seeed Studio XIAO ESP32S3 Plus (SoC pin grid)"
+    },
+    "seeed_xiao_esp32c5": {
+      "soc": "esp32c5",
+      "displayName": "Seeed Studio XIAO ESP32C5 (SoC pin grid)"
     },
     "sensebox_mcu_esp32s2": {
       "soc": "esp32s2",
@@ -1113,11 +1627,20 @@
     },
     "sparkfunBlynk": {
       "soc": "esp8266",
-      "displayName": "SparkFun Blynk Board (SoC pin grid)"
+      "displayName": "SparkFun Blynk Board (SoC pin grid)",
+      "pinAliases": {
+        "LED": 5,
+        "SDA": 2,
+        "SCL": 14
+      }
     },
     "sparkfun_esp32_iot_redboard": {
       "soc": "esp32",
       "displayName": "SparkFun ESP32 IoT RedBoard (SoC pin grid)"
+    },
+    "sparkfun_esp32c6_thing_plus": {
+      "soc": "esp32c6",
+      "displayName": "Sparkfun ESP32-C6 Thing Plus (SoC pin grid)"
     },
     "sparkfun_esp32micromod": {
       "soc": "esp32",
@@ -1131,9 +1654,21 @@
       "soc": "esp32",
       "displayName": "SparkFun ESP32 Thing Plus C (SoC pin grid)"
     },
+    "sparkfun_esp32s3_thing_plus": {
+      "soc": "esp32s3",
+      "displayName": "SPARKFUN_ESP32S3_THING_PLUS (SoC pin grid)"
+    },
     "sparkfun_lora_gateway_1-channel": {
       "soc": "esp32",
       "displayName": "SparkFun LoRa Gateway 1-Channel (SoC pin grid)"
+    },
+    "sparkfun_pro_micro_esp32c3": {
+      "soc": "esp32c3",
+      "displayName": "SparkFun Pro Micro ESP32-C3 (SoC pin grid)"
+    },
+    "sparkfun_qwiic_pocket_esp32c6": {
+      "soc": "esp32c6",
+      "displayName": "SparkFun ESP32-C6 Qwiic Pocket (SoC pin grid)"
     },
     "tamc_termod_s3": {
       "soc": "esp32s3",
@@ -1141,11 +1676,21 @@
     },
     "thing": {
       "soc": "esp8266",
-      "displayName": "SparkFun ESP8266 Thing (SoC pin grid)"
+      "displayName": "SparkFun ESP8266 Thing (SoC pin grid)",
+      "pinAliases": {
+        "LED": 5,
+        "SDA": 2,
+        "SCL": 14
+      }
     },
     "thingdev": {
       "soc": "esp8266",
-      "displayName": "SparkFun ESP8266 Thing Dev (SoC pin grid)"
+      "displayName": "SparkFun ESP8266 Thing Dev (SoC pin grid)",
+      "pinAliases": {
+        "LED": 5,
+        "SDA": 2,
+        "SCL": 14
+      }
     },
     "tinypico": {
       "soc": "esp32",
@@ -1203,6 +1748,14 @@
       "soc": "esp32",
       "displayName": "Turta IoT Node (SoC pin grid)"
     },
+    "um_bling": {
+      "soc": "esp32s3",
+      "displayName": "Unexpected Maker BLING! (SoC pin grid)"
+    },
+    "um_edges3_d": {
+      "soc": "esp32s3",
+      "displayName": "Unexpected Maker EDGES3[D] (SoC pin grid)"
+    },
     "um_feathers2": {
       "soc": "esp32s2",
       "displayName": "Unexpected Maker FeatherS2 (SoC pin grid)"
@@ -1215,9 +1768,17 @@
       "soc": "esp32s3",
       "displayName": "Unexpected Maker FeatherS3 (SoC pin grid)"
     },
+    "um_feathers3_neo": {
+      "soc": "esp32s3",
+      "displayName": "Unexpected Maker FeatherS3 Neo (SoC pin grid)"
+    },
     "um_nanos3": {
       "soc": "esp32s3",
       "displayName": "Unexpected Maker NanoS3 (SoC pin grid)"
+    },
+    "um_omgs3": {
+      "soc": "esp32s3",
+      "displayName": "Unexpected Maker OMGS3 (SoC pin grid)"
     },
     "um_pros3": {
       "soc": "esp32s3",
@@ -1226,6 +1787,14 @@
     "um_rmp": {
       "soc": "esp32s2",
       "displayName": "Unexpected Maker RMP (SoC pin grid)"
+    },
+    "um_squixl": {
+      "soc": "esp32s3",
+      "displayName": "Unexpected Maker SQUiXL (SoC pin grid)"
+    },
+    "um_tinyc6": {
+      "soc": "esp32c6",
+      "displayName": "Unexpected Maker TinyC6 (SoC pin grid)"
     },
     "um_tinys2": {
       "soc": "esp32s2",
@@ -1271,6 +1840,14 @@
       "soc": "esp32",
       "displayName": "SQFMI Watchy v2.0 (SoC pin grid)"
     },
+    "waveshare_esp32_s3_zero": {
+      "soc": "esp32s3",
+      "displayName": "Waveshare ESP32-S3-Zero (SoC pin grid)"
+    },
+    "waveshare_esp32s3_touch_lcd_128": {
+      "soc": "esp32s3",
+      "displayName": "Waveshare ESP32-S3-Touch-LCD-1.28 (16 MB QD, 2MB PSRAM) (SoC pin grid)"
+    },
     "weactstudio_esp32c3coreboard": {
       "soc": "esp32c3",
       "displayName": "WeAct Studio ESP32C3CoreBoard (SoC pin grid)"
@@ -1297,11 +1874,43 @@
     },
     "wifi_slot": {
       "soc": "esp8266",
-      "displayName": "WiFi Slot (SoC pin grid)"
+      "displayName": "WiFi Slot (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2
+      }
     },
     "wifiduino": {
       "soc": "esp8266",
-      "displayName": "WiFiduino (SoC pin grid)"
+      "displayName": "WiFiduino (SoC pin grid)",
+      "pinAliases": {
+        "D0": 3,
+        "D1": 1,
+        "D2": 2,
+        "D3": 0,
+        "D4": 4,
+        "D5": 5,
+        "D6": 16,
+        "D7": 14,
+        "D8": 12,
+        "D9": 13,
+        "D10": 15,
+        "D11": 13,
+        "D12": 12,
+        "D13": 14
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "D1",
+        "2": "D2",
+        "3": "D0",
+        "4": "D4",
+        "5": "D5",
+        "12": "D8",
+        "13": "D9",
+        "14": "D7",
+        "15": "D10",
+        "16": "D6"
+      }
     },
     "wifiduino32": {
       "soc": "esp32",
@@ -1317,23 +1926,85 @@
     },
     "wifinfo": {
       "soc": "esp8266",
-      "displayName": "WifInfo (SoC pin grid)"
+      "displayName": "WifInfo (SoC pin grid)",
+      "pinAliases": {
+        "LED": 12,
+        "D0": 16,
+        "D1": 5,
+        "D2": 4,
+        "D3": 0,
+        "D4": 2,
+        "D5": 14,
+        "D6": 12,
+        "D7": 13,
+        "D8": 15,
+        "D9": 3,
+        "D10": 1
+      },
+      "pinLabels": {
+        "0": "D3",
+        "1": "D10",
+        "2": "D4",
+        "3": "D9",
+        "4": "D2",
+        "5": "D1",
+        "12": "D6",
+        "13": "D7",
+        "14": "D5",
+        "15": "D8",
+        "16": "D0"
+      }
     },
     "wio_link": {
       "soc": "esp8266",
-      "displayName": "Wio Link (SoC pin grid)"
+      "displayName": "Wio Link (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2,
+        "GROVE": 15,
+        "D0": 14,
+        "D1": 12,
+        "D2": 13,
+        "BUTTON": 0
+      },
+      "pinLabels": {
+        "1": "TX",
+        "3": "RX",
+        "12": "D1",
+        "13": "D2",
+        "14": "D0"
+      }
     },
     "wio_node": {
       "soc": "esp8266",
-      "displayName": "Wio Node (SoC pin grid)"
+      "displayName": "Wio Node (SoC pin grid)",
+      "pinAliases": {
+        "LED": 2,
+        "GROVE": 15,
+        "D0": 3,
+        "D1": 5,
+        "BUTTON": 0
+      },
+      "pinLabels": {
+        "1": "TX",
+        "3": "D0",
+        "5": "D1"
+      }
     },
     "wipy3": {
       "soc": "esp32",
       "displayName": "Pycom WiPy3 (SoC pin grid)"
     },
+    "ws_esp32_s3_matrix": {
+      "soc": "esp32s3",
+      "displayName": "Waveshare ESP32-S3-Matrix (SoC pin grid)"
+    },
     "wt32-eth01": {
       "soc": "esp32",
       "displayName": "Wireless-Tag WT32-ETH01 Ethernet Module (SoC pin grid)"
+    },
+    "wt32-sc01-plus": {
+      "soc": "esp32s3",
+      "displayName": "wt32-sc01-plus (SoC pin grid)"
     },
     "xiao_ble": {
       "soc": "nrf52840",
@@ -1341,11 +2012,42 @@
     },
     "xinabox_cw01": {
       "soc": "esp8266",
-      "displayName": "XinaBox CW01 (SoC pin grid)"
+      "displayName": "XinaBox CW01 (SoC pin grid)",
+      "pinAliases": {
+        "SDA": 2,
+        "SCL": 14,
+        "LED": 5,
+        "LED_RED": 12,
+        "LED_GREEN": 13
+      }
     },
     "xinabox_cw02": {
       "soc": "esp32",
       "displayName": "XinaBox CW02 (SoC pin grid)"
+    },
+    "yb_esp32s3_amp": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-AMP (SoC pin grid)"
+    },
+    "yb_esp32s3_amp_v2": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-AMP (Rev.2) (SoC pin grid)"
+    },
+    "yb_esp32s3_amp_v3": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-AMP (Rev.3) (SoC pin grid)"
+    },
+    "yb_esp32s3_dac": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-DAC (SoC pin grid)"
+    },
+    "yb_esp32s3_drv": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-DRV (SoC pin grid)"
+    },
+    "yb_esp32s3_eth": {
+      "soc": "esp32s3",
+      "displayName": "YelloByte YB-ESP32-S3-ETH (SoC pin grid)"
     }
   }
 }

@@ -1,0 +1,39 @@
+{
+  "id": "wb1s",
+  "displayName": "WB1S Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "bk72xx",
+  "gpios": [
+    0,
+    1,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    20,
+    21,
+    22,
+    23,
+    24,
+    26
+  ],
+  "pinAliases": {
+    "D0": 11,
+    "D1": 10,
+    "D2": 26,
+    "D3": 24,
+    "D4": 0,
+    "D5": 8,
+    "D6": 7,
+    "D7": 1,
+    "D8": 9,
+    "D9": 6,
+    "D10": 23,
+    "A0": 23
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

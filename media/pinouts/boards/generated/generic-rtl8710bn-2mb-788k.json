@@ -1,0 +1,48 @@
+{
+  "id": "generic-rtl8710bn-2mb-788k",
+  "displayName": "Generic - RTL8710BN (2M/788k) (Generic)",
+  "kind": "soc-grid",
+  "socRef": "rtl8710b",
+  "gpios": [
+    0,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    18,
+    19,
+    22,
+    23,
+    29,
+    30
+  ],
+  "pinAliases": {
+    "D0": 0,
+    "D1": 5,
+    "D2": 6,
+    "D3": 7,
+    "D4": 8,
+    "D5": 9,
+    "D6": 10,
+    "D7": 11,
+    "D8": 12,
+    "D9": 14,
+    "D10": 15,
+    "D11": 18,
+    "D12": 19,
+    "A0": 19,
+    "D13": 22,
+    "D14": 23,
+    "D15": 29,
+    "D16": 30
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

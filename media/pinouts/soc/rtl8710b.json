@@ -1,0 +1,89 @@
+{
+  "id": "rtl8710b",
+  "variant": "rtl87xx",
+  "kind": "soc-grid",
+  "displayName": "Realtek RTL8710B (AmebaZ, SoC pin grid)",
+  "gpios": [
+    0,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    18,
+    19,
+    22,
+    23,
+    29,
+    30
+  ],
+  "pinLabels": {
+    "0": "PA00",
+    "5": "PA05",
+    "6": "PA06",
+    "7": "PA07",
+    "8": "PA08",
+    "9": "PA09",
+    "10": "PA10",
+    "11": "PA11",
+    "12": "PA12",
+    "14": "PA14",
+    "15": "PA15",
+    "18": "PA18",
+    "19": "PA19",
+    "22": "PA22",
+    "23": "PA23",
+    "29": "PA29",
+    "30": "PA30"
+  },
+  "pinIssues": [
+    {
+      "gpios": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "severity": "danger",
+      "text": "Wired to the SPI flash (FCS/FSCK/FD0-FD3); not usable as GPIO on modules."
+    },
+    {
+      "gpios": [
+        29,
+        30
+      ],
+      "severity": "warn",
+      "text": "UART2 (PA29 RX2 / PA30 TX2) — log output and serial flashing."
+    },
+    {
+      "gpios": [
+        14,
+        15
+      ],
+      "severity": "warn",
+      "text": "SWD debug pins (PA14 CLK / PA15 DIO)."
+    },
+    {
+      "gpios": [
+        18,
+        23
+      ],
+      "severity": "info",
+      "text": "UART0 (PA18 RX0 / PA23 TX0)."
+    },
+    {
+      "gpios": [
+        19
+      ],
+      "severity": "info",
+      "text": "ADC input (ADC1) — analog-capable pin."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "jczn_2432s028r",
+  "displayName": "ESP32-2432S028R CYD",
+  "kind": "svg-board",
+  "socRef": "esp32",
+  "svgPath": "assets/wokwi/jczn_2432s028r.svg",
+  "sizeMm": {
+    "width": 86,
+    "height": 50
+  },
+  "pins": [
+    {
+      "label": "VIN",
+      "x": 1.368,
+      "y": 7.18,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "TX",
+      "x": 1.368,
+      "y": 9.72,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "RX",
+      "x": 1.368,
+      "y": 12.26,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.1",
+      "x": 1.368,
+      "y": 14.8,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "IO21",
+      "x": 1.368,
+      "y": 21.04,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "IO22",
+      "x": 1.368,
+      "y": 23.58,
+      "targetRaw": "GPIO22",
+      "gpio": 22,
+      "type": "gpio"
+    },
+    {
+      "label": "IO35",
+      "x": 1.368,
+      "y": 26.12,
+      "targetRaw": "GPIO35",
+      "gpio": 35,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.2",
+      "x": 1.368,
+      "y": 28.66,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "3.3V",
+      "x": 1.368,
+      "y": 34.78,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "IO27",
+      "x": 1.368,
+      "y": 37.32,
+      "targetRaw": "GPIO27",
+      "gpio": 27,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.3",
+      "x": 1.368,
+      "y": 42.4,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    }
+  ]
+}

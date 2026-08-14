@@ -18,10 +18,12 @@ const LOCK_PATH = path.join(REPO_ROOT, "scripts", "pinout-sources.lock.json");
 const PINOUT_ROOT = path.join(REPO_ROOT, "media", "pinouts");
 
 const SOURCE_DEFS = {
+  // ESPHome builds ESP32 targets with the pioarduino fork, which is where new
+  // variants (H2/P4/C5/C2) and their board definitions land.
   platformio_espressif32: {
-    owner: "platformio",
+    owner: "pioarduino",
     repo: "platform-espressif32",
-    branch: "develop",
+    branch: "main",
   },
   platformio_espressif8266: {
     owner: "platformio",
@@ -37,6 +39,11 @@ const SOURCE_DEFS = {
     owner: "adafruit",
     repo: "Wippersnapper_Boards",
     branch: "main",
+  },
+  libretiny: {
+    owner: "libretiny-eu",
+    repo: "libretiny",
+    branch: "master",
   },
 };
 
@@ -57,6 +64,11 @@ const EXTRA_TARGETS = [
     displayName: "Seeed XIAO BLE",
   },
   {
+    id: "rpipico",
+    socRef: "rp2040",
+    displayName: "Raspberry Pi Pico",
+  },
+  {
     id: "rpipicow",
     socRef: "rp2040",
     displayName: "Raspberry Pi Pico W",
@@ -71,7 +83,11 @@ const EXTRA_TARGETS = [
 const WOKWI_EXPLICIT_MAP = {
   "arduino-nano-esp32": ["arduino_nano_esp32"],
   "esp32-c3-devkitm-1": ["esp32-c3-devkitm-1"],
+  "esp32-c5-devkitc-1": ["esp32-c5-devkitc-1"],
   "esp32-c6-devkitc-1": ["esp32-c6-devkitc-1"],
+  "esp32-h2-devkitm-1": ["esp32-h2-devkitm-1"],
+  "esp32-p4-function-ev": ["esp32-p4-function-ev", "esp32-p4-evboard", "esp32-p4"],
+  "esp32-devkit-c-v4": ["az-delivery-devkit-v4"],
   "aitewinrobot-esp32c3-supermini": ["nologo_esp32c3_super_mini", "aitewinrobot-esp32c3-supermini"],
   "esp-01": ["esp01_1m", "esp01"],
   "franzininho-wifi": ["franzininho_wifi_esp32s2"],
@@ -118,6 +134,138 @@ const WIPPER_EXPLICIT_MAP = {
   "xiao-esp32s3": "seeed_xiao_esp32s3",
 };
 
+// Silkscreen/Arduino pin aliases shared by every ESP8266 board (mirrors
+// esphome/components/esp8266/boards.py ESP8266_BASE_PINS).
+const ESP8266_BASE_PIN_ALIASES = {
+  A0: 17,
+  SS: 15,
+  MOSI: 13,
+  MISO: 12,
+  SCK: 14,
+  SDA: 4,
+  SCL: 5,
+  RX: 3,
+  TX: 1,
+};
+
+// Per-board silkscreen aliases (mirrors esphome/components/esp8266/boards.py
+// ESP8266_BOARD_PINS). String values reference another board's table.
+const ESP8266_BOARD_PIN_ALIASES = {
+  d1: {
+    D0: 3,
+    D1: 1,
+    D2: 16,
+    D3: 5,
+    D4: 4,
+    D5: 14,
+    D6: 12,
+    D7: 13,
+    D8: 0,
+    D9: 2,
+    D10: 15,
+    D11: 13,
+    D12: 14,
+    D13: 14,
+    D14: 4,
+    D15: 5,
+    LED: 2,
+  },
+  d1_mini: { D0: 16, D1: 5, D2: 4, D3: 0, D4: 2, D5: 14, D6: 12, D7: 13, D8: 15, LED: 2 },
+  d1_mini_lite: "d1_mini",
+  d1_mini_pro: "d1_mini",
+  espduino: { LED: 16 },
+  espectro: { LED: 15, BUTTON: 2 },
+  espino: { LED: 2, LED_RED: 2, LED_GREEN: 4, LED_BLUE: 5, BUTTON: 0 },
+  espinotee: { LED: 16 },
+  espresso_lite_v1: { LED: 16 },
+  espresso_lite_v2: { LED: 2 },
+  heltec_wifi_kit_8: "d1_mini",
+  huzzah: { LED: 0, LED_RED: 0, LED_BLUE: 2, D4: 4, D5: 5, D12: 12, D13: 13, D14: 14, D15: 15, D16: 16 },
+  nodemcu: { D0: 16, D1: 5, D2: 4, D3: 0, D4: 2, D5: 14, D6: 12, D7: 13, D8: 15, D9: 3, D10: 1, LED: 16 },
+  nodemcuv2: "nodemcu",
+  oak: { P0: 2, P1: 5, P2: 0, P3: 3, P4: 1, P5: 4, P6: 15, P7: 13, P8: 12, P9: 14, P10: 16, P11: 17, LED: 5 },
+  phoenix_v1: { LED: 16 },
+  phoenix_v2: { LED: 2 },
+  sparkfunBlynk: "thing",
+  thing: { LED: 5, SDA: 2, SCL: 14 },
+  thingdev: "thing",
+  wifi_slot: { LED: 2 },
+  wifiduino: {
+    D0: 3,
+    D1: 1,
+    D2: 2,
+    D3: 0,
+    D4: 4,
+    D5: 5,
+    D6: 16,
+    D7: 14,
+    D8: 12,
+    D9: 13,
+    D10: 15,
+    D11: 13,
+    D12: 12,
+    D13: 14,
+  },
+  wifinfo: { LED: 12, D0: 16, D1: 5, D2: 4, D3: 0, D4: 2, D5: 14, D6: 12, D7: 13, D8: 15, D9: 3, D10: 1 },
+  wio_link: { LED: 2, GROVE: 15, D0: 14, D1: 12, D2: 13, BUTTON: 0 },
+  wio_node: { LED: 2, GROVE: 15, D0: 3, D1: 5, BUTTON: 0 },
+  xinabox_cw01: { SDA: 2, SCL: 14, LED: 5, LED_RED: 12, LED_GREEN: 13 },
+};
+
+function resolveEsp8266BoardAliases(boardId) {
+  let entry = ESP8266_BOARD_PIN_ALIASES[boardId];
+  while (typeof entry === "string") entry = ESP8266_BOARD_PIN_ALIASES[entry];
+  return entry && Object.keys(entry).length ? entry : null;
+}
+
+// Invert D-style aliases into per-GPIO silkscreen labels (D1 silkscreen on a
+// d1_mini maps to GPIO5). Lowest D-number wins when a GPIO has several names.
+function pinLabelsFromAliases(aliases) {
+  if (!aliases) return null;
+  const dEntries = Object.entries(aliases)
+    .map(([name, gpio]) => {
+      const m = name.match(/^D(\d+)$/i);
+      return m ? { n: Number(m[1]), name: name.toUpperCase(), gpio } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.n - b.n);
+  const labels = {};
+  for (const { name, gpio } of dEntries) {
+    if (!(gpio in labels)) labels[gpio] = name;
+  }
+  if (Object.keys(labels).length) {
+    // D-labeled boards also silkscreen the UART pins as RX/TX.
+    if (!(3 in labels)) labels[3] = "RX";
+    if (!(1 in labels)) labels[1] = "TX";
+  }
+  return Object.keys(labels).length ? labels : null;
+}
+
+// ESPHome LibreTiny families we render (LN882H exists upstream but is not an
+// ESPHome platform).
+const LIBRETINY_MCU_SOC = {
+  bk7231n: "bk72xx",
+  bk7231t: "bk72xx",
+  bk7231q: "bk72xx",
+  bk7238: "bk72xx",
+  bk7251: "bk72xx",
+  bk7252: "bk72xx",
+  rtl8710bn: "rtl8710b",
+  rtl8710bx: "rtl8710b",
+  rtl8720cf: "rtl8720c",
+  rtl8720cm: "rtl8720c",
+};
+
+function makePinLabels(gpios, format) {
+  const labels = {};
+  for (const gpio of gpios) labels[gpio] = format(gpio);
+  return labels;
+}
+
+const BK72XX_GPIOS = [0, 1, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 20, 21, 22, 23, 24, 26, 28];
+const RTL8710B_GPIOS = [0, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 18, 19, 22, 23, 29, 30];
+const RTL8720C_GPIOS = [0, 1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23];
+
 const SOC_DATA = {
   esp32: {
     id: "esp32",
@@ -135,12 +283,25 @@ const SOC_DATA = {
         text: "Strapping pin (can affect boot mode).",
       },
       {
-        gpioRanges: [
-          [6, 11],
-          [16, 17],
-        ],
+        gpioRange: [6, 11],
         severity: "danger",
-        text: "Commonly used by internal flash/PSRAM; avoid for general GPIO.",
+        text: "Connected to internal SPI flash; not usable as GPIO.",
+      },
+      {
+        gpios: [16, 17],
+        severity: "danger",
+        text: "Used by PSRAM (CS/CLK) — not usable while PSRAM is enabled.",
+        when: {
+          psramModeIncludes: "quad",
+        },
+      },
+      {
+        gpios: [16, 17],
+        severity: "info",
+        text: "Used by PSRAM on WROVER modules; fine as GPIO on WROOM (no PSRAM).",
+        when: {
+          psramModeExcludes: "quad",
+        },
       },
       {
         gpioRange: [34, 39],
@@ -257,6 +418,112 @@ const SOC_DATA = {
         severity: "danger",
         text: "Likely strapping pin on ESP32-C6; keep external circuits boot-safe.",
       },
+      {
+        gpioRange: [24, 30],
+        severity: "warn",
+        text: "Usually connected to SPI flash on modules; avoid for general GPIO.",
+      },
+      {
+        gpios: [12, 13],
+        severity: "warn",
+        text: "USB-JTAG default; repurposing may disable USB-JTAG.",
+      },
+    ],
+  },
+  esp32c2: {
+    id: "esp32c2",
+    variant: "esp32c2",
+    kind: "soc-grid",
+    displayName: "ESP32-C2 (SoC pin grid)",
+    gpios: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    pinIssues: [
+      {
+        gpios: [8, 9],
+        severity: "danger",
+        text: "Strapping pin (can affect boot mode).",
+      },
+      {
+        gpioRange: [12, 17],
+        severity: "danger",
+        text: "Usually connected to SPI flash; avoid for general GPIO.",
+      },
+      {
+        gpioRange: [0, 4],
+        severity: "info",
+        text: "ADC-capable pin (ADC1).",
+      },
+    ],
+  },
+  esp32c5: {
+    id: "esp32c5",
+    variant: "esp32c5",
+    kind: "soc-grid",
+    displayName: "ESP32-C5 (SoC pin grid)",
+    gpios: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28],
+    pinIssues: [
+      {
+        gpios: [2, 7, 25, 27, 28],
+        severity: "danger",
+        text: "Strapping pin (can affect boot mode).",
+      },
+      {
+        gpioRange: [16, 22],
+        severity: "danger",
+        text: "Usually reserved for SPI flash/PSRAM; avoid for general GPIO.",
+      },
+      {
+        gpios: [13, 14],
+        severity: "warn",
+        text: "USB-JTAG default; repurposing may disable USB-JTAG.",
+      },
+    ],
+  },
+  esp32h2: {
+    id: "esp32h2",
+    variant: "esp32h2",
+    kind: "soc-grid",
+    displayName: "ESP32-H2 (SoC pin grid)",
+    gpios: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
+    pinIssues: [
+      {
+        gpios: [2, 3, 8, 9, 25],
+        severity: "danger",
+        text: "Strapping pin (can affect boot mode).",
+      },
+      {
+        gpioRange: [15, 21],
+        severity: "danger",
+        text: "Usually connected to SPI flash; avoid for general GPIO.",
+      },
+      {
+        gpios: [26, 27],
+        severity: "warn",
+        text: "USB-JTAG default; repurposing may disable USB-JTAG.",
+      },
+      {
+        gpioRange: [1, 5],
+        severity: "info",
+        text: "ADC-capable pin (ADC1).",
+      },
+    ],
+  },
+  esp32p4: {
+    id: "esp32p4",
+    variant: "esp32p4",
+    kind: "soc-grid",
+    displayName: "ESP32-P4 (SoC pin grid)",
+    gpios: Array.from({ length: 55 }, (_, i) => i),
+    pinIssues: [
+      {
+        gpioRange: [34, 38],
+        severity: "danger",
+        text: "Strapping pin (can affect boot mode).",
+      },
+      {
+        gpios: [24, 25],
+        severity: "warn",
+        text: "USB-JTAG default; repurposing may disable USB-JTAG.",
+      },
     ],
   },
   esp8266: {
@@ -287,6 +554,7 @@ const SOC_DATA = {
         text: "ADC-only pin (TOUT); cannot be used as digital GPIO.",
       },
     ],
+    pinAliases: ESP8266_BASE_PIN_ALIASES,
   },
   nrf52840: {
     id: "nrf52840",
@@ -301,6 +569,101 @@ const SOC_DATA = {
     kind: "soc-grid",
     displayName: "RP2040 (SoC pin grid)",
     gpios: Array.from({ length: 30 }, (_, i) => i),
+  },
+  bk72xx: {
+    id: "bk72xx",
+    variant: "bk72xx",
+    kind: "soc-grid",
+    displayName: "Beken BK7231 (SoC pin grid)",
+    gpios: BK72XX_GPIOS,
+    pinLabels: makePinLabels(BK72XX_GPIOS, (gpio) => `P${gpio}`),
+    pinIssues: [
+      {
+        gpios: [10, 11],
+        severity: "warn",
+        text: "UART1 (P10 RX1 / P11 TX1) — used for serial flashing of the module.",
+      },
+      {
+        gpios: [0, 1],
+        severity: "info",
+        text: "UART2 (P0 TX2 / P1 RX2) — default LibreTiny log output.",
+      },
+      {
+        gpios: [20, 21, 22, 23],
+        severity: "warn",
+        text: "JTAG / SPI flash programming interface; often unavailable on modules.",
+      },
+      {
+        gpios: [23],
+        severity: "info",
+        text: "ADC input (ADC3) — the only analog-capable pin on BK7231.",
+      },
+      {
+        gpios: [6, 7, 8, 9, 24, 26],
+        severity: "info",
+        text: "PWM-capable pin (PWM0-PWM5).",
+      },
+    ],
+  },
+  rtl8710b: {
+    id: "rtl8710b",
+    variant: "rtl87xx",
+    kind: "soc-grid",
+    displayName: "Realtek RTL8710B (AmebaZ, SoC pin grid)",
+    gpios: RTL8710B_GPIOS,
+    pinLabels: makePinLabels(RTL8710B_GPIOS, (gpio) => `PA${String(gpio).padStart(2, "0")}`),
+    pinIssues: [
+      {
+        gpios: [6, 7, 8, 9, 10, 11],
+        severity: "danger",
+        text: "Wired to the SPI flash (FCS/FSCK/FD0-FD3); not usable as GPIO on modules.",
+      },
+      {
+        gpios: [29, 30],
+        severity: "warn",
+        text: "UART2 (PA29 RX2 / PA30 TX2) — log output and serial flashing.",
+      },
+      {
+        gpios: [14, 15],
+        severity: "warn",
+        text: "SWD debug pins (PA14 CLK / PA15 DIO).",
+      },
+      {
+        gpios: [18, 23],
+        severity: "info",
+        text: "UART0 (PA18 RX0 / PA23 TX0).",
+      },
+      {
+        gpios: [19],
+        severity: "info",
+        text: "ADC input (ADC1) — analog-capable pin.",
+      },
+    ],
+  },
+  rtl8720c: {
+    id: "rtl8720c",
+    variant: "rtl87xx",
+    kind: "soc-grid",
+    displayName: "Realtek RTL8720C (AmebaZ2, SoC pin grid)",
+    gpios: RTL8720C_GPIOS,
+    pinLabels: makePinLabels(RTL8720C_GPIOS, (gpio) => `PA${String(gpio).padStart(2, "0")}`),
+    pinIssues: [
+      {
+        gpios: [7, 8, 9, 10, 11, 12],
+        severity: "danger",
+        text: "Wired to the SPI flash (FCS/FSCK/FD0-FD3); not usable as GPIO on modules.",
+      },
+      {
+        gpios: [0, 1],
+        severity: "warn",
+        text: "SWD debug pins (PA00 CLK / PA01 DIO), used when flashing via SWD.",
+      },
+      {
+        gpios: [13, 14],
+        severity: "info",
+        text: "UART0 (PA13 RX0 / PA14 TX0) — common download/log UART.",
+      },
+    ],
   },
 };
 
@@ -500,17 +863,19 @@ async function fetchSourceTrees(lock, workDir) {
 }
 
 function mapMcuToSocRef(mcu) {
-  const normalized = String(mcu || "").toLowerCase();
+  const normalized = String(mcu || "")
+    .toLowerCase()
+    .replaceAll("-", "");
   const mapping = {
     esp32: "esp32",
     esp32s2: "esp32s2",
-    "esp32-s2": "esp32s2",
     esp32s3: "esp32s3",
-    "esp32-s3": "esp32s3",
+    esp32c2: "esp32c2",
     esp32c3: "esp32c3",
-    "esp32-c3": "esp32c3",
+    esp32c5: "esp32c5",
     esp32c6: "esp32c6",
-    "esp32-c6": "esp32c6",
+    esp32h2: "esp32h2",
+    esp32p4: "esp32p4",
     esp8266: "esp8266",
     nrf52840: "nrf52840",
     rp2040: "rp2040",
@@ -760,6 +1125,96 @@ function parseGpiosFromWipperDefinition(definition, socRef) {
   return filtered;
 }
 
+function deepMergeObjects(target, source) {
+  for (const [key, value] of Object.entries(source || {})) {
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      if (!target[key] || typeof target[key] !== "object" || Array.isArray(target[key])) target[key] = {};
+      deepMergeObjects(target[key], value);
+    } else {
+      target[key] = value;
+    }
+  }
+  return target;
+}
+
+function parseLibretinyGpioName(name) {
+  const raw = String(name || "").trim();
+  const beken = raw.match(/^P(\d+)$/i);
+  if (beken) return Number(beken[1]);
+  const realtek = raw.match(/^P[AB]_?(\d+)$/i);
+  if (realtek) return Number(realtek[1]);
+  return null;
+}
+
+// Resolve LibreTiny board definitions (boards/*.json + their _base inheritance
+// chains) into either a soc-grid board def with the module's broken-out GPIO
+// subset and silkscreen aliases, or a plain SoC fallback when no pinout exists.
+async function loadLibretinyBoards(treePath) {
+  const boardsDir = path.join(treePath, "boards");
+  const baseDir = path.join(boardsDir, "_base");
+  const results = [];
+
+  for (const dirEntry of await fs.readdir(boardsDir, { withFileTypes: true })) {
+    if (!dirEntry.isFile() || !dirEntry.name.endsWith(".json")) continue;
+    const boardId = dirEntry.name.replace(/\.json$/, "");
+
+    let boardJson;
+    try {
+      boardJson = JSON.parse(await fs.readFile(path.join(boardsDir, dirEntry.name), "utf8"));
+    } catch {
+      continue;
+    }
+
+    const mcu = String(boardJson?.build?.mcu || "").toLowerCase();
+    const socRef = LIBRETINY_MCU_SOC[mcu] || null;
+    if (!socRef) continue; // not an ESPHome-supported LibreTiny family (e.g. LN882H)
+
+    const merged = {};
+    for (const baseRef of Array.isArray(boardJson._base) ? boardJson._base : []) {
+      try {
+        const baseJson = JSON.parse(await fs.readFile(path.join(baseDir, `${baseRef}.json`), "utf8"));
+        deepMergeObjects(merged, baseJson);
+      } catch {
+        // Missing base fragments are non-fatal; the board falls back to the SoC grid.
+      }
+    }
+    deepMergeObjects(merged, boardJson);
+
+    const icMap = merged?.pcb?.ic || {};
+    const pinout = merged?.pcb?.pinout || {};
+    const gpios = new Set();
+    const pinAliases = {};
+
+    for (const entry of Object.values(pinout)) {
+      if (!entry || typeof entry !== "object") continue;
+      const icRef = entry.IC;
+      if (icRef == null) continue;
+      const icInfo = icMap[String(icRef)];
+      const gpio = parseLibretinyGpioName(icInfo?.GPIO);
+      if (gpio == null) continue;
+      gpios.add(gpio);
+
+      const ardNames = Array.isArray(entry.ARD) ? entry.ARD : entry.ARD != null ? [entry.ARD] : [];
+      for (const ard of ardNames) {
+        const alias = String(ard).trim().toUpperCase();
+        if (alias && !(alias in pinAliases)) pinAliases[alias] = gpio;
+      }
+    }
+
+    results.push({
+      boardId,
+      displayName: boardJson.name || boardId,
+      vendor: boardJson.vendor || null,
+      socRef,
+      gpios: [...gpios].sort((a, b) => a - b),
+      pinAliases,
+    });
+  }
+
+  results.sort((a, b) => a.boardId.localeCompare(b.boardId));
+  return results;
+}
+
 function buildAliases(targetBoardIds) {
   const aliases = {};
 
@@ -804,17 +1259,24 @@ async function buildDataModel(lock, sourceTrees) {
   const boardSocRefs = {};
   const esp32BoardIds = [];
   const esp8266BoardIds = [];
+  const skippedMcus = new Map();
 
   for (const dirEntry of await fs.readdir(espressif32BoardsDir, { withFileTypes: true })) {
     if (!dirEntry.isFile() || !dirEntry.name.endsWith(".json")) continue;
     const boardId = dirEntry.name.replace(/\.json$/, "");
     const boardData = JSON.parse(await fs.readFile(path.join(espressif32BoardsDir, dirEntry.name), "utf8"));
 
+    const socRef = mapMcuToSocRef(boardData?.build?.mcu);
+    if (!socRef) {
+      // Unknown/unsupported MCU (pre-release silicon etc.) — keep coverage exact.
+      const mcu = String(boardData?.build?.mcu || "unknown");
+      skippedMcus.set(mcu, (skippedMcus.get(mcu) || 0) + 1);
+      continue;
+    }
+
     esp32BoardIds.push(boardId);
     boardNames[boardId] = boardData.name || boardId;
-
-    const socRef = mapMcuToSocRef(boardData?.build?.mcu);
-    if (socRef) boardSocRefs[boardId] = socRef;
+    boardSocRefs[boardId] = socRef;
   }
 
   for (const dirEntry of await fs.readdir(espressif8266BoardsDir, { withFileTypes: true })) {
@@ -832,7 +1294,20 @@ async function buildDataModel(lock, sourceTrees) {
   esp32BoardIds.sort();
   esp8266BoardIds.sort();
 
+  if (skippedMcus.size) {
+    const summary = [...skippedMcus.entries()].map(([mcu, count]) => `${mcu} (${count})`).join(", ");
+    console.log(`Skipped boards with unsupported MCUs: ${summary}`);
+  }
+
+  const libretinyBoards = await loadLibretinyBoards(sourceTrees.libretiny.treePath);
+  const libretinyBoardIds = libretinyBoards.map((item) => item.boardId);
+
   const targetBoardIds = new Set([...esp32BoardIds, ...esp8266BoardIds]);
+  for (const lt of libretinyBoards) {
+    targetBoardIds.add(lt.boardId);
+    boardSocRefs[lt.boardId] = lt.socRef;
+    boardNames[lt.boardId] = lt.displayName;
+  }
   for (const extra of EXTRA_TARGETS) {
     targetBoardIds.add(extra.id);
     boardSocRefs[extra.id] = extra.socRef;
@@ -896,17 +1371,21 @@ async function buildDataModel(lock, sourceTrees) {
     const height = Number(selection.boardJson.height);
     if (!Number.isFinite(width) || !Number.isFinite(height)) continue;
 
+    const socRef = boardSocRefs[boardId] || mapMcuToSocRef(selection.boardJson.mcu);
+    const boardAliases = socRef === "esp8266" ? resolveEsp8266BoardAliases(boardId) : null;
+
     boardDefs[boardId] = {
       id: boardId,
       displayName: boardNames[boardId] || selection.boardJson.name || boardId,
       kind: "svg-board",
-      socRef: boardSocRefs[boardId] || mapMcuToSocRef(selection.boardJson.mcu),
+      socRef,
       svgPath: `assets/wokwi/${boardId}.svg`,
       sizeMm: {
         width,
         height,
       },
       pins: selection.pins,
+      ...(boardAliases ? { pinAliases: boardAliases } : {}),
     };
 
     boardSources[boardId] = {
@@ -957,6 +1436,26 @@ async function buildDataModel(lock, sourceTrees) {
     };
   }
 
+  for (const lt of libretinyBoards) {
+    if (boardDefs[lt.boardId]) continue;
+    if (!lt.gpios.length) continue; // no resolvable pinout — SoC fallback below
+
+    boardDefs[lt.boardId] = {
+      id: lt.boardId,
+      displayName: lt.vendor ? `${lt.displayName} (${lt.vendor})` : lt.displayName,
+      kind: "soc-grid",
+      socRef: lt.socRef,
+      gpios: lt.gpios,
+      ...(Object.keys(lt.pinAliases).length ? { pinAliases: lt.pinAliases } : {}),
+      notes: ["GPIO subset derived from the LibreTiny board definition."],
+    };
+
+    boardSources[lt.boardId] = {
+      source: "libretiny",
+      upstreamId: lt.boardId,
+    };
+  }
+
   const boardsIndex = {};
   for (const boardId of Object.keys(boardDefs).sort()) {
     boardsIndex[boardId] = `boards/generated/${boardId}.json`;
@@ -968,9 +1467,14 @@ async function buildDataModel(lock, sourceTrees) {
     const socRef = boardSocRefs[boardId];
     if (!socRef || !SOC_DATA[socRef]) continue;
 
+    const boardAliases = socRef === "esp8266" ? resolveEsp8266BoardAliases(boardId) : null;
+    const boardLabels = pinLabelsFromAliases(boardAliases);
+
     boardSocAliases[boardId] = {
       soc: socRef,
       displayName: `${boardNames[boardId] || boardId} (SoC pin grid)`,
+      ...(boardAliases ? { pinAliases: boardAliases } : {}),
+      ...(boardLabels ? { pinLabels: boardLabels } : {}),
     };
   }
 
@@ -994,15 +1498,17 @@ async function buildDataModel(lock, sourceTrees) {
     targets: sortedTargetBoardIds.length,
     esp32Targets: esp32BoardIds.length,
     esp8266Targets: esp8266BoardIds.length,
+    libretinyTargets: libretinyBoardIds.length,
     extraTargets: EXTRA_TARGETS.length,
     boardDefinitions: Object.keys(boardsIndex).length,
     wokwiBoards: Object.values(boardSources).filter((src) => src.source === "wokwi").length,
     wippersnapperBoards: Object.values(boardSources).filter((src) => src.source === "wippersnapper").length,
+    libretinyBoards: Object.values(boardSources).filter((src) => src.source === "libretiny").length,
     socFallbackBoards: Object.keys(boardSocAliases).length,
   };
 
   const index = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generated: {
       generatedAt: lock.updatedAt,
       sources: sourceSummary,
@@ -1020,6 +1526,7 @@ async function buildDataModel(lock, sourceTrees) {
     boards: {
       esp32: esp32BoardIds,
       esp8266: esp8266BoardIds,
+      libretiny: libretinyBoardIds,
       extras: EXTRA_TARGETS.map((item) => item.id),
     },
     all: sortedTargetBoardIds,

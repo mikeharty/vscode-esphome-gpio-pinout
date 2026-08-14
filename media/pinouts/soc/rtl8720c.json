@@ -1,0 +1,80 @@
+{
+  "id": "rtl8720c",
+  "variant": "rtl87xx",
+  "kind": "soc-grid",
+  "displayName": "Realtek RTL8720C (AmebaZ2, SoC pin grid)",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    23
+  ],
+  "pinLabels": {
+    "0": "PA00",
+    "1": "PA01",
+    "2": "PA02",
+    "3": "PA03",
+    "4": "PA04",
+    "7": "PA07",
+    "8": "PA08",
+    "9": "PA09",
+    "10": "PA10",
+    "11": "PA11",
+    "12": "PA12",
+    "13": "PA13",
+    "14": "PA14",
+    "15": "PA15",
+    "16": "PA16",
+    "17": "PA17",
+    "18": "PA18",
+    "19": "PA19",
+    "20": "PA20",
+    "23": "PA23"
+  },
+  "pinIssues": [
+    {
+      "gpios": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "severity": "danger",
+      "text": "Wired to the SPI flash (FCS/FSCK/FD0-FD3); not usable as GPIO on modules."
+    },
+    {
+      "gpios": [
+        0,
+        1
+      ],
+      "severity": "warn",
+      "text": "SWD debug pins (PA00 CLK / PA01 DIO), used when flashing via SWD."
+    },
+    {
+      "gpios": [
+        13,
+        14
+      ],
+      "severity": "info",
+      "text": "UART0 (PA13 RX0 / PA14 TX0) — common download/log UART."
+    }
+  ]
+}

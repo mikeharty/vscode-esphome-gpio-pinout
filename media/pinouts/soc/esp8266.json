@@ -56,5 +56,16 @@
       "severity": "warn",
       "text": "ADC-only pin (TOUT); cannot be used as digital GPIO."
     }
-  ]
+  ],
+  "pinAliases": {
+    "A0": 17,
+    "SS": 15,
+    "MOSI": 13,
+    "MISO": 12,
+    "SCK": 14,
+    "SDA": 4,
+    "SCL": 5,
+    "RX": 3,
+    "TX": 1
+  }
 }

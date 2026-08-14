@@ -1,0 +1,333 @@
+{
+  "id": "esp32-p4-evboard",
+  "displayName": "Espressif ESP32-P4 Function EV Board (ES pre rev.300)",
+  "kind": "svg-board",
+  "socRef": "esp32p4",
+  "svgPath": "assets/wokwi/esp32-p4-evboard.svg",
+  "sizeMm": {
+    "width": 167.366,
+    "height": 155.646
+  },
+  "pins": [
+    {
+      "label": "5V.1",
+      "x": 48.0555,
+      "y": 2.3065,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "5V.2",
+      "x": 50.5955,
+      "y": 2.3065,
+      "targetRaw": "power(5)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "GND.1",
+      "x": 53.1355,
+      "y": 2.3065,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "37",
+      "x": 55.6755,
+      "y": 2.3065,
+      "targetRaw": "GPIO37",
+      "gpio": 37,
+      "type": "gpio"
+    },
+    {
+      "label": "38",
+      "x": 58.2155,
+      "y": 2.3065,
+      "targetRaw": "GPIO38",
+      "gpio": 38,
+      "type": "gpio"
+    },
+    {
+      "label": "22",
+      "x": 60.7555,
+      "y": 2.3065,
+      "targetRaw": "GPIO22",
+      "gpio": 22,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.2",
+      "x": 63.2955,
+      "y": 2.3065,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "5",
+      "x": 65.8355,
+      "y": 2.3065,
+      "targetRaw": "GPIO5",
+      "gpio": 5,
+      "type": "gpio"
+    },
+    {
+      "label": "4",
+      "x": 68.3755,
+      "y": 2.3065,
+      "targetRaw": "GPIO4",
+      "gpio": 4,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.3",
+      "x": 70.9155,
+      "y": 2.3065,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "1",
+      "x": 73.4555,
+      "y": 2.3065,
+      "targetRaw": "GPIO1",
+      "gpio": 1,
+      "type": "gpio"
+    },
+    {
+      "label": "36",
+      "x": 75.9955,
+      "y": 2.3065,
+      "targetRaw": "GPIO36",
+      "gpio": 36,
+      "type": "gpio"
+    },
+    {
+      "label": "32",
+      "x": 78.5355,
+      "y": 2.3065,
+      "targetRaw": "GPIO32",
+      "gpio": 32,
+      "type": "gpio"
+    },
+    {
+      "label": "25",
+      "x": 81.0755,
+      "y": 2.3065,
+      "targetRaw": "GPIO25",
+      "gpio": 25,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.4",
+      "x": 83.6155,
+      "y": 2.3065,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "54",
+      "x": 86.1555,
+      "y": 2.3065,
+      "targetRaw": "GPIO54",
+      "gpio": 54,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.5",
+      "x": 88.6955,
+      "y": 2.3065,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "46",
+      "x": 91.2355,
+      "y": 2.3065,
+      "targetRaw": "GPIO46",
+      "gpio": 46,
+      "type": "gpio"
+    },
+    {
+      "label": "27",
+      "x": 93.7755,
+      "y": 2.3065,
+      "targetRaw": "GPIO27",
+      "gpio": 27,
+      "type": "gpio"
+    },
+    {
+      "label": "45",
+      "x": 96.3155,
+      "y": 2.3065,
+      "targetRaw": "GPIO45",
+      "gpio": 45,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3.1",
+      "x": 48.0555,
+      "y": 4.8465,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "7",
+      "x": 50.5955,
+      "y": 4.8465,
+      "targetRaw": null,
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "8",
+      "x": 53.1355,
+      "y": 4.8465,
+      "targetRaw": null,
+      "gpio": null,
+      "type": "other"
+    },
+    {
+      "label": "23",
+      "x": 55.6755,
+      "y": 4.8465,
+      "targetRaw": "GPIO23",
+      "gpio": 23,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.6",
+      "x": 58.2155,
+      "y": 4.8465,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "21",
+      "x": 60.7555,
+      "y": 4.8465,
+      "targetRaw": "GPIO21",
+      "gpio": 21,
+      "type": "gpio"
+    },
+    {
+      "label": "20",
+      "x": 63.2955,
+      "y": 4.8465,
+      "targetRaw": "GPIO20",
+      "gpio": 20,
+      "type": "gpio"
+    },
+    {
+      "label": "6",
+      "x": 65.8355,
+      "y": 4.8465,
+      "targetRaw": "GPIO6",
+      "gpio": 6,
+      "type": "gpio"
+    },
+    {
+      "label": "3V3.2",
+      "x": 68.3755,
+      "y": 4.8465,
+      "targetRaw": "power(3.3)",
+      "gpio": null,
+      "type": "power"
+    },
+    {
+      "label": "3",
+      "x": 70.9155,
+      "y": 4.8465,
+      "targetRaw": "GPIO3",
+      "gpio": 3,
+      "type": "gpio"
+    },
+    {
+      "label": "2",
+      "x": 73.4555,
+      "y": 4.8465,
+      "targetRaw": "GPIO2",
+      "gpio": 2,
+      "type": "gpio"
+    },
+    {
+      "label": "0",
+      "x": 75.9955,
+      "y": 4.8465,
+      "targetRaw": "GPIO0",
+      "gpio": 0,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.7",
+      "x": 78.5355,
+      "y": 4.8465,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    },
+    {
+      "label": "24",
+      "x": 81.0755,
+      "y": 4.8465,
+      "targetRaw": "GPIO24",
+      "gpio": 24,
+      "type": "gpio"
+    },
+    {
+      "label": "33",
+      "x": 83.6155,
+      "y": 4.8465,
+      "targetRaw": "GPIO33",
+      "gpio": 33,
+      "type": "gpio"
+    },
+    {
+      "label": "26",
+      "x": 86.1555,
+      "y": 4.8465,
+      "targetRaw": "GPIO26",
+      "gpio": 26,
+      "type": "gpio"
+    },
+    {
+      "label": "48",
+      "x": 88.6955,
+      "y": 4.8465,
+      "targetRaw": "GPIO48",
+      "gpio": 48,
+      "type": "gpio"
+    },
+    {
+      "label": "53",
+      "x": 91.2355,
+      "y": 4.8465,
+      "targetRaw": "GPIO53",
+      "gpio": 53,
+      "type": "gpio"
+    },
+    {
+      "label": "47",
+      "x": 93.7755,
+      "y": 4.8465,
+      "targetRaw": "GPIO47",
+      "gpio": 47,
+      "type": "gpio"
+    },
+    {
+      "label": "GND.8",
+      "x": 96.3155,
+      "y": 4.8465,
+      "targetRaw": "GND",
+      "gpio": null,
+      "type": "ground"
+    }
+  ]
+}

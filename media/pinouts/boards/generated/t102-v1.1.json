@@ -1,0 +1,31 @@
+{
+  "id": "t102-v1.1",
+  "displayName": "T102_V1.1 (Unknown)",
+  "kind": "soc-grid",
+  "socRef": "rtl8710b",
+  "gpios": [
+    0,
+    5,
+    12,
+    14,
+    15,
+    18,
+    23,
+    29,
+    30
+  ],
+  "pinAliases": {
+    "D0": 12,
+    "D1": 0,
+    "D5": 18,
+    "D2": 5,
+    "D6": 23,
+    "D3": 30,
+    "D7": 14,
+    "D4": 29,
+    "D8": 15
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

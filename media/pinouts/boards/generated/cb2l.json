@@ -1,0 +1,31 @@
+{
+  "id": "cb2l",
+  "displayName": "CB2L Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "bk72xx",
+  "gpios": [
+    0,
+    6,
+    7,
+    8,
+    10,
+    11,
+    21,
+    24,
+    26
+  ],
+  "pinAliases": {
+    "D0": 8,
+    "D1": 7,
+    "D2": 6,
+    "D3": 26,
+    "D4": 24,
+    "D5": 10,
+    "D6": 0,
+    "D7": 11,
+    "D8": 21
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

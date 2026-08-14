@@ -1,0 +1,29 @@
+{
+  "id": "cblc5",
+  "displayName": "CBLC5 Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "bk72xx",
+  "gpios": [
+    0,
+    1,
+    6,
+    10,
+    11,
+    21,
+    24,
+    26
+  ],
+  "pinAliases": {
+    "D0": 24,
+    "D2": 26,
+    "D1": 6,
+    "D4": 10,
+    "D3": 11,
+    "D5": 1,
+    "D6": 0,
+    "D7": 21
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

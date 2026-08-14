@@ -1,0 +1,55 @@
+{
+  "id": "esp32c2",
+  "variant": "esp32c2",
+  "kind": "soc-grid",
+  "displayName": "ESP32-C2 (SoC pin grid)",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "pinIssues": [
+    {
+      "gpios": [
+        8,
+        9
+      ],
+      "severity": "danger",
+      "text": "Strapping pin (can affect boot mode)."
+    },
+    {
+      "gpioRange": [
+        12,
+        17
+      ],
+      "severity": "danger",
+      "text": "Usually connected to SPI flash; avoid for general GPIO."
+    },
+    {
+      "gpioRange": [
+        0,
+        4
+      ],
+      "severity": "info",
+      "text": "ADC-capable pin (ADC1)."
+    }
+  ]
+}

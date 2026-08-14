@@ -52,18 +52,34 @@
       "text": "Strapping pin (can affect boot mode)."
     },
     {
-      "gpioRanges": [
-        [
-          6,
-          11
-        ],
-        [
-          16,
-          17
-        ]
+      "gpioRange": [
+        6,
+        11
       ],
       "severity": "danger",
-      "text": "Commonly used by internal flash/PSRAM; avoid for general GPIO."
+      "text": "Connected to internal SPI flash; not usable as GPIO."
+    },
+    {
+      "gpios": [
+        16,
+        17
+      ],
+      "severity": "danger",
+      "text": "Used by PSRAM (CS/CLK) — not usable while PSRAM is enabled.",
+      "when": {
+        "psramModeIncludes": "quad"
+      }
+    },
+    {
+      "gpios": [
+        16,
+        17
+      ],
+      "severity": "info",
+      "text": "Used by PSRAM on WROVER modules; fine as GPIO on WROOM (no PSRAM).",
+      "when": {
+        "psramModeExcludes": "quad"
+      }
     },
     {
       "gpioRange": [

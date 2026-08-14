@@ -1,0 +1,31 @@
+{
+  "id": "wr3n",
+  "displayName": "WR3N Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "rtl8710b",
+  "gpios": [
+    0,
+    5,
+    12,
+    14,
+    15,
+    18,
+    23,
+    29,
+    30
+  ],
+  "pinAliases": {
+    "D0": 29,
+    "D1": 14,
+    "D2": 15,
+    "D3": 0,
+    "D4": 30,
+    "D5": 5,
+    "D6": 12,
+    "D7": 18,
+    "D8": 23
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "wr2e",
+  "displayName": "WR2E Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "rtl8710b",
+  "gpios": [
+    5,
+    12,
+    14,
+    15,
+    18,
+    19,
+    23,
+    29,
+    30
+  ],
+  "pinAliases": {
+    "D0": 12,
+    "D1": 19,
+    "A0": 19,
+    "D3": 18,
+    "D2": 5,
+    "D4": 23,
+    "D5": 14,
+    "D6": 15,
+    "D7": 30,
+    "D8": 29
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}

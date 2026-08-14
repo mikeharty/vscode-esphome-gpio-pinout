@@ -1,0 +1,50 @@
+{
+  "id": "t1-3s",
+  "displayName": "T1-3S Wi-Fi Module (Tuya Inc.)",
+  "kind": "soc-grid",
+  "socRef": "bk72xx",
+  "gpios": [
+    0,
+    1,
+    6,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15,
+    16,
+    17,
+    20,
+    22,
+    23,
+    24,
+    26
+  ],
+  "pinAliases": {
+    "D0": 20,
+    "A0": 20,
+    "D1": 22,
+    "D2": 6,
+    "D3": 8,
+    "D4": 9,
+    "D5": 23,
+    "D6": 0,
+    "D7": 1,
+    "A1": 1,
+    "D8": 24,
+    "A2": 24,
+    "D9": 26,
+    "A3": 26,
+    "D10": 10,
+    "A4": 10,
+    "D11": 11,
+    "D12": 17,
+    "D13": 16,
+    "D14": 15,
+    "D15": 14
+  },
+  "notes": [
+    "GPIO subset derived from the LibreTiny board definition."
+  ]
+}
