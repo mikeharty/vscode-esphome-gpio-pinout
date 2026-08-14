@@ -6,3 +6,10 @@ test/**
 *.vsix
 npm-debug.log*
 yarn-error.log*
+
+# README images are served from the repository by the marketplace; only the
+# manifest icon and editor icons need to ship inside the package.
+media/esphome-gpio-pinout-ss.jpg
+media/esphome-gpio-pinout-ss-libretiny.jpg
+media/esphome-gpio-pinout-512.png
+media/esphome-gpio-pinout-icon.svg

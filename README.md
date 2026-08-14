@@ -29,6 +29,8 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
 - **nRF52** (`nrf52:`) — including `P0.x` / `P1.x` pin notation
 - **LibreTiny** (`bk72xx:` / `rtl87xx:`) — Tuya-style modules (CB2S, WB3S, WR3, ...) with `P#` / `PA##` pin names, each rendered with the module's actual broken-out pins
 
+![LibreTiny module pinout](media/esphome-gpio-pinout-ss-libretiny.jpg)
+
 Pin usages are detected from `pin:`, `*_pin:`, `pin_a`–`pin_d`, `sda:`/`scl:`, and `*_pins:` lists, through substitutions (`${sub}` or `$sub`) and nested `number:` blocks. Pins that live on I/O expanders (`pcf8574`, `mcp23017`, ...) are recognized and excluded from the board pinout.
 
 ## Development

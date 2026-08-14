@@ -4,7 +4,7 @@
   "description": "GPIO pinout overlay for ESPHome board GPIO pins in VS Code.",
   "version": "1.0.0",
   "publisher": "mikeharty",
-  "icon": "media/esphome-gpio-pinout-128.jpg",
+  "icon": "media/esphome-gpio-pinout-128.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/mikeharty/vscode-esphome-gpio-pinout.git"
