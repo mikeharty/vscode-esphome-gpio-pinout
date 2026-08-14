@@ -198,6 +198,181 @@ suite("Pinout logic", () => {
     assert.strictEqual(sclUsage.section, "i2c");
   });
 
+  test("detects bk72xx board block and P-style pins", () => {
+    const yaml = [
+      "esphome:",
+      "  name: tuya-plug",
+      "bk72xx:",
+      "  board: cb2s",
+      "switch:",
+      "  - platform: gpio",
+      "    pin: P26",
+      "binary_sensor:",
+      "  - platform: gpio",
+      "    pin:",
+      "      number: P11",
+      "      inverted: true",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected YAML to be detected as ESPHome");
+    assert.strictEqual(parsed.platform, "bk72xx");
+    assert.strictEqual(parsed.board, "cb2s");
+    assert.ok(parsed.usedPins.has(26), "Expected P26 to map to GPIO26");
+    assert.ok(parsed.usedPins.has(11), "Expected nested P11 to map to GPIO11");
+  });
+
+  test("detects rtl87xx board block and PA-style pins", () => {
+    const yaml = [
+      "esphome:",
+      "  name: rtl-test",
+      "rtl87xx:",
+      "  board: wr3",
+      "switch:",
+      "  - platform: gpio",
+      "    pin: PA12",
+      "  - platform: gpio",
+      "    pin: PA_05",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected YAML to be detected as ESPHome");
+    assert.strictEqual(parsed.platform, "rtl87xx");
+    assert.ok(parsed.usedPins.has(12), "Expected PA12 to map to GPIO12");
+    assert.ok(parsed.usedPins.has(5), "Expected PA_05 to map to GPIO5");
+  });
+
+  test("does not digit-guess alias tokens like D1 without an alias map", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp8266:",
+      "  board: d1_mini",
+      "switch:",
+      "  - platform: gpio",
+      "    pin: D1",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok);
+    assert.strictEqual(parsed.usedPins.size, 0, "D1 must not resolve to GPIO1 by digit guessing");
+    assert.strictEqual(parsed.unresolved.length, 1);
+    assert.strictEqual(parsed.unresolved[0].aliasCandidate, "D1");
+  });
+
+  test("resolves board pin aliases when an alias map is provided", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp8266:",
+      "  board: d1_mini",
+      "switch:",
+      "  - platform: gpio",
+      "    pin: D1",
+      "sensor:",
+      "  - platform: adc",
+      "    pin: A0",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml, { pinAliases: { D1: 5, A0: 17 } });
+    assert.ok(parsed.usedPins.has(5), "Expected D1 to resolve to GPIO5");
+    assert.ok(parsed.usedPins.has(17), "Expected A0 to resolve to GPIO17");
+    const usage = parsed.usedPins.get(5).find((u) => u.key === "pin");
+    assert.strictEqual(usage.alias, "D1");
+    assert.strictEqual(parsed.unresolved.length, 0);
+  });
+
+  test("supports $sub substitutions without braces", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp32:",
+      "  board: esp32dev",
+      "substitutions:",
+      "  led_pin: GPIO4",
+      "light:",
+      "  - platform: binary",
+      "    pin: $led_pin",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.usedPins.has(4), "Expected $led_pin to resolve to GPIO4");
+    const usage = parsed.usedPins.get(4).find((u) => u.key === "pin");
+    assert.ok(!usage.isGuessed, "Resolved substitution must not be marked guessed");
+  });
+
+  test("strips trailing comments from pin values", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp32:",
+      "  board: esp32dev",
+      "i2c:",
+      "  sda: GPIO21 # data",
+      "  scl: GPIO22  # clock",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.usedPins.has(21) && parsed.usedPins.has(22));
+    for (const gpio of [21, 22]) {
+      for (const u of parsed.usedPins.get(gpio)) {
+        assert.ok(!u.isGuessed, `GPIO${gpio} must not be marked guessed due to a trailing comment`);
+      }
+    }
+  });
+
+  test("skips I/O expander pins (block and flow styles)", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp32:",
+      "  board: esp32dev",
+      "binary_sensor:",
+      "  - platform: gpio",
+      "    pin:",
+      "      pcf8574: pcf_hub",
+      "      number: 3",
+      "  - platform: gpio",
+      "    pin: { mcp23017: mcp_hub, number: 4 }",
+      "  - platform: gpio",
+      "    pin:",
+      "      number: 13",
+      "      mode:",
+      "        input: true",
+      "        pullup: true",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(!parsed.usedPins.has(3), "Expander pin 3 must not count as a board GPIO");
+    assert.ok(!parsed.usedPins.has(4), "Flow-style expander pin 4 must not count as a board GPIO");
+    assert.ok(parsed.usedPins.has(13), "Real GPIO13 with nested mode block must still be detected");
+  });
+
+  test("detects pin_a..pin_d and *_pins list keys", () => {
+    const yaml = [
+      "esphome:",
+      "  name: t",
+      "esp32:",
+      "  board: esp32dev",
+      "stepper:",
+      "  - platform: uln2003",
+      "    pin_a: GPIO16",
+      "    pin_b: GPIO17",
+      "    pin_c: GPIO18",
+      "    pin_d: GPIO19",
+      "esp32_camera:",
+      "  data_pins: [GPIO5, GPIO32, 33]",
+      "  extra_pins:",
+      "    - GPIO25",
+      "    - 26",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    for (const gpio of [16, 17, 18, 19, 5, 32, 33, 25, 26]) {
+      assert.ok(parsed.usedPins.has(gpio), `Expected GPIO${gpio} to be detected`);
+    }
+  });
+
   test("tracks sda and scl substitutions consistently", () => {
     const yaml = [
       "esphome:",
