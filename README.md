@@ -19,9 +19,17 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
    - Setting: `esphomeGpioPinout.autoOpen`
    - Default: `false`
 4. Click a pin or line button to jump to the YAML location.
-5. Use the zoom controls to scale the diagram.
+5. Zoom with the header controls, `Ctrl/Cmd + scroll`, or the `+` / `-` / `0` keys; click the percentage to reset.
 
-The extension currently detects ESPHome board blocks for `esp32`, `esp8266`, `rp2040`, and `nrf52`.
+## Supported platforms
+
+- **ESP32** (`esp32:`) — all ESPHome variants: ESP32, S2, S3, C2, C3, C5, C6, H2, P4
+- **ESP8266** (`esp8266:`) — including silkscreen aliases like `D1`, `A0`, `RX`, `LED` per board
+- **RP2040** (`rp2040:`) — Raspberry Pi Pico / Pico W
+- **nRF52** (`nrf52:`) — including `P0.x` / `P1.x` pin notation
+- **LibreTiny** (`bk72xx:` / `rtl87xx:`) — Tuya-style modules (CB2S, WB3S, WR3, ...) with `P#` / `PA##` pin names, each rendered with the module's actual broken-out pins
+
+Pin usages are detected from `pin:`, `*_pin:`, `pin_a`–`pin_d`, `sda:`/`scl:`, and `*_pins:` lists, through substitutions (`${sub}` or `$sub`) and nested `number:` blocks. Pins that live on I/O expanders (`pcf8574`, `mcp23017`, ...) are recognized and excluded from the board pinout.
 
 ## Development
 
@@ -31,9 +39,10 @@ See [DEVELOPMENT.md](DEVELOPMENT.md) for setup, debugging, testing, and packagin
 
 Pinout data is generated from locked upstream commits and committed into this repo:
 
-- PlatformIO board manifests (`platform-espressif32`, `platform-espressif8266`) for board ID scope and SoC mapping.
+- PlatformIO board manifests (`pioarduino/platform-espressif32` — the fork ESPHome builds with — and `platform-espressif8266`) for board ID scope and SoC mapping.
 - Wokwi custom board definitions (`board.json` + `board.svg`) for SVG-backed board layouts.
 - Adafruit WipperSnapper board definitions for matched board GPIO subsets when no Wokwi layout exists.
+- LibreTiny board definitions for `bk72xx`/`rtl87xx` module pin subsets and silkscreen aliases.
 - Built-in SoC rule tables for chip-level warnings and fallback rendering.
 
 Update and verify data with:
@@ -46,9 +55,9 @@ npm run pinouts:check
 
 ## Notes
 
-- The extension reads from the active editor, including unsaved changes, and auto-refreshes on file save.
-- Board coverage now includes all ESPHome-relevant PlatformIO IDs for ESP32 + ESP8266, plus requested nRF52/RP2040 boards, with SoC fallback when full board artwork is unavailable.
-- The extension uses a simple YAML parser and may not handle all ESPHome YAML constructs. Please file an issue if you encounter problems.
+- The extension reads from the active editor, including unsaved changes, and auto-refreshes on file save. The panel stays on the last ESPHome YAML when you switch to other files.
+- Board coverage includes all ESPHome-relevant PlatformIO IDs for ESP32 + ESP8266, LibreTiny modules, and nRF52/RP2040 boards — with SoC fallback rendering when full board artwork is unavailable.
+- The extension uses a simple YAML parser and may not handle all ESPHome YAML constructs (e.g. `!include` / `packages:` are not expanded). Please file an issue if you encounter problems.
 - Feedback and contributions are welcome!
 
 ## Thanks
@@ -56,6 +65,7 @@ npm run pinouts:check
 Thanks to the projects that provide the board and pinout source data used by this extension:
 
 - [wokwi/wokwi-boards](https://github.com/wokwi/wokwi-boards)
-- [platformio/platform-espressif32](https://github.com/platformio/platform-espressif32)
+- [pioarduino/platform-espressif32](https://github.com/pioarduino/platform-espressif32)
 - [platformio/platform-espressif8266](https://github.com/platformio/platform-espressif8266)
 - [adafruit/Wippersnapper_Boards](https://github.com/adafruit/Wippersnapper_Boards)
+- [libretiny-eu/libretiny](https://github.com/libretiny-eu/libretiny)
