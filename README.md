@@ -5,7 +5,7 @@
 [![Rating](https://badgen.net/vs-marketplace/rating/mikeharty.esphome-gpio-pinout?label=rating)](https://marketplace.visualstudio.com/items?itemName=mikeharty.esphome-gpio-pinout)
 [![License](https://badgen.net/github/license/mikeharty/vscode-esphome-gpio-pinout)](LICENSE)
 
-![ESPHome GPIO Pinout](media/esphome-gpio-pinout-ss.jpg)
+![ESPHome GPIO Pinout](media/esphome-gpio-pinout-ss.png)
 
 This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspects the active ESPHome YAML file, detects used GPIO pins, and renders a board pinout. Warnings are displayed for pins used in the YAML that are problematic or not available on the selected board.
 
@@ -27,9 +27,9 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
 - **ESP8266** (`esp8266:`) — including silkscreen aliases like `D1`, `A0`, `RX`, `LED` per board
 - **RP2040** (`rp2040:`) — Raspberry Pi Pico / Pico W
 - **nRF52** (`nrf52:`) — including `P0.x` / `P1.x` pin notation
-- **LibreTiny** (`bk72xx:` / `rtl87xx:`) — Tuya-style modules (CB2S, WB3S, WR3, ...) with `P#` / `PA##` pin names, each rendered with the module's actual broken-out pins
+- **LibreTiny** (`bk72xx:` / `rtl87xx:`) — Tuya-style modules (CBU, CB2S, WB3S, WR3, ...) with `P#` / `PA##` pin names, each rendered with the module's actual broken-out pins
 
-![LibreTiny module pinout](media/esphome-gpio-pinout-ss-libretiny.jpg)
+![LibreTiny module pinout: a Tuya CBU module with UART and JTAG pin warnings](media/esphome-gpio-pinout-ss-libretiny.png)
 
 Pin usages are detected from `pin:`, `*_pin:`, `pin_a`–`pin_d`, `sda:`/`scl:`, and `*_pins:` lists, through substitutions (`${sub}` or `$sub`) and nested `number:` blocks. Pins that live on I/O expanders (`pcf8574`, `mcp23017`, ...) are recognized and excluded from the board pinout.
 

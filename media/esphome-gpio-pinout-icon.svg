@@ -1,95 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ESPHome GPIO Pinout icon">
+  <!--
+    Master for the marketplace icon; rendered to the 512/128 PNGs with the
+    rsvg-convert command documented in DEVELOPMENT.md ("Regenerating images").
+
+    The constraint that drives every choice here is that the marketplace shows
+    this at 32-90px. So the icon is only four shape classes - tile, chip, die,
+    pins - with no feature thinner than 30px at 512 (~2px at 32px), and pin
+    status is carried by the pin's own colour instead of a separate status dot.
+    An earlier version stacked glow dots on top of the pins and drew the chip in
+    near-background navy; both turned to mush below ~64px.
+  -->
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#182234"/>
-      <stop offset="1" stop-color="#0d1320"/>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#223357"/>
+      <stop offset="1" stop-color="#0E1626"/>
     </linearGradient>
     <linearGradient id="chip" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#33415a"/>
-      <stop offset="1" stop-color="#232e42"/>
+      <stop offset="0" stop-color="#EDF2FA"/>
+      <stop offset="1" stop-color="#C6D3E8"/>
     </linearGradient>
-    <linearGradient id="die" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2a3850"/>
-      <stop offset="1" stop-color="#1d2739"/>
-    </linearGradient>
-    <radialGradient id="glow-g" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#2ecc71" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#2ecc71" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="glow-a" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#f5a623" stop-opacity="0.5"/>
-      <stop offset="1" stop-color="#f5a623" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="glow-r" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#ff5f56" stop-opacity="0.5"/>
-      <stop offset="1" stop-color="#ff5f56" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
   <!-- tile -->
-  <rect x="0" y="0" width="512" height="512" rx="100" fill="url(#bg)"/>
-  <rect x="3" y="3" width="506" height="506" rx="97" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="6"/>
+  <rect width="512" height="512" rx="114" fill="url(#tile)"/>
+  <!-- rim: keeps the silhouette from dissolving into a dark marketplace card -->
+  <rect x="4" y="4" width="504" height="504" rx="110" fill="none" stroke="#7E95C4" stroke-opacity="0.22" stroke-width="8"/>
 
-  <!-- faint pcb grid -->
-  <g stroke="#8fa5c9" stroke-opacity="0.07" stroke-width="3">
-    <path d="M104 0V512M408 0V512M0 104H512M0 408H512"/>
-  </g>
-  <g fill="#8fa5c9" fill-opacity="0.14">
-    <circle cx="104" cy="104" r="7"/>
-    <circle cx="408" cy="104" r="7"/>
-    <circle cx="104" cy="408" r="7"/>
-    <circle cx="408" cy="408" r="7"/>
-  </g>
+  <!-- pins: colour is the pin status (green used, amber warning, red conflict,
+       steel free). Gaps (22) are wider than nothing and the pins (30) stay
+       distinct when the icon is scaled to a third of its size. -->
+  <g>
+    <rect x="80" y="163" width="88" height="30" rx="7" fill="#3DD68C"/>
+    <rect x="80" y="215" width="88" height="30" rx="7" fill="#7F94B8"/>
+    <rect x="80" y="267" width="88" height="30" rx="7" fill="#7F94B8"/>
+    <rect x="80" y="319" width="88" height="30" rx="7" fill="#7F94B8"/>
 
-  <!-- traces from pins -->
-  <g stroke="#54688a" stroke-width="8" stroke-linecap="round" fill="none" stroke-opacity="0.55">
-    <path d="M136 186H92a16 16 0 0 0-16 16v34"/>
-    <path d="M376 256h48"/>
-    <path d="M136 326H98"/>
-    <path d="M376 186h34a16 16 0 0 1 16 16v22"/>
+    <rect x="344" y="163" width="88" height="30" rx="7" fill="#F5A623"/>
+    <rect x="344" y="215" width="88" height="30" rx="7" fill="#7F94B8"/>
+    <rect x="344" y="267" width="88" height="30" rx="7" fill="#7F94B8"/>
+    <rect x="344" y="319" width="88" height="30" rx="7" fill="#FF5C5C"/>
   </g>
 
-  <!-- pins: left -->
-  <g fill="#e3b552">
-    <rect x="118" y="172" width="46" height="28" rx="14"/>
-    <rect x="118" y="242" width="46" height="28" rx="14"/>
-    <rect x="118" y="312" width="46" height="28" rx="14"/>
-  </g>
-  <!-- pins: right -->
-  <g fill="#e3b552">
-    <rect x="348" y="172" width="46" height="28" rx="14"/>
-    <rect x="348" y="242" width="46" height="28" rx="14"/>
-    <rect x="348" y="312" width="46" height="28" rx="14"/>
-  </g>
-  <!-- pin highlights -->
-  <g fill="#f6d287" opacity="0.55">
-    <rect x="122" y="176" width="38" height="8" rx="4"/>
-    <rect x="122" y="246" width="38" height="8" rx="4"/>
-    <rect x="122" y="316" width="38" height="8" rx="4"/>
-    <rect x="352" y="176" width="38" height="8" rx="4"/>
-    <rect x="352" y="246" width="38" height="8" rx="4"/>
-    <rect x="352" y="316" width="38" height="8" rx="4"/>
-  </g>
+  <!-- chip body: the one high-contrast mass that makes the icon readable at 32px -->
+  <rect x="164" y="138" width="184" height="236" rx="34" fill="url(#chip)" stroke="#0B1220" stroke-width="10"/>
 
-  <!-- chip body -->
-  <rect x="152" y="128" width="208" height="256" rx="34" fill="url(#chip)" stroke="#0b101b" stroke-width="7"/>
-  <rect x="158" y="134" width="196" height="244" rx="29" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="4"/>
-  <!-- notch -->
-  <circle cx="256" cy="158" r="11" fill="#141c2b"/>
-
-  <!-- die / antenna motif -->
-  <rect x="196" y="196" width="120" height="120" rx="18" fill="url(#die)" stroke="#0f1626" stroke-width="5"/>
-  <g fill="none" stroke="#7ea1d6" stroke-width="9" stroke-linecap="round">
-    <path d="M232 286c0-30 48-30 48 0" stroke-opacity="0.9"/>
-    <path d="M216 286c0-50 80-50 80 0" stroke-opacity="0.55"/>
-    <circle cx="256" cy="288" r="7" fill="#7ea1d6" stroke="none"/>
-  </g>
-
-  <!-- status dots on pins -->
-  <circle cx="141" cy="256" r="34" fill="url(#glow-g)"/>
-  <circle cx="141" cy="256" r="13" fill="#2ecc71"/>
-  <circle cx="371" cy="186" r="30" fill="url(#glow-a)"/>
-  <circle cx="371" cy="186" r="12" fill="#f5a623"/>
-  <circle cx="371" cy="326" r="30" fill="url(#glow-r)"/>
-  <circle cx="371" cy="326" r="12" fill="#ff5f56"/>
+  <!-- die -->
+  <rect x="212" y="212" width="88" height="88" rx="23" fill="#1B2740"/>
 </svg>
