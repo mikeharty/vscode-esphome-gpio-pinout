@@ -74,6 +74,16 @@ const EXTRA_TARGETS = [
     displayName: "Raspberry Pi Pico W",
   },
   {
+    id: "rpipico2",
+    socRef: "rp2350",
+    displayName: "Raspberry Pi Pico 2",
+  },
+  {
+    id: "rpipico2w",
+    socRef: "rp2350",
+    displayName: "Raspberry Pi Pico 2 W",
+  },
+  {
     id: "nologo_esp32c3_super_mini",
     socRef: "esp32c3",
     displayName: "ESP32-C3 SuperMini",
@@ -430,6 +440,30 @@ const SOC_DATA = {
       },
     ],
   },
+  esp32c61: {
+    id: "esp32c61",
+    variant: "esp32c61",
+    kind: "soc-grid",
+    displayName: "ESP32-C61 (SoC pin grid)",
+    gpios: Array.from({ length: 30 }, (_, i) => i),
+    pinIssues: [
+      {
+        gpios: [7, 8, 9],
+        severity: "danger",
+        text: "Strapping pin (can affect boot mode or the JTAG signal source).",
+      },
+      {
+        gpios: [14, 15, 16, 17, 19, 20, 21],
+        severity: "danger",
+        text: "Usually connected to SPI flash/PSRAM; avoid for general GPIO.",
+      },
+      {
+        gpios: [12, 13],
+        severity: "warn",
+        text: "USB Serial/JTAG default; repurposing may disable USB flashing and debugging.",
+      },
+    ],
+  },
   esp32c2: {
     id: "esp32c2",
     variant: "esp32c2",
@@ -569,6 +603,20 @@ const SOC_DATA = {
     kind: "soc-grid",
     displayName: "RP2040 (SoC pin grid)",
     gpios: Array.from({ length: 30 }, (_, i) => i),
+  },
+  rp2350: {
+    id: "rp2350",
+    variant: "rp2350",
+    kind: "soc-grid",
+    displayName: "RP2350/RP2354 (SoC pin grid)",
+    gpios: Array.from({ length: 48 }, (_, i) => i),
+    pinIssues: [
+      {
+        gpioRange: [30, 47],
+        severity: "info",
+        text: "Available only on RP2350B/RP2354B packages; RP2350A/RP2354A boards such as Pico 2 expose GPIO0 to GPIO29.",
+      },
+    ],
   },
   bk72xx: {
     id: "bk72xx",
@@ -874,11 +922,13 @@ function mapMcuToSocRef(mcu) {
     esp32c3: "esp32c3",
     esp32c5: "esp32c5",
     esp32c6: "esp32c6",
+    esp32c61: "esp32c61",
     esp32h2: "esp32h2",
     esp32p4: "esp32p4",
     esp8266: "esp8266",
     nrf52840: "nrf52840",
     rp2040: "rp2040",
+    rp2350: "rp2350",
   };
   return mapping[normalized] || null;
 }

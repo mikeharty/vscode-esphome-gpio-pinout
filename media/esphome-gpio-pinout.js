@@ -520,6 +520,7 @@
   const PLATFORM_DISPLAY_NAMES = {
     esp32: "ESP32",
     esp8266: "ESP8266",
+    rp2: "RP2",
     rp2040: "RP2040",
     nrf52: "nRF52",
     bk72xx: "Beken BK72xx (LibreTiny)",

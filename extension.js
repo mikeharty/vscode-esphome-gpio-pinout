@@ -3,7 +3,7 @@ const vscode = require("vscode");
 const VIEW_TYPE = "esphomeGpioPinout";
 const UPDATE_DEBOUNCE_MS = 250;
 const AUTO_OPEN_SETTING = "esphomeGpioPinout.autoOpen";
-const ESPHOME_YAML_HEURISTIC = /(^|\n)\s*(esphome|esp32|esp8266|rp2040|nrf52|bk72xx|rtl87xx)\s*:/;
+const ESPHOME_YAML_HEURISTIC = /(^|\n)\s*(esphome|esp32|esp8266|rp2|rp2040|nrf52|bk72xx|rtl87xx)\s*:/;
 
 let panel;
 let lastActiveDocument = null;

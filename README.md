@@ -23,9 +23,9 @@ This extension adds a GPIO pinout overlay for ESPHome board GPIO pins. It inspec
 
 ## Supported platforms
 
-- **ESP32** (`esp32:`) — all ESPHome variants: ESP32, S2, S3, C2, C3, C5, C6, H2, P4
+- **ESP32** (`esp32:`) — ESP32, S2, S3, C2, C3, C5, C6, C61, H2, and P4
 - **ESP8266** (`esp8266:`) — including silkscreen aliases like `D1`, `A0`, `RX`, `LED` per board
-- **RP2040** (`rp2040:`) — Raspberry Pi Pico / Pico W
+- **RP2** (`rp2:`, plus the legacy `rp2040:` key) — RP2040 and RP2350, including Raspberry Pi Pico, Pico W, Pico 2, and Pico 2 W
 - **nRF52** (`nrf52:`) — including `P0.x` / `P1.x` pin notation
 - **LibreTiny** (`bk72xx:` / `rtl87xx:`) — Tuya-style modules (CBU, CB2S, WB3S, WR3, ...) with `P#` / `PA##` pin names, each rendered with the module's actual broken-out pins
 
@@ -58,7 +58,7 @@ npm run pinouts:check
 ## Notes
 
 - The extension reads from the active editor, including unsaved changes, and auto-refreshes on file save. The panel stays on the last ESPHome YAML when you switch to other files.
-- Board coverage includes all ESPHome-relevant PlatformIO IDs for ESP32 + ESP8266, LibreTiny modules, and nRF52/RP2040 boards — with SoC fallback rendering when full board artwork is unavailable.
+- Board coverage includes all ESPHome-relevant PlatformIO IDs for ESP32 + ESP8266, LibreTiny modules, and selected nRF52/RP2 boards — with SoC fallback rendering when full board artwork is unavailable.
 - The extension uses a simple YAML parser and may not handle all ESPHome YAML constructs (e.g. `!include` / `packages:` are not expanded). Please file an issue if you encounter problems.
 - Feedback and contributions are welcome!
 

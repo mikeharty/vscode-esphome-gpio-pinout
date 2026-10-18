@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "generated": {
-    "generatedAt": "2026-08-14T20:10:53.919Z",
+    "generatedAt": "2026-10-18T06:00:30.754Z",
     "sources": {
       "libretiny": {
         "repo": "libretiny-eu/libretiny",
@@ -11,7 +11,7 @@
       "platformio_espressif32": {
         "repo": "pioarduino/platform-espressif32",
         "branch": "main",
-        "commit": "dd01e49e4695933bc29c1bf6be9a19a6572527a6"
+        "commit": "2959e98a2750832bca32fd2f849c0c274a4cdd63"
       },
       "platformio_espressif8266": {
         "repo": "platformio/platform-espressif8266",
@@ -21,25 +21,25 @@
       "wippersnapper_boards": {
         "repo": "adafruit/Wippersnapper_Boards",
         "branch": "main",
-        "commit": "46b9c3456f84a3fcfcd6a652798a2b8269e8b66d"
+        "commit": "86d0230008ea9aae100550985ac159efb9380fc5"
       },
       "wokwi_boards": {
         "repo": "wokwi/wokwi-boards",
         "branch": "main",
-        "commit": "1f2ce028e6d88ef0d78bc2f15438a2e128a8aa6b"
+        "commit": "4294fca6dce4c5e3d7393ceda312225ed861c997"
       }
     },
     "boardCounts": {
-      "targets": 402,
-      "esp32Targets": 296,
+      "targets": 406,
+      "esp32Targets": 298,
       "esp8266Targets": 45,
       "libretinyTargets": 56,
-      "extraTargets": 6,
-      "boardDefinitions": 96,
-      "wokwiBoards": 25,
+      "extraTargets": 8,
+      "boardDefinitions": 98,
+      "wokwiBoards": 27,
       "wippersnapperBoards": 15,
       "libretinyBoards": 56,
-      "socFallbackBoards": 306
+      "socFallbackBoards": 308
     }
   },
   "boards": {
@@ -105,6 +105,8 @@
     "m5stack-cores3": "boards/generated/m5stack-cores3.json",
     "nologo_esp32c3_super_mini": "boards/generated/nologo_esp32c3_super_mini.json",
     "rpipico": "boards/generated/rpipico.json",
+    "rpipico2": "boards/generated/rpipico2.json",
+    "rpipico2w": "boards/generated/rpipico2w.json",
     "rpipicow": "boards/generated/rpipicow.json",
     "seeed_xiao_esp32c3": "boards/generated/seeed_xiao_esp32c3.json",
     "seeed_xiao_esp32c6": "boards/generated/seeed_xiao_esp32c6.json",
@@ -147,6 +149,7 @@
     "esp32c3": "soc/esp32c3.json",
     "esp32c5": "soc/esp32c5.json",
     "esp32c6": "soc/esp32c6.json",
+    "esp32c61": "soc/esp32c61.json",
     "esp32h2": "soc/esp32h2.json",
     "esp32p4": "soc/esp32p4.json",
     "esp32s2": "soc/esp32s2.json",
@@ -154,6 +157,7 @@
     "esp8266": "soc/esp8266.json",
     "nrf52840": "soc/nrf52840.json",
     "rp2040": "soc/rp2040.json",
+    "rp2350": "soc/rp2350.json",
     "rtl8710b": "soc/rtl8710b.json",
     "rtl8720c": "soc/rtl8720c.json"
   },
@@ -230,6 +234,8 @@
     "esp32_c5_devkitc1_n4": "esp32-c5-devkitc1-n4",
     "esp32_c5_devkitc1_n8r4": "esp32-c5-devkitc1-n8r4",
     "esp32_c5_devkitc_1": "esp32-c5-devkitc-1",
+    "esp32_c61_devkitc1": "esp32-c61-devkitc1",
+    "esp32_c61_devkitc1_n8r2": "esp32-c61-devkitc1-n8r2",
     "esp32_c6_devkitc_1": "esp32-c6-devkitc-1",
     "esp32_c6_devkitm_1": "esp32-c6-devkitm-1",
     "esp32_devkitlipo": "esp32-devkitlipo",
@@ -818,6 +824,14 @@
     "esp32-c6-devkitm-1": {
       "soc": "esp32c6",
       "displayName": "Espressif ESP32-C6-DevKitM-1 (SoC pin grid)"
+    },
+    "esp32-c61-devkitc1": {
+      "soc": "esp32c61",
+      "displayName": "Espressif ESP32-C61-DevKitC-1 (4 MB Flash) (SoC pin grid)"
+    },
+    "esp32-c61-devkitc1-n8r2": {
+      "soc": "esp32c61",
+      "displayName": "Espressif ESP32-C61-DevKitC-1 N8R2 (8 MB Flash Quad, 2 MB PSRAM Quad) (SoC pin grid)"
     },
     "esp32-devkitlipo": {
       "soc": "esp32",

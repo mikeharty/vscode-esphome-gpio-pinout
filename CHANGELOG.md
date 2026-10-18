@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- Added ESP32-C61 support and both upstream ESP32-C61-DevKitC-1 board IDs. Corrected the SoC grid to cover GPIO0–29 and annotate GPIO7–9 strapping, GPIO14–17/19–21 flash/PSRAM, and GPIO12/13 USB Serial/JTAG use.
+- Added RP2350 support with generated Wokwi pinouts for Raspberry Pi Pico 2 and Pico 2 W.
+- Recognize ESPHome's current `rp2:` platform key and its `variant: rp2350` fallback while retaining the legacy `rp2040:` key.
+
 ## [1.0.0] - 2026-08-14
 
 Major release: new platforms, smarter pin parsing, and a refreshed UI.

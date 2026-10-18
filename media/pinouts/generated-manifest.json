@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:10:53.919Z",
+  "generatedAt": "2026-10-18T06:00:30.754Z",
   "managedFiles": [
     "media/pinouts/assets/wokwi/arduino_nano_esp32.svg",
     "media/pinouts/assets/wokwi/az-delivery-devkit-v4.svg",
@@ -23,6 +23,8 @@
     "media/pinouts/assets/wokwi/m5stack-cores3.svg",
     "media/pinouts/assets/wokwi/nologo_esp32c3_super_mini.svg",
     "media/pinouts/assets/wokwi/rpipico.svg",
+    "media/pinouts/assets/wokwi/rpipico2.svg",
+    "media/pinouts/assets/wokwi/rpipico2w.svg",
     "media/pinouts/assets/wokwi/rpipicow.svg",
     "media/pinouts/assets/wokwi/seeed_xiao_esp32c3.svg",
     "media/pinouts/assets/wokwi/seeed_xiao_esp32c6.svg",
@@ -89,6 +91,8 @@
     "media/pinouts/boards/generated/m5stack-cores3.json",
     "media/pinouts/boards/generated/nologo_esp32c3_super_mini.json",
     "media/pinouts/boards/generated/rpipico.json",
+    "media/pinouts/boards/generated/rpipico2.json",
+    "media/pinouts/boards/generated/rpipico2w.json",
     "media/pinouts/boards/generated/rpipicow.json",
     "media/pinouts/boards/generated/seeed_xiao_esp32c3.json",
     "media/pinouts/boards/generated/seeed_xiao_esp32c6.json",
@@ -131,6 +135,7 @@
     "media/pinouts/soc/esp32c3.json",
     "media/pinouts/soc/esp32c5.json",
     "media/pinouts/soc/esp32c6.json",
+    "media/pinouts/soc/esp32c61.json",
     "media/pinouts/soc/esp32h2.json",
     "media/pinouts/soc/esp32p4.json",
     "media/pinouts/soc/esp32s2.json",
@@ -138,6 +143,7 @@
     "media/pinouts/soc/esp8266.json",
     "media/pinouts/soc/nrf52840.json",
     "media/pinouts/soc/rp2040.json",
+    "media/pinouts/soc/rp2350.json",
     "media/pinouts/soc/rtl8710b.json",
     "media/pinouts/soc/rtl8720c.json",
     "media/pinouts/targets.json"

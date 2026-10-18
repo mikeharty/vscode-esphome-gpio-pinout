@@ -52,10 +52,61 @@ suite("Pinout data integrity", () => {
 
   test("new platform SoC definitions are present", () => {
     const index = readJson("index.json");
-    for (const soc of ["esp32c2", "esp32c5", "esp32h2", "esp32p4", "bk72xx", "rtl8710b", "rtl8720c"]) {
+    for (const soc of [
+      "esp32c2",
+      "esp32c5",
+      "esp32c61",
+      "esp32h2",
+      "esp32p4",
+      "rp2350",
+      "bk72xx",
+      "rtl8710b",
+      "rtl8720c",
+    ]) {
       assert.ok(index.soc[soc], `Missing SoC entry: ${soc}`);
       const def = readJson(index.soc[soc]);
       assert.ok(Array.isArray(def.gpios) && def.gpios.length > 0, `SoC ${soc} has no gpios`);
+    }
+  });
+
+  test("ESP32-C61 boards map to the complete corrected SoC definition", () => {
+    const index = readJson("index.json");
+    const c61 = readJson(index.soc.esp32c61);
+
+    for (const boardId of ["esp32-c61-devkitc1", "esp32-c61-devkitc1-n8r2"]) {
+      assert.strictEqual(index.boardSocAliases[boardId]?.soc, "esp32c61", `${boardId} should map to ESP32-C61`);
+    }
+
+    assert.deepStrictEqual(
+      c61.gpios,
+      Array.from({ length: 30 }, (_, gpio) => gpio),
+    );
+    assert.ok(
+      c61.pinIssues.some((issue) => issue.gpios?.includes(7)),
+      "GPIO7 strapping warning missing",
+    );
+    assert.ok(
+      c61.pinIssues.some((issue) => issue.gpios?.includes(21)),
+      "GPIO21 SPI flash/PSRAM warning missing",
+    );
+    assert.ok(
+      c61.pinIssues.some((issue) => issue.gpios?.includes(12) && issue.gpios?.includes(13)),
+      "GPIO12/13 USB Serial/JTAG warning missing",
+    );
+  });
+
+  test("Raspberry Pi Pico 2 boards use RP2350 pinouts", () => {
+    const index = readJson("index.json");
+
+    for (const boardId of ["rpipico2", "rpipico2w"]) {
+      assert.ok(index.boards[boardId], `${boardId} board definition missing`);
+      const board = readJson(index.boards[boardId]);
+      assert.strictEqual(board.kind, "svg-board");
+      assert.strictEqual(board.socRef, "rp2350");
+      assert.ok(
+        board.pins.some((pin) => pin.gpio === 28),
+        `${boardId} should expose GPIO28`,
+      );
     }
   });
 

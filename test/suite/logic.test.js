@@ -94,6 +94,24 @@ suite("Pinout logic", () => {
     assert.ok(parsed.usedPins.has(15), "Expected GPIO15 usage to be detected");
   });
 
+  test("detects the RP2 platform, RP2350 variant, and Pico 2 board", () => {
+    const yaml = [
+      "rp2:",
+      "  board: rpipico2w",
+      "  variant: rp2350",
+      "output:",
+      "  - platform: gpio",
+      "    pin: GPIO22",
+    ].join("\n");
+
+    const parsed = logic.parseEsphomeYaml(yaml);
+    assert.ok(parsed.ok, "Expected an rp2 block to be detected as ESPHome");
+    assert.strictEqual(parsed.platform, "rp2");
+    assert.strictEqual(parsed.board, "rpipico2w");
+    assert.strictEqual(parsed.variant, "rp2350");
+    assert.ok(parsed.usedPins.has(22), "Expected GPIO22 usage to be detected");
+  });
+
   test("detects nrf52 board and parses P0/P1 pin notation", () => {
     const yaml = [
       "esphome:",

@@ -7,10 +7,10 @@
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
-  const YAML_HEURISTICS = ["esphome:", "esp32:", "esp8266:", "rp2040:", "nrf52:", "bk72xx:", "rtl87xx:"];
+  const YAML_HEURISTICS = ["esphome:", "esp32:", "esp8266:", "rp2:", "rp2040:", "nrf52:", "bk72xx:", "rtl87xx:"];
 
   // Platform blocks the parser understands; order matters only for detection priority.
-  const PLATFORM_BLOCKS = ["esp32", "esp8266", "rp2040", "nrf52", "bk72xx", "rtl87xx"];
+  const PLATFORM_BLOCKS = ["esp32", "esp8266", "rp2", "rp2040", "nrf52", "bk72xx", "rtl87xx"];
 
   // Options that legitimately appear inside an ESPHome pin schema block. Any other
   // sibling key (pcf8574:, mcp23017:, sn74hc595:, sx1509:, ...) means the pin lives on
@@ -145,7 +145,7 @@
       for (const { line } of block) {
         const mBoard = line.match(/^\s*board:\s*(.+?)\s*$/);
         if (mBoard && !board) board = cleanScalar(mBoard[1]);
-        if (platformBlock === "esp32") {
+        if (["esp32", "rp2", "rp2040"].includes(platformBlock)) {
           const mVar = line.match(/^\s*variant:\s*(.+?)\s*$/);
           if (mVar) variant = cleanScalar(mVar[1]);
         }

@@ -1,0 +1,70 @@
+{
+  "id": "esp32c61",
+  "variant": "esp32c61",
+  "kind": "soc-grid",
+  "displayName": "ESP32-C61 (SoC pin grid)",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "pinIssues": [
+    {
+      "gpios": [
+        7,
+        8,
+        9
+      ],
+      "severity": "danger",
+      "text": "Strapping pin (can affect boot mode or the JTAG signal source)."
+    },
+    {
+      "gpios": [
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21
+      ],
+      "severity": "danger",
+      "text": "Usually connected to SPI flash/PSRAM; avoid for general GPIO."
+    },
+    {
+      "gpios": [
+        12,
+        13
+      ],
+      "severity": "warn",
+      "text": "USB Serial/JTAG default; repurposing may disable USB flashing and debugging."
+    }
+  ]
+}

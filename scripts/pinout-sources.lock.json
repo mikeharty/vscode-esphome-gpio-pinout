@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-14T20:10:53.919Z",
+  "updatedAt": "2026-10-18T06:00:30.754Z",
   "sources": {
     "libretiny": {
       "owner": "libretiny-eu",
@@ -12,7 +12,7 @@
       "owner": "pioarduino",
       "repo": "platform-espressif32",
       "branch": "main",
-      "commit": "dd01e49e4695933bc29c1bf6be9a19a6572527a6"
+      "commit": "2959e98a2750832bca32fd2f849c0c274a4cdd63"
     },
     "platformio_espressif8266": {
       "owner": "platformio",
@@ -24,13 +24,13 @@
       "owner": "adafruit",
       "repo": "Wippersnapper_Boards",
       "branch": "main",
-      "commit": "46b9c3456f84a3fcfcd6a652798a2b8269e8b66d"
+      "commit": "86d0230008ea9aae100550985ac159efb9380fc5"
     },
     "wokwi_boards": {
       "owner": "wokwi",
       "repo": "wokwi-boards",
       "branch": "main",
-      "commit": "1f2ce028e6d88ef0d78bc2f15438a2e128a8aa6b"
+      "commit": "4294fca6dce4c5e3d7393ceda312225ed861c997"
     }
   }
 }

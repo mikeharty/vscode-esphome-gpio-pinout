@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:10:53.919Z",
+  "generatedAt": "2026-10-18T06:00:30.754Z",
   "boards": {
     "esp32": [
       "4d_systems_esp32s3_gen4_r8n16",
@@ -72,6 +72,8 @@
       "esp32-c5-devkitc1-n8r4",
       "esp32-c6-devkitc-1",
       "esp32-c6-devkitm-1",
+      "esp32-c61-devkitc1",
+      "esp32-c61-devkitc1-n8r2",
       "esp32-devkitlipo",
       "esp32-evb",
       "esp32-gateway",
@@ -411,6 +413,8 @@
       "xiao_ble",
       "rpipico",
       "rpipicow",
+      "rpipico2",
+      "rpipico2w",
       "nologo_esp32c3_super_mini"
     ]
   },
@@ -511,6 +515,8 @@
     "esp32-c5-devkitc1-n8r4",
     "esp32-c6-devkitc-1",
     "esp32-c6-devkitm-1",
+    "esp32-c61-devkitc1",
+    "esp32-c61-devkitc1-n8r2",
     "esp32-devkitlipo",
     "esp32-evb",
     "esp32-gateway",
@@ -693,6 +699,8 @@
     "redpill_esp32s3",
     "roboheart_hercules",
     "rpipico",
+    "rpipico2",
+    "rpipico2w",
     "rpipicow",
     "rymcu-esp32-s3-devkitc-1",
     "s_odi_ultra",
