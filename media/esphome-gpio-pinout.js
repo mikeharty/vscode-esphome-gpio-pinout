@@ -1519,7 +1519,7 @@
                     ${issues
                       .map(
                         (it) =>
-                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}"><span class="tm-issue-mark" aria-hidden="true"></span>${escapeHtml(it.text)}</div>`,
+                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}"><span class="tm-issue-mark" aria-hidden="true"></span>${escapeHtml(it.severity.toUpperCase())}: ${escapeHtml(it.text)}</div>`,
                       )
                       .join("")}
                   </div>
