@@ -1,0 +1,202 @@
+{
+  "id": "d1_mini",
+  "displayName": "LOLIN D1 Mini (ESP8266)",
+  "kind": "header-board",
+  "socRef": "esp8266",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "RST",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 2,
+          "label": "A0",
+          "gpio": 17,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 3,
+          "label": "D0",
+          "gpio": 16,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "D5",
+          "gpio": 14,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "D6",
+          "gpio": 12,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "D7",
+          "gpio": 13,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "D8",
+          "gpio": 15,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 9,
+          "label": "TX",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "RX",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 11,
+          "label": "D1",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 12,
+          "label": "D2",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 13,
+          "label": "D3",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 14,
+          "label": "D4",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 15,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 16,
+          "label": "5V",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "D3": 0,
+    "TX": 1,
+    "D4": 2,
+    "RX": 3,
+    "D2": 4,
+    "D1": 5,
+    "D6": 12,
+    "D7": 13,
+    "D5": 14,
+    "D8": 15,
+    "D0": 16,
+    "A0": 17
+  },
+  "pinLabels": {
+    "0": "D3",
+    "1": "TX",
+    "2": "D4",
+    "3": "RX",
+    "4": "D2",
+    "5": "D1",
+    "12": "D6",
+    "13": "D7",
+    "14": "D5",
+    "15": "D8",
+    "16": "D0",
+    "17": "A0"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "0": [
+      "Pulled up on board. Held LOW at boot it enters the flasher."
+    ],
+    "1": [
+      "UART0 TX, shared with the CH340C."
+    ],
+    "2": [
+      "Onboard LED, active LOW. Must be HIGH at boot."
+    ],
+    "3": [
+      "UART0 RX, shared with the CH340C."
+    ],
+    "4": [
+      "Wire's default SDA, and the SDA pin of the onboard I2C shield connector."
+    ],
+    "5": [
+      "Wire's default SCL, and the SCL pin of the onboard I2C shield connector."
+    ],
+    "12": [
+      "HSPI MISO."
+    ],
+    "13": [
+      "HSPI MOSI."
+    ],
+    "14": [
+      "HSPI clock, silkscreened SCK."
+    ],
+    "15": [
+      "Must be LOW at boot. The onboard pull-down holds it there, so do not add a pull-up."
+    ],
+    "16": [
+      "No interrupt and no PWM. Tie to RST for deep-sleep wake."
+    ],
+    "17": [
+      "Reads 0 to 3.2 V here: the board fits a divider ahead of the chip's 1.0 V input."
+    ]
+  },
+  "notes": [
+    "LOLIN (Wemos) D1 mini: 34.2 x 25.6 mm, 8 pads per side, USB-C on v4. Header order verified against LOLIN's own sch_d1_mini_v4.0.0.pdf.",
+    "v4.0.0 solders a bare ESP8266EX with a PCB antenna and separate flash rather than an ESP-12 module, so its GPIO set matches the ESP-12F exactly but the physical part differs.",
+    "The D-numbers on the silk are not GPIO numbers. D0 is GPIO16, D1 is GPIO5, D2 is GPIO4, D3 is GPIO0, D4 is GPIO2, D5 is GPIO14, D6 is GPIO12, D7 is GPIO13, D8 is GPIO15.",
+    "The flash bus (GPIO6-11) is not broken out at all here, so the pads you can reach are all pads you can consider using.",
+    "The 5V pad is raw VBUS from the USB connector. Powering the board through it bypasses nothing, but feeding it while USB is also connected back-feeds the host."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/d1-mini.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/d1-mini"
+    }
+  ]
+}

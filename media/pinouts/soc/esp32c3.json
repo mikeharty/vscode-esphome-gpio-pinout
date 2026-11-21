@@ -53,5 +53,175 @@
       "severity": "warn",
       "text": "USB-JTAG default; repurposing may disable USB-JTAG."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "XTAL_32K_P",
+      "ADC1_CH0",
+      "RTC"
+    ],
+    "1": [
+      "XTAL_32K_N",
+      "ADC1_CH1",
+      "RTC"
+    ],
+    "2": [
+      "ADC1_CH2",
+      "FSPIQ",
+      "RTC",
+      "Strapping"
+    ],
+    "3": [
+      "ADC1_CH3",
+      "RTC"
+    ],
+    "4": [
+      "ADC1_CH4",
+      "MTMS",
+      "FSPIHD",
+      "RTC"
+    ],
+    "5": [
+      "ADC2_CH0",
+      "MTDI",
+      "FSPIWP",
+      "RTC"
+    ],
+    "6": [
+      "MTCK",
+      "FSPICLK"
+    ],
+    "7": [
+      "MTDO",
+      "FSPID"
+    ],
+    "8": [
+      "Strapping"
+    ],
+    "9": [
+      "Strapping"
+    ],
+    "10": [
+      "FSPICS0"
+    ],
+    "12": [
+      "SPIHD"
+    ],
+    "13": [
+      "SPIWP"
+    ],
+    "14": [
+      "SPICS0"
+    ],
+    "15": [
+      "SPICLK"
+    ],
+    "16": [
+      "SPID"
+    ],
+    "17": [
+      "SPIQ"
+    ],
+    "18": [
+      "USB_D-"
+    ],
+    "19": [
+      "USB_D+"
+    ],
+    "20": [
+      "U0RXD"
+    ],
+    "21": [
+      "U0TXD"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "1": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "2": [
+      "Power domain: VDD3P3_RTC.",
+      "Boot role: Has to be pulled-up for SPI and Download boot.",
+      "Available in the RTC low-power domain."
+    ],
+    "3": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "4": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "5": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "6": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "7": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "8": [
+      "Power domain: VDD3P3_CPU.",
+      "Boot role: ROM messages printing control; high for download mode."
+    ],
+    "9": [
+      "Power domain: VDD3P3_CPU.",
+      "Boot role: High for SPI boot; low for Download mode.",
+      "Reset state: PUP."
+    ],
+    "10": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "11": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "12": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "13": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "14": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "15": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "16": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "17": [
+      "Power domain: VDD_SPI/VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "18": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "19": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "20": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "21": [
+      "Power domain: VDD3P3_CPU."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32c3.yaml",
+    "license": "Apache-2.0"
+  }
 }

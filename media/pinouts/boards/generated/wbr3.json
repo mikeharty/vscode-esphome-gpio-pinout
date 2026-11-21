@@ -37,7 +37,28 @@
     "D13": 0,
     "D14": 1
   },
+  "pinLabels": {
+    "0": "D13",
+    "1": "D14",
+    "2": "D2",
+    "3": "D3",
+    "4": "D4",
+    "7": "D0",
+    "11": "D1",
+    "12": "D5",
+    "13": "D10",
+    "14": "D11",
+    "15": "D12",
+    "16": "D6",
+    "17": "D7",
+    "18": "D8",
+    "19": "D9"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/wbr3.json"
+  }
 }

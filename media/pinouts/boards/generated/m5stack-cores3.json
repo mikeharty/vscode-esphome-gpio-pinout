@@ -321,5 +321,21 @@
       "gpio": null,
       "type": "ground"
     }
-  ]
+  ],
+  "pinAliases": {
+    "SDA": 1,
+    "SCL": 2,
+    "RX": 18,
+    "TX": 17
+  },
+  "pinLabels": {
+    "1": "SDA",
+    "2": "SCL",
+    "17": "TX",
+    "18": "RX"
+  },
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/m5stack-core-s3"
+  }
 }

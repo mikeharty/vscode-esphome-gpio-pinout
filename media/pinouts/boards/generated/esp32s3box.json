@@ -201,5 +201,9 @@
       "gpio": null,
       "type": "power"
     }
-  ]
+  ],
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/esp32-s3-box"
+  }
 }

@@ -1,0 +1,35 @@
+{
+  "id": "adafruit_fruitjam",
+  "displayName": "Adafruit Fruit Jam RP2350",
+  "kind": "soc-grid",
+  "socRef": "rp2350",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    29,
+    32,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45
+  ],
+  "pinAliases": {
+    "LED": 29
+  },
+  "pinLabels": {
+    "29": "LED"
+  },
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/fruitjam/definition.json"
+  }
+}

@@ -265,5 +265,17 @@
       "gpio": null,
       "type": "other"
     }
-  ]
+  ],
+  "pinAliases": {
+    "TX": 16,
+    "RX": 17
+  },
+  "pinLabels": {
+    "16": "TX",
+    "17": "RX"
+  },
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/esp32-c6-devkitc-1"
+  }
 }

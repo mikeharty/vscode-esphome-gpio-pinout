@@ -1,0 +1,66 @@
+{
+  "id": "cytron_maker_pi_rp2040",
+  "displayName": "Cytron Maker Pi RP2040",
+  "kind": "soc-grid",
+  "socRef": "rp2040",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "pinAliases": {
+    "LED": 3,
+    "RX": 1,
+    "SCL": 17,
+    "SCL1": 3,
+    "SDA": 16,
+    "SDA1": 2,
+    "TX": 0
+  },
+  "pinLabels": {
+    "0": "TX",
+    "1": "RX",
+    "2": "SDA1",
+    "3": "LED",
+    "16": "SDA",
+    "17": "SCL"
+  },
+  "labelKind": "board-api",
+  "availability": "chip",
+  "notes": [
+    "Board metadata and aliases derived from ESPHome's RP2 board catalog.",
+    "The chip supports GPIO0 to GPIO29; physical header availability is not modeled for this board."
+  ],
+  "provenance": {
+    "source": "esphome",
+    "sourcePath": "esphome/components/rp2/boards.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -47,7 +47,33 @@
     "D18": 20,
     "D19": 23
   },
+  "pinLabels": {
+    "0": "D0",
+    "1": "D1",
+    "2": "D2",
+    "3": "D3",
+    "4": "D4",
+    "7": "D5",
+    "8": "D6",
+    "9": "D7",
+    "10": "D8",
+    "11": "D9",
+    "12": "D10",
+    "13": "D11",
+    "14": "D12",
+    "15": "D13",
+    "16": "D14",
+    "17": "D15",
+    "18": "D16",
+    "19": "D17",
+    "20": "D18",
+    "23": "D19"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/generic-rtl8720cf-2mb-992k.json"
+  }
 }

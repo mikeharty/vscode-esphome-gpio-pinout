@@ -1,0 +1,273 @@
+{
+  "id": "lolin_d32_pro",
+  "displayName": "LOLIN D32 Pro",
+  "kind": "header-board",
+  "socRef": "esp32",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 2,
+          "label": "RST",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 3,
+          "label": "VP",
+          "gpio": 36,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "VN",
+          "gpio": 39,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "GPIO34",
+          "gpio": 34,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "32",
+          "gpio": 32,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "33",
+          "gpio": 33,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "GPIO25",
+          "gpio": 25,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 9,
+          "label": "GPIO26",
+          "gpio": 26,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "27",
+          "gpio": 27,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 11,
+          "label": "14",
+          "gpio": 14,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 12,
+          "label": "12",
+          "gpio": 12,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 13,
+          "label": "GPIO13",
+          "gpio": 13,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 14,
+          "label": "EN",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 15,
+          "label": "USB",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 16,
+          "label": "BAT",
+          "gpio": null,
+          "type": "other"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 17,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 18,
+          "label": "GPIO23",
+          "gpio": 23,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 19,
+          "label": "GPIO22",
+          "gpio": 22,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 20,
+          "label": "TX",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 21,
+          "label": "RX",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 22,
+          "label": "GPIO21",
+          "gpio": 21,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 23,
+          "label": "GPIO19",
+          "gpio": 19,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 24,
+          "label": "GPIO18",
+          "gpio": 18,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 25,
+          "label": "LED",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 26,
+          "label": "NC",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 27,
+          "label": "NC",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 28,
+          "label": "4",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 29,
+          "label": "GPIO0",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 30,
+          "label": "GPIO2",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 31,
+          "label": "GPIO15",
+          "gpio": 15,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 32,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "4": 4,
+    "12": 12,
+    "14": 14,
+    "27": 27,
+    "32": 32,
+    "33": 33,
+    "TX": 1,
+    "RX": 3,
+    "LED": 5,
+    "VP": 36,
+    "VN": 39
+  },
+  "pinLabels": {
+    "1": "TX",
+    "3": "RX",
+    "4": "4",
+    "5": "LED",
+    "12": "12",
+    "14": "14",
+    "27": "27",
+    "32": "32",
+    "33": "33",
+    "36": "VP",
+    "39": "VN"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "1": [
+      "UART0, shared with the CH340C."
+    ],
+    "3": [
+      "UART0, shared with the CH340C."
+    ],
+    "4": [
+      "TF_CS - the arduino-esp32 variant remaps SS here."
+    ],
+    "5": [
+      "Blue onboard LED, active LOW."
+    ],
+    "12": [
+      "TS_CS on the TFT port; also the MTDI strap - a pullup at boot selects 1.8 V flash and blocks booting."
+    ]
+  },
+  "notes": [
+    "LOLIN (WEMOS) D32 Pro v2.0.0: 65 x 25.4 mm ESP32-WROVER (16 MB flash / 8 MB PSRAM current, 4 MB flash early runs) with a CH340C bridge, micro-USB, LiPo charging (PH-2 + TP4054), a microSD (TF) slot, and SH1.0 ports for a TFT (10-pin) and I2C (4-pin). Auto-flash circuit onboard - no BOOT button needed.",
+    "GPIO16/17 never reach the headers (the WROVER's PSRAM uses them; the pads are silkscreened NC). GPIO35 is not broken out either - it reads the battery through a 100k/100k divider (voltage = reading x 2).",
+    "The microSD and TFT ports reserve GPIO4 (TF_CS), 14 (TFT_CS), 27 (DC), 33 (RST), 32 (backlight) and 12 (touch CS), all sharing the VSPI bus on GPIO18/19/23."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/lolin-d32-pro.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/lolin-d32-pro"
+    }
+  ]
+}

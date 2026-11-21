@@ -51,7 +51,32 @@
     "D18": 28,
     "A5": 28
   },
+  "pinLabels": {
+    "0": "D0",
+    "1": "D1",
+    "6": "D2",
+    "7": "D3",
+    "8": "D4",
+    "9": "D5",
+    "10": "D6",
+    "11": "D7",
+    "14": "D8",
+    "15": "D9",
+    "16": "D10",
+    "17": "D11",
+    "20": "D12",
+    "21": "D13",
+    "22": "D14",
+    "23": "D15",
+    "24": "D16",
+    "26": "D17",
+    "28": "D18"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/generic-bk7238.json"
+  }
 }

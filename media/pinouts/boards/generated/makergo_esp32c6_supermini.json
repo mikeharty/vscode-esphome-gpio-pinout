@@ -1,0 +1,184 @@
+{
+  "id": "makergo_esp32c6_supermini",
+  "displayName": "ESP32-C6 SuperMini",
+  "kind": "header-board",
+  "socRef": "esp32c6",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "TX",
+          "gpio": 16,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 2,
+          "label": "RX",
+          "gpio": 17,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 3,
+          "label": "GPIO0",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "GPIO1",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "GPIO2",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "GPIO3",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "GPIO4",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "GPIO5",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 9,
+          "label": "GPIO6",
+          "gpio": 6,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "GPIO7",
+          "gpio": 7,
+          "type": "gpio"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 11,
+          "label": "5V",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 12,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 13,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 14,
+          "label": "GPIO20",
+          "gpio": 20,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 15,
+          "label": "GPIO19",
+          "gpio": 19,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 16,
+          "label": "GPIO18",
+          "gpio": 18,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 17,
+          "label": "LED",
+          "gpio": 15,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 18,
+          "label": "GPIO14",
+          "gpio": 14,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 19,
+          "label": "BOOT",
+          "gpio": 9,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 20,
+          "label": "RGB",
+          "gpio": 8,
+          "type": "gpio"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "RGB": 8,
+    "BOOT": 9,
+    "LED": 15,
+    "TX": 16,
+    "RX": 17
+  },
+  "pinLabels": {
+    "8": "RGB",
+    "9": "BOOT",
+    "15": "LED",
+    "16": "TX",
+    "17": "RX"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "8": [
+      "Drives the on-board WS2812 RGB LED. Also a strapping pin."
+    ],
+    "9": [
+      "Wired to the BOOT button. Held LOW at reset it enters the download mode."
+    ],
+    "15": [
+      "Blue user LED. Also a strapping pin, so avoid holding it at boot."
+    ]
+  },
+  "notes": [
+    "ESP32-C6 SuperMini (MakerGO): 22.5 x 18 mm, bare ESP32-C6FH4 with a PCB trace antenna, USB-C, on-board LiPo charger. 20 GPIOs on two 10-pin castellated rows at 2.54 mm.",
+    "Same outline as the ESP32-C3 SuperMini but a completely different GPIO map - do not reuse a C3 SuperMini pinout here.",
+    "GPIO15 drives the blue user LED; GPIO8 drives the WS2812 RGB LED.",
+    "GPIO12/13 (USB D-/D+) and GPIO21/22/23 sit on unpopulated inner pads, not on the headers."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/esp32-c6-supermini.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/esp32-c6-supermini"
+    }
+  ]
+}

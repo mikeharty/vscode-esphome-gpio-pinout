@@ -1,0 +1,48 @@
+{
+  "id": "huzzah",
+  "displayName": "Adafruit HUZZAH ESP8266",
+  "kind": "soc-grid",
+  "socRef": "esp8266",
+  "gpios": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "pinAliases": {
+    "LED": 0,
+    "LED_RED": 0,
+    "LED_BLUE": 2,
+    "D4": 4,
+    "D5": 5,
+    "D12": 12,
+    "D13": 13,
+    "D14": 14,
+    "D15": 15,
+    "D16": 16
+  },
+  "pinLabels": {
+    "0": "LED",
+    "2": "LED_BLUE",
+    "4": "D4",
+    "5": "D5",
+    "12": "D12",
+    "13": "D13",
+    "14": "D14",
+    "15": "D15",
+    "16": "D16"
+  },
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/feather-esp8266/definition.json"
+  }
+}

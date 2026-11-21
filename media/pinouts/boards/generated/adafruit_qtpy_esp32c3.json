@@ -18,7 +18,43 @@
     20,
     21
   ],
+  "pinAliases": {
+    "A0": 4,
+    "A1": 3,
+    "A2": 1,
+    "A3": 0,
+    "SDA": 5,
+    "SCL": 6,
+    "MOSI": 7,
+    "MISO": 8,
+    "SCK": 10,
+    "RX": 20,
+    "TX": 21,
+    "NEOPIXEL": 2,
+    "PIN_NEOPIXEL": 2,
+    "BUTTON": 9,
+    "SWITCH": 9
+  },
+  "pinLabels": {
+    "0": "A3",
+    "1": "A2",
+    "2": "NEOPIXEL",
+    "3": "A1",
+    "4": "A0",
+    "5": "SDA",
+    "6": "SCL",
+    "7": "MOSI",
+    "8": "MISO",
+    "9": "BUTTON",
+    "10": "SCK",
+    "20": "RX",
+    "21": "TX"
+  },
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/qtpy-esp32c3/definition.json"
+  }
 }

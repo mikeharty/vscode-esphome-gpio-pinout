@@ -1,0 +1,244 @@
+{
+  "id": "lolin_s3_mini",
+  "displayName": "LOLIN S3 Mini",
+  "kind": "header-board",
+  "socRef": "esp32s3",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "EN",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 2,
+          "label": "GPIO2",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 3,
+          "label": "GPIO4",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "GPIO12",
+          "gpio": 12,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "GPIO13",
+          "gpio": 13,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "GPIO11",
+          "gpio": 11,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "GPIO10",
+          "gpio": 10,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 9,
+          "label": "GPIO1",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "GPIO3",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 11,
+          "label": "GPIO5",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 12,
+          "label": "GPIO6",
+          "gpio": 6,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 13,
+          "label": "GPIO7",
+          "gpio": 7,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 14,
+          "label": "GPIO8",
+          "gpio": 8,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 15,
+          "label": "GPIO9",
+          "gpio": 9,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 16,
+          "label": "GPIO14",
+          "gpio": 14,
+          "type": "gpio"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 17,
+          "label": "TX",
+          "gpio": 43,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 18,
+          "label": "RX",
+          "gpio": 44,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 19,
+          "label": "SCL",
+          "gpio": 36,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 20,
+          "label": "SDA",
+          "gpio": 35,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 21,
+          "label": "GPIO18",
+          "gpio": 18,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 22,
+          "label": "GPIO16",
+          "gpio": 16,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 23,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 24,
+          "label": "5V",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 25,
+          "label": "GPIO33",
+          "gpio": 33,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 26,
+          "label": "37",
+          "gpio": 37,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 27,
+          "label": "GPIO38",
+          "gpio": 38,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 28,
+          "label": "GPIO34",
+          "gpio": 34,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 29,
+          "label": "GPIO21",
+          "gpio": 21,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 30,
+          "label": "GPIO17",
+          "gpio": 17,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 31,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 32,
+          "label": "GPIO15",
+          "gpio": 15,
+          "type": "gpio"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "37": 37,
+    "SDA": 35,
+    "SCL": 36,
+    "TX": 43,
+    "RX": 44
+  },
+  "pinLabels": {
+    "35": "SDA",
+    "36": "SCL",
+    "37": "37",
+    "43": "TX",
+    "44": "RX"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "notes": [
+    "LOLIN (WEMOS) S3 Mini: 34.3 x 25.4 mm bare ESP32-S3FH4R2 (4 MB flash, 2 MB quad PSRAM), USB-C. The outer pin rows match the D1 mini footprint (shields fit); the inner rows are a second set of through-hole pads, drawn as the inboard strip here.",
+    "GPIO35/36/37 are usable here (the PSRAM is quad, not octal) - 35/36 are even the default I2C. The bare chip also exposes GPIO33/34, which WROOM modules keep for themselves. The WS2812B RGB LED sits on GPIO47 (not broken out).",
+    "Native USB only, no serial bridge: hold BOOT (GPIO0, not broken out) and tap RST for download mode. Arduino defaults: TX=43, RX=44, SDA=35, SCL=36, SPI SCK=12 / MISO=13 / MOSI=11 / SS=10."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/lolin-s3-mini.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/lolin-s3-mini"
+    }
+  ]
+}

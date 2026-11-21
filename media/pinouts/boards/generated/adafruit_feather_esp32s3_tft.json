@@ -32,7 +32,55 @@
     40,
     45
   ],
+  "pinAliases": {
+    "BUTTON": 0,
+    "A0": 18,
+    "A1": 17,
+    "A2": 16,
+    "A3": 15,
+    "A4": 14,
+    "A5": 8,
+    "SCK": 36,
+    "MOSI": 35,
+    "MISO": 37,
+    "RX": 2,
+    "TX": 1,
+    "NEOPIXEL": 33,
+    "PIN_NEOPIXEL": 33,
+    "TFT_I2C_POWER": 21,
+    "TFT_CS": 7,
+    "TFT_DC": 39,
+    "TFT_RESET": 40,
+    "TFT_BACKLIGHT": 45,
+    "LED": 13,
+    "LED_BUILTIN": 13
+  },
+  "pinLabels": {
+    "0": "BUTTON",
+    "1": "TX",
+    "2": "RX",
+    "7": "TFT_CS",
+    "8": "A5",
+    "13": "LED",
+    "14": "A4",
+    "15": "A3",
+    "16": "A2",
+    "17": "A1",
+    "18": "A0",
+    "21": "TFT_I2C_POWER",
+    "33": "NEOPIXEL",
+    "35": "MOSI",
+    "36": "SCK",
+    "37": "MISO",
+    "39": "TFT_DC",
+    "40": "TFT_RESET",
+    "45": "TFT_BACKLIGHT"
+  },
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/feather-esp32s3-tft/definition.json"
+  }
 }

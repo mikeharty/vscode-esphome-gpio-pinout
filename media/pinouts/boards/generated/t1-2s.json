@@ -29,7 +29,22 @@
     "A3": 24,
     "D11": 0
   },
+  "pinLabels": {
+    "0": "D11",
+    "1": "D3",
+    "6": "D1",
+    "8": "D2",
+    "9": "D6",
+    "10": "D4",
+    "11": "D5",
+    "24": "D7",
+    "26": "D0"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/t1-2s.json"
+  }
 }

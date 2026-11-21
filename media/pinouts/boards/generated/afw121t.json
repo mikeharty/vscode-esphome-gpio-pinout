@@ -29,7 +29,24 @@
     "D10": 30,
     "D4": 29
   },
+  "pinLabels": {
+    "0": "D2",
+    "5": "D5",
+    "12": "D3",
+    "14": "D0",
+    "15": "D1",
+    "18": "D6",
+    "19": "D7",
+    "22": "D8",
+    "23": "D9",
+    "29": "D4",
+    "30": "D10"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/afw121t.json"
+  }
 }

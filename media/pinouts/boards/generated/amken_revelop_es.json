@@ -1,0 +1,65 @@
+{
+  "id": "amken_revelop_es",
+  "displayName": "Amken Revelop eS",
+  "kind": "soc-grid",
+  "socRef": "rp2040",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "pinAliases": {
+    "LED": 5,
+    "MISO": 0,
+    "MOSI": 3,
+    "SCK": 2,
+    "SS": 1,
+    "TX": 20
+  },
+  "pinLabels": {
+    "0": "MISO",
+    "1": "SS",
+    "2": "SCK",
+    "3": "MOSI",
+    "5": "LED",
+    "20": "TX"
+  },
+  "labelKind": "board-api",
+  "availability": "chip",
+  "notes": [
+    "Board metadata and aliases derived from ESPHome's RP2 board catalog.",
+    "The chip supports GPIO0 to GPIO29; physical header availability is not modeled for this board."
+  ],
+  "provenance": {
+    "source": "esphome",
+    "sourcePath": "esphome/components/rp2/boards.py",
+    "license": "Apache-2.0"
+  }
+}

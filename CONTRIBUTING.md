@@ -14,7 +14,7 @@ See `DEVELOPMENT.md` for detailed setup and packaging instructions.
 
 Pinouts live under `media/pinouts/` and are loaded by the webview at runtime. Most files are generated and should not be edited manually.
 
-- `media/pinouts/index.json`: generated registry (schema v2) with source metadata, board mappings, aliases, and SoC fallbacks.
+- `media/pinouts/index.json`: generated registry (schema v4) with source metadata, board mappings, aliases, and SoC fallbacks.
 - `media/pinouts/boards/generated/`: generated board definitions (`svg-board` and board-specific `soc-grid` files).
 - `media/pinouts/assets/wokwi/`: copied SVG assets for Wokwi-backed boards.
 - `media/pinouts/soc/`: generated SoC GPIO/rule definitions.
@@ -25,7 +25,7 @@ Pinouts live under `media/pinouts/` and are loaded by the webview at runtime. Mo
 
 ### `index.json` fields
 
-- `schemaVersion`: currently `2`.
+- `schemaVersion`: currently `4`.
 - `generated`: lock timestamp, source SHAs, and board counts.
 - `boards`: map of ESPHome board IDs to a board JSON file path.
 - `soc`: map of SoC variant keys (e.g., `esp32s3`) to a SoC JSON file path.
@@ -69,6 +69,16 @@ Notes:
 
 - `kind` must be `"soc-grid"`.
 - `gpios` is the list of available GPIO numbers for that SoC.
+- `pinCapabilities` and `pinNotes` map GPIO numbers to descriptive functions and board/SoC facts.
+
+Board and SoC definitions may include `provenance` with an upstream source key, file path, and license. Generated definitions also merge `pinAliases`, `pinLabels`, board notes, and optional `virtualGpios`.
+
+## Image and source policy
+
+- Pin facts must come from a locked upstream revision or documented vendor documentation.
+- Board artwork may be committed only when the upstream license or explicit permission allows redistribution.
+- Discovery catalogs with unknown asset rights are useful for finding manufacturer originals, but their images must not be copied solely because they are publicly downloadable.
+- Record the source, revision, license, and original path in generated provenance wherever practical.
 
 ## Regenerating pinout data
 

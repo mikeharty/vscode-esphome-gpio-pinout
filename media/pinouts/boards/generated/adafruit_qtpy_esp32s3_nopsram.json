@@ -1,0 +1,63 @@
+{
+  "id": "adafruit_qtpy_esp32s3_nopsram",
+  "displayName": "Adafruit QT Py ESP32-S3 No PSRAM",
+  "kind": "soc-grid",
+  "socRef": "esp32s3",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    16,
+    17,
+    18,
+    35,
+    36,
+    37,
+    39
+  ],
+  "pinAliases": {
+    "A0": 18,
+    "A1": 17,
+    "A2": 9,
+    "A3": 8,
+    "SDA": 7,
+    "SCL": 6,
+    "MOSI": 35,
+    "MISO": 37,
+    "SCK": 36,
+    "RX": 16,
+    "TX": 5,
+    "NEOPIXEL": 39,
+    "PIN_NEOPIXEL": 39,
+    "BUTTON": 0,
+    "SWITCH": 0
+  },
+  "pinLabels": {
+    "0": "BUTTON",
+    "5": "TX",
+    "6": "SCL",
+    "7": "SDA",
+    "8": "A3",
+    "9": "A2",
+    "16": "RX",
+    "17": "A1",
+    "18": "A0",
+    "35": "MOSI",
+    "36": "SCK",
+    "37": "MISO",
+    "39": "NEOPIXEL"
+  },
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/qtpy-esp32s3/definition.json"
+  }
+}
