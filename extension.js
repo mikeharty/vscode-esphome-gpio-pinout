@@ -260,33 +260,48 @@ function getWebviewHtml(webview, extensionUri) {
 </head>
 <body data-pinout-base="${pinoutBaseUri}" data-pinout-index="${pinoutIndexUri}">
   <div class="tm-modal">
-    <div class="tm-modal-header">
+    <header class="tm-modal-header">
+      <div class="tm-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="7.5" y="7.5" width="17" height="17" rx="4.5"></rect>
+          <circle cx="16" cy="16" r="3.25"></circle>
+          <path d="M11.5 7.5V3.5M16 7.5V3.5M20.5 7.5V3.5M11.5 28.5v-4M16 28.5v-4M20.5 28.5v-4M7.5 11.5h-4M7.5 16h-4M7.5 20.5h-4M28.5 11.5h-4M28.5 16h-4M28.5 20.5h-4"></path>
+        </svg>
+      </div>
       <div class="tm-hgroup">
+        <div class="tm-eyebrow">Pinout / live workspace</div>
         <div class="tm-h-title" id="tm-esphome-pinout-board">ESPHome GPIO Pinout</div>
-        <div class="tm-h-subtitle" id="tm-esphome-pinout-subtitle">Waiting for YAML</div>
+        <div class="tm-h-subtitle" role="status" aria-live="polite"><span class="tm-status-dot" aria-hidden="true"></span><span id="tm-esphome-pinout-subtitle">Waiting for YAML</span></div>
       </div>
       <div class="tm-actions">
-        <div class="tm-zoom-group" role="group" aria-label="Zoom controls">
-          <button class="tm-btn tm-zoom-btn" id="tm-esphome-pinout-zoomout" title="Zoom out (Ctrl/Cmd + scroll)" aria-label="Zoom out">&minus;</button>
-          <button class="tm-zoom-label" id="tm-esphome-pinout-zoomlabel" title="Reset zoom to 100%" aria-label="Reset zoom">100%</button>
-          <button class="tm-btn tm-zoom-btn" id="tm-esphome-pinout-zoomin" title="Zoom in (Ctrl/Cmd + scroll)" aria-label="Zoom in">+</button>
-        </div>
         <div class="tm-select-wrap" id="tm-esphome-pinout-labelstyle-wrap" hidden>
+          <span class="tm-control-label">Labels</span>
           <select class="tm-select" id="tm-esphome-pinout-labelstyle" aria-label="Pin label style">
-            <option value="gpio">GPIO labels</option>
-            <option value="board">Silkscreen labels</option>
+            <option value="gpio">GPIO</option>
+            <option value="board">Silkscreen</option>
           </select>
         </div>
-        <button class="tm-btn" id="tm-esphome-pinout-refresh" title="Re-read the active YAML file">Refresh</button>
+        <div class="tm-zoom-group" role="group" aria-label="Zoom controls">
+          <button class="tm-btn tm-zoom-btn" id="tm-esphome-pinout-zoomout" title="Zoom out (Ctrl/Cmd + scroll)" aria-label="Zoom out"><span aria-hidden="true">−</span></button>
+          <button class="tm-zoom-label" id="tm-esphome-pinout-zoomlabel" title="Reset zoom to 100%" aria-label="Reset zoom">100%</button>
+          <button class="tm-btn tm-zoom-btn" id="tm-esphome-pinout-zoomin" title="Zoom in (Ctrl/Cmd + scroll)" aria-label="Zoom in"><span aria-hidden="true">+</span></button>
+        </div>
+        <button class="tm-btn tm-icon-btn" id="tm-esphome-pinout-refresh" title="Re-read the active YAML file" aria-label="Refresh pinout">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.6 6.5A7 7 0 1 0 17 12M16.6 6.5V2.9M16.6 6.5H13"></path></svg>
+        </button>
       </div>
-    </div>
-    <div class="tm-modal-body">
-      <div class="tm-diagram-wrap">
+    </header>
+    <main class="tm-modal-body">
+      <section class="tm-diagram-wrap" aria-label="Board pinout diagram">
+        <div class="tm-stagebar">
+          <span class="tm-stagebar-label"><span class="tm-crosshair" aria-hidden="true"></span>Board schematic</span>
+          <span class="tm-stagebar-meta">Auto fit · interactive</span>
+        </div>
         <div class="tm-diagram" id="tm-esphome-pinout-diagram"></div>
         <div class="tm-legend" id="tm-esphome-pinout-legend" hidden></div>
-      </div>
-      <div class="tm-side" id="tm-esphome-pinout-side"></div>
-    </div>
+      </section>
+      <aside class="tm-side" id="tm-esphome-pinout-side" aria-label="Pin configuration inspector"></aside>
+    </main>
   </div>
 
   <script src="${logicUri}" defer></script>
