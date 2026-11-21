@@ -72,6 +72,10 @@
   const labelStyleWrapEl = document.getElementById("tm-esphome-pinout-labelstyle-wrap");
   const labelStyleSelectEl = document.getElementById("tm-esphome-pinout-labelstyle");
 
+  function setHeaderReady(ready) {
+    subtitleEl?.parentElement?.classList.toggle("tm-ready", Boolean(ready));
+  }
+
   // FNV-1a content hash: the render signature must reflect the actual YAML text,
   // not just its length, so same-length edits (GPIO4 -> GPIO5) re-render.
   function hashText(str) {
@@ -1398,6 +1402,7 @@
       const reason = payload?.reason || "No data available.";
       if (titleEl) titleEl.textContent = "ESPHome GPIO Pinout";
       if (subtitleEl) subtitleEl.textContent = reason;
+      setHeaderReady(false);
       hideLabelStyleControl();
       renderLegend(null);
       diagramEl.innerHTML = `
@@ -1422,6 +1427,7 @@
     const renderSig = sig;
 
     if (subtitleEl) subtitleEl.textContent = `YAML source: ${source}`;
+    setHeaderReady(false);
 
     let parsed = parseEsphomeYaml(yamlText);
     if (!parsed.ok) {
@@ -1456,6 +1462,7 @@
       const titleLines = buildBoardTitleLines(boardDef, parsed);
       titleEl.textContent = titleLines.line1 || "ESPHome GPIO Pinout";
     }
+    setHeaderReady(true);
     renderLegend(boardDef.kind);
 
     const svg =
@@ -1572,7 +1579,7 @@
                     ${issues
                       .map(
                         (it) =>
-                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}">[${escapeHtml(it.severity)}] ${escapeHtml(it.text)}</div>`,
+                          `<div class="tm-issue tm-issue-${escapeHtml(it.severity)}"><span class="tm-issue-mark" aria-hidden="true"></span>${escapeHtml(it.severity.toUpperCase())}: ${escapeHtml(it.text)}</div>`,
                       )
                       .join("")}
                   </div>
@@ -1592,7 +1599,7 @@
                 : "";
 
               return `
-                <div class="tm-used-pin" data-hl-gpio="${gpio}">
+                <div class="tm-used-pin" data-hl-gpio="${gpio}" data-state="${worst}">
                   <div class="tm-used-pin-head">
                     <div class="tm-used-pin-title">${escapeHtml(pinDisplayName(gpio))}</div>
                     ${badge}
@@ -1620,11 +1627,11 @@
         ? ""
         : `
       <div class="tm-section">
-        <div class="tm-section-title">Unresolved Pins</div>
+        <div class="tm-section-title"><span>Unresolved</span><span class="tm-section-index">03</span></div>
         ${parsed.unresolved
           .map(
             (u) => `
-          <div class="tm-used-pin">
+          <div class="tm-used-pin" data-state="warn">
             <div class="tm-used-pin-head">
               <div class="tm-used-pin-title">${escapeHtml(u.rawValue)}</div>
               <span class="tm-badge tm-badge-warn">UNRESOLVED</span>
@@ -1672,10 +1679,18 @@
         : "";
 
     sideEl.innerHTML = `
+      <div class="tm-inspector-head">
+        <div>
+          <div class="tm-eyebrow">Inspector</div>
+          <div class="tm-inspector-title">Configuration</div>
+        </div>
+        <span class="tm-live-pill"><span class="tm-status-dot" aria-hidden="true"></span>Live</span>
+      </div>
+
       <div class="tm-section tm-chip-row">${summaryChips}</div>
 
-      <div class="tm-section">
-        <div class="tm-section-title">Detected</div>
+      <div class="tm-section tm-detected">
+        <div class="tm-section-title"><span>Target</span><span class="tm-section-index">01</span></div>
         <div class="tm-kv"><span>Platform</span><code>${escapeHtml(platformName ?? "(none)")}</code></div>
         <div class="tm-kv"><span>Board</span><code>${escapeHtml(parsed.board ?? "(none)")}</code></div>
         <div class="tm-kv"><span>Variant</span><code>${escapeHtml(parsed.variant ?? variant ?? "(none)")}</code></div>
@@ -1687,7 +1702,7 @@
       ${boardDetailsHtml}
 
       <div class="tm-section">
-        <div class="tm-section-title">Used GPIOs</div>
+        <div class="tm-section-title"><span>Active pins</span><span class="tm-section-index">02</span></div>
         ${usedHtml}
       </div>
 
@@ -1698,11 +1713,11 @@
           ? ""
           : `
       <div class="tm-section">
-        <div class="tm-section-title">Unused GPIO Substitutions</div>
+        <div class="tm-section-title"><span>Unused aliases</span><span class="tm-section-index">04</span></div>
         ${parsed.unusedGpioSubstitutions
           .map(
             (s) => `
-          <div class="tm-used-pin">
+          <div class="tm-used-pin" data-state="info">
             <div class="tm-used-pin-head">
               <div class="tm-used-pin-title">GPIO${s.gpio}</div>
               <span class="tm-badge tm-badge-info">UNUSED</span>
@@ -1718,11 +1733,10 @@
       }
 
       <div class="tm-footnote">
-        Notes:
-        <ul class="tm-ul">
-          <li>Click a pin or line button to jump to that line in the editor.</li>
-          <li>Zoom: buttons, <code>Ctrl/Cmd + scroll</code>, or <code>+</code>/<code>-</code>/<code>0</code> keys.</li>
-        </ul>
+        <div class="tm-footnote-title">Quick controls</div>
+        <div class="tm-shortcut"><span>Jump to source</span><kbd>click pin</kbd></div>
+        <div class="tm-shortcut"><span>Zoom canvas</span><kbd>⌘ / Ctrl + scroll</kbd></div>
+        <div class="tm-shortcut"><span>Reset view</span><kbd>0</kbd></div>
       </div>
     `;
 
