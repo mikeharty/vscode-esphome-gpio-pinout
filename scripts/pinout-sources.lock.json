@@ -1,18 +1,36 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-18T06:00:30.754Z",
+  "updatedAt": "2026-11-21T20:48:40.641Z",
   "sources": {
+    "circuitpython": {
+      "owner": "adafruit",
+      "repo": "circuitpython",
+      "branch": "main",
+      "commit": "b2680c85d460b4987936e0461dcdd7e17a4805e9"
+    },
+    "esp_pinout_studio": {
+      "owner": "FelixKunzJr",
+      "repo": "ESPPinoutWebsite",
+      "branch": "main",
+      "commit": "9c616c2afbeddfb6ad465b81458ae9578c4c3656"
+    },
+    "esphome": {
+      "owner": "esphome",
+      "repo": "esphome",
+      "branch": "dev",
+      "commit": "7eca8adae11e60a7d5a9e1be504cab144dc5849b"
+    },
     "libretiny": {
       "owner": "libretiny-eu",
       "repo": "libretiny",
       "branch": "master",
-      "commit": "6514b26078a6b23c85290d7400194f92d50a5990"
+      "commit": "c81bc9cef83ffd42fcffce32b8b08793b2400b9f"
     },
     "platformio_espressif32": {
       "owner": "pioarduino",
       "repo": "platform-espressif32",
       "branch": "main",
-      "commit": "2959e98a2750832bca32fd2f849c0c274a4cdd63"
+      "commit": "23ebbebac3f515c481396c69217d0eca4f0dfa37"
     },
     "platformio_espressif8266": {
       "owner": "platformio",
@@ -30,7 +48,7 @@
       "owner": "wokwi",
       "repo": "wokwi-boards",
       "branch": "main",
-      "commit": "4294fca6dce4c5e3d7393ceda312225ed861c997"
+      "commit": "962b19d5636756537a93bb5337ac99abd775eae0"
     }
   }
 }

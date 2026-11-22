@@ -42,7 +42,30 @@
     "D15": 29,
     "D16": 30
   },
+  "pinLabels": {
+    "0": "D0",
+    "5": "D1",
+    "6": "D2",
+    "7": "D3",
+    "8": "D4",
+    "9": "D5",
+    "10": "D6",
+    "11": "D7",
+    "12": "D8",
+    "14": "D9",
+    "15": "D10",
+    "18": "D11",
+    "19": "D12",
+    "22": "D13",
+    "23": "D14",
+    "29": "D15",
+    "30": "D16"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/generic-rtl8710bn-2mb-468k.json"
+  }
 }

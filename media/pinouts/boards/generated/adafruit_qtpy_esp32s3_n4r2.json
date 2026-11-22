@@ -23,5 +23,9 @@
   ],
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/qtpy-esp32s3-n4r2/definition.json"
+  }
 }

@@ -1,0 +1,158 @@
+{
+  "id": "lolin_c3_mini",
+  "displayName": "LOLIN C3 Mini",
+  "kind": "header-board",
+  "socRef": "esp32c3",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "EN",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 2,
+          "label": "GPIO3",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 3,
+          "label": "2",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "GPIO1",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "GPIO0",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "GPIO4",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "GPIO5",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 9,
+          "label": "TX",
+          "gpio": 21,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "RX",
+          "gpio": 20,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 11,
+          "label": "SCL",
+          "gpio": 10,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 12,
+          "label": "SDA",
+          "gpio": 8,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 13,
+          "label": "LED",
+          "gpio": 7,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 14,
+          "label": "GPIO6",
+          "gpio": 6,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 15,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 16,
+          "label": "5V",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "2": 2,
+    "LED": 7,
+    "SDA": 8,
+    "SCL": 10,
+    "RX": 20,
+    "TX": 21
+  },
+  "pinLabels": {
+    "2": "2",
+    "7": "LED",
+    "8": "SDA",
+    "10": "SCL",
+    "20": "RX",
+    "21": "TX"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "7": [
+      "Onboard LED: WS2812B data-in on v2.1.0 (drive with the NeoPixel protocol), plain blue active-HIGH LED on v1.0.0."
+    ],
+    "8": [
+      "Strapping pin with a 10 k onboard pullup - do not pull LOW at boot."
+    ]
+  },
+  "notes": [
+    "LOLIN (WEMOS) C3 Mini v2.1.0: 34.3 x 25.4 mm bare ESP32-C3FH4 (4 MB flash), USB-C, ceramic antenna, D1 mini footprint.",
+    "Older v1.0.0 boards differ: the left column runs EN, 0, 1, 2, 3, 4, 5, 3V3, the LED is a plain blue one, and the PCB antenna has notoriously weak Wi-Fi (cap TX power, e.g. WiFi.setTxPower(WIFI_POWER_8_5dBm)).",
+    "Native USB Serial/JTAG only (GPIO18/19, not broken out); GPIO9 (BOOT button) is not broken out either. Arduino defaults: TX=21, RX=20, SDA=8, SCL=10, SPI SCK=2 / MISO=3 / MOSI=4 / SS=5."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/lolin-c3-mini.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/lolin-c3-mini"
+    }
+  ]
+}

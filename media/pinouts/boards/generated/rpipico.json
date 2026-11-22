@@ -329,5 +329,38 @@
       "gpio": 16,
       "type": "gpio"
     }
-  ]
+  ],
+  "pinAliases": {
+    "LED": 25,
+    "MISO": 16,
+    "MOSI": 19,
+    "RX": 1,
+    "SCK": 18,
+    "SCL": 5,
+    "SCL1": 27,
+    "SDA": 4,
+    "SDA1": 26,
+    "SS": 17,
+    "TX": 0
+  },
+  "pinLabels": {
+    "0": "TX",
+    "1": "RX",
+    "4": "SDA",
+    "5": "SCL",
+    "16": "MISO",
+    "17": "SS",
+    "18": "SCK",
+    "19": "MOSI",
+    "25": "LED",
+    "26": "SDA1",
+    "27": "SCL1"
+  },
+  "virtualGpios": [
+    25
+  ],
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/pi-pico"
+  }
 }

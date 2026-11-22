@@ -20,5 +20,9 @@
   ],
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/dfrobot-beetle-esp32c3/definition.json"
+  }
 }

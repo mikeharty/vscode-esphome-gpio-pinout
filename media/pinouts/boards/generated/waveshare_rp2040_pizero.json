@@ -1,0 +1,73 @@
+{
+  "id": "waveshare_rp2040_pizero",
+  "displayName": "Waveshare RP2040 PiZero",
+  "kind": "soc-grid",
+  "socRef": "rp2040",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "pinAliases": {
+    "MISO": 20,
+    "MOSI": 19,
+    "RX": 1,
+    "SCK": 18,
+    "SCL": 5,
+    "SCL1": 27,
+    "SDA": 4,
+    "SDA1": 26,
+    "SS": 21,
+    "TX": 0
+  },
+  "pinLabels": {
+    "0": "TX",
+    "1": "RX",
+    "4": "SDA",
+    "5": "SCL",
+    "18": "SCK",
+    "19": "MOSI",
+    "20": "MISO",
+    "21": "SS",
+    "26": "SDA1",
+    "27": "SCL1"
+  },
+  "labelKind": "board-api",
+  "availability": "chip",
+  "notes": [
+    "Board metadata and aliases derived from ESPHome's RP2 board catalog.",
+    "The chip supports GPIO0 to GPIO29; physical header availability is not modeled for this board."
+  ],
+  "provenance": {
+    "source": "esphome",
+    "sourcePath": "esphome/components/rp2/boards.py",
+    "license": "Apache-2.0"
+  }
+}

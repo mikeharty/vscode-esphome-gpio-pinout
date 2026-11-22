@@ -73,5 +73,9 @@
       "gpio": null,
       "type": "other"
     }
-  ]
+  ],
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/esp-01"
+  }
 }

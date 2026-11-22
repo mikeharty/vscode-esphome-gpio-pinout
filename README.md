@@ -45,7 +45,12 @@ Pinout data is generated from locked upstream commits and committed into this re
 - Wokwi custom board definitions (`board.json` + `board.svg`) for SVG-backed board layouts.
 - Adafruit WipperSnapper board definitions for matched board GPIO subsets when no Wokwi layout exists.
 - LibreTiny board definitions for `bk72xx`/`rtl87xx` module pin subsets and silkscreen aliases.
+- ESPHome's board catalogs for the complete RP2040/RP2350 board set, board aliases, and newly supported ESP32 variants.
+- ESP32 Pinout Studio / Espressif GPIO data for per-pin functions, RTC domain, strapping, and reset details.
+- CircuitPython board pin maps for nRF52 board subsets and silkscreen aliases.
 - Built-in SoC rule tables for chip-level warnings and fallback rendering.
+
+Board artwork and source references are committed with provenance. Aggregate photo catalogs are used only to locate an original manufacturer or licensed source; images without clear redistribution rights are not copied into the extension.
 
 Update and verify data with:
 
@@ -58,7 +63,7 @@ npm run pinouts:check
 ## Notes
 
 - The extension reads from the active editor, including unsaved changes, and auto-refreshes on file save. The panel stays on the last ESPHome YAML when you switch to other files.
-- Board coverage includes all ESPHome-relevant PlatformIO IDs for ESP32 + ESP8266, LibreTiny modules, and selected nRF52/RP2 boards — with SoC fallback rendering when full board artwork is unavailable.
+- Board coverage includes all current ESPHome-relevant ESP32 and ESP8266 PlatformIO IDs, the full ESPHome RP2 catalog, LibreTiny modules, and selected nRF52 boards — with board-specific grids or SoC fallback rendering when artwork is unavailable.
 - The extension uses a simple YAML parser and may not handle all ESPHome YAML constructs (e.g. `!include` / `packages:` are not expanded). Please file an issue if you encounter problems.
 - Feedback and contributions are welcome!
 
@@ -71,3 +76,6 @@ Thanks to the projects that provide the board and pinout source data used by thi
 - [platformio/platform-espressif8266](https://github.com/platformio/platform-espressif8266)
 - [adafruit/Wippersnapper_Boards](https://github.com/adafruit/Wippersnapper_Boards)
 - [libretiny-eu/libretiny](https://github.com/libretiny-eu/libretiny)
+- [esphome/esphome](https://github.com/esphome/esphome)
+- [FelixKunzJr/ESPPinoutWebsite](https://github.com/FelixKunzJr/ESPPinoutWebsite)
+- [adafruit/circuitpython](https://github.com/adafruit/circuitpython)

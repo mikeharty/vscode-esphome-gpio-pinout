@@ -51,5 +51,110 @@
       "severity": "info",
       "text": "ADC-capable pin (ADC1)."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "ADC1_CH0",
+      "RTC"
+    ],
+    "1": [
+      "ADC1_CH1",
+      "RTC"
+    ],
+    "2": [
+      "ADC1_CH2",
+      "FSPIQ",
+      "RTC"
+    ],
+    "3": [
+      "ADC1_CH3",
+      "RTC"
+    ],
+    "4": [
+      "ADC1_CH4",
+      "MTMS",
+      "FSPIHD",
+      "RTC"
+    ],
+    "5": [
+      "MTDI",
+      "FSPIWP",
+      "RTC"
+    ],
+    "6": [
+      "MTCK",
+      "FSPICLK"
+    ],
+    "7": [
+      "MTDO",
+      "FSPID"
+    ],
+    "8": [
+      "Strapping"
+    ],
+    "10": [
+      "FSPICS0"
+    ],
+    "19": [
+      "U0RXD"
+    ],
+    "20": [
+      "U0TXD"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "1": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "2": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "3": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "4": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "5": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "6": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "7": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "8": [
+      "Power domain: VDD3P3_CPU.",
+      "Boot role: Has to be pulled down for Download Boot.."
+    ],
+    "10": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "18": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "19": [
+      "Power domain: VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "20": [
+      "Power domain: VDD3P3_CPU.",
+      "Reset state: PUP."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32c2.yaml",
+    "license": "Apache-2.0"
+  }
 }

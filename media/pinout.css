@@ -1012,6 +1012,58 @@ select {
   border-top: 1px solid var(--tm-border);
 }
 
+.tm-pin-details {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--tm-border);
+}
+
+.tm-pin-details-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--tm-muted);
+  font: 800 10px/1 system-ui;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tm-capability-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tm-capability {
+  padding: 3px 6px;
+  border: 1px solid var(--tm-border);
+  border-radius: 6px;
+  background: var(--tm-control-bg-subtle);
+  color: var(--tm-text);
+  font:
+    700 10px/1.15 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+}
+
+.tm-pin-note,
+.tm-source-row {
+  margin: 5px 0;
+  color: var(--tm-muted);
+  font: 600 12px/1.4 system-ui;
+}
+
+.tm-external-link {
+  color: var(--vscode-textLink-foreground, #3794ff);
+  text-decoration: none;
+}
+
+.tm-external-link:hover {
+  text-decoration: underline;
+}
+
 .tm-issue {
   display: flex;
   align-items: flex-start;

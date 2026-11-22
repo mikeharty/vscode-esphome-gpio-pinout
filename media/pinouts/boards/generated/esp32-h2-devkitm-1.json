@@ -249,5 +249,17 @@
       "gpio": null,
       "type": "ground"
     }
-  ]
+  ],
+  "pinAliases": {
+    "TX": 24,
+    "RX": 23
+  },
+  "pinLabels": {
+    "23": "RX",
+    "24": "TX"
+  },
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/esp32-h2-devkitm-1"
+  }
 }

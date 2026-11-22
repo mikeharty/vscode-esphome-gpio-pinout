@@ -1,0 +1,255 @@
+{
+  "id": "lolin_d32",
+  "displayName": "LOLIN D32",
+  "kind": "header-board",
+  "socRef": "esp32",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 2,
+          "label": "RST",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 3,
+          "label": "VP",
+          "gpio": 36,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 4,
+          "label": "VN",
+          "gpio": 39,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "GPIO34",
+          "gpio": 34,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "GPIO32",
+          "gpio": 32,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "GPIO33",
+          "gpio": 33,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "GPIO25",
+          "gpio": 25,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 9,
+          "label": "GPIO26",
+          "gpio": 26,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "GPIO27",
+          "gpio": 27,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 11,
+          "label": "GPIO14",
+          "gpio": 14,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 12,
+          "label": "GPIO12",
+          "gpio": 12,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 13,
+          "label": "GPIO13",
+          "gpio": 13,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 14,
+          "label": "EN",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 15,
+          "label": "USB",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 16,
+          "label": "BAT",
+          "gpio": null,
+          "type": "other"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 17,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 18,
+          "label": "GPIO23",
+          "gpio": 23,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 19,
+          "label": "GPIO22",
+          "gpio": 22,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 20,
+          "label": "TX",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 21,
+          "label": "RX",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 22,
+          "label": "GPIO21",
+          "gpio": 21,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 23,
+          "label": "GPIO19",
+          "gpio": 19,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 24,
+          "label": "GPIO18",
+          "gpio": 18,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 25,
+          "label": "LED",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 26,
+          "label": "GPIO17",
+          "gpio": 17,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 27,
+          "label": "GPIO16",
+          "gpio": 16,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 28,
+          "label": "GPIO4",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 29,
+          "label": "GPIO0",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 30,
+          "label": "GPIO2",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 31,
+          "label": "GPIO15",
+          "gpio": 15,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 32,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "TX": 1,
+    "RX": 3,
+    "LED": 5,
+    "VP": 36,
+    "VN": 39
+  },
+  "pinLabels": {
+    "1": "TX",
+    "3": "RX",
+    "5": "LED",
+    "36": "VP",
+    "39": "VN"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "1": [
+      "UART0, shared with the CH340C."
+    ],
+    "3": [
+      "UART0, shared with the CH340C."
+    ],
+    "5": [
+      "Blue onboard LED, active LOW. Also the default SPI SS."
+    ]
+  },
+  "notes": [
+    "LOLIN (WEMOS) D32: 57 x 25.4 mm ESP32-WROOM-32 (4 MB flash) with a CH340C bridge, micro-USB, and LiPo support (PH-2 connector + TP4054 charger, ~500 mA). Auto-flash circuit onboard - no BOOT button needed.",
+    "GPIO35 is not broken out: it reads the battery through a 100k/100k divider (battery voltage = ADC reading x 2). The USB pad is raw VBUS and BAT is the battery terminal - there is no regulated 5 V output.",
+    "Two enable pads: RST resets the ESP32, but the pad silkscreened EN enables the 3.3 V regulator - pulling THAT low powers off the whole board."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/lolin-d32.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/lolin-d32"
+    }
+  ]
+}

@@ -265,5 +265,52 @@
       "gpio": null,
       "type": "power"
     }
-  ]
+  ],
+  "pinAliases": {
+    "TX": 43,
+    "RX": 44,
+    "SPICS1": 29,
+    "SPIHD": 31,
+    "SPIWP": 32,
+    "SPICS0": 33,
+    "SPICLK": 34,
+    "SPIQ": 35,
+    "SPID": 36,
+    "MISO": 9,
+    "MOSI": 11,
+    "SCK": 7,
+    "SCL": 35,
+    "SDA": 33,
+    "DAC1": 17,
+    "DAC2": 18,
+    "LED": 15
+  },
+  "pinLabels": {
+    "7": "SCK",
+    "9": "MISO",
+    "11": "MOSI",
+    "15": "LED",
+    "17": "DAC1",
+    "18": "DAC2",
+    "29": "SPICS1",
+    "31": "SPIHD",
+    "32": "SPIWP",
+    "33": "SDA",
+    "34": "SPICLK",
+    "35": "SCL",
+    "36": "SPID",
+    "43": "TX",
+    "44": "RX"
+  },
+  "virtualGpios": [
+    29,
+    31,
+    32,
+    43,
+    44
+  ],
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/wemos-s2-mini"
+  }
 }

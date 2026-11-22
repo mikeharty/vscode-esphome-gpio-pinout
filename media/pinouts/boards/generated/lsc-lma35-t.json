@@ -38,7 +38,28 @@
     "D13": 11,
     "D14": 1
   },
+  "pinLabels": {
+    "0": "D5",
+    "1": "D14",
+    "6": "D10",
+    "7": "D11",
+    "8": "D7",
+    "9": "D8",
+    "10": "D12",
+    "11": "D13",
+    "14": "D1",
+    "16": "D2",
+    "21": "D9",
+    "22": "D4",
+    "23": "D6",
+    "24": "D3",
+    "26": "D0"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/lsc-lma35-t.json"
+  }
 }

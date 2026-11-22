@@ -89,5 +89,358 @@
       "severity": "warn",
       "text": "Input-only pins; no internal pull-up/pull-down."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "ADC2_CH1",
+      "TOUCH1",
+      "EMAC_TX_CLK",
+      "CLK_OUT1",
+      "RTC",
+      "Strapping"
+    ],
+    "1": [
+      "U0TXD",
+      "EMAC_RXD2",
+      "CLK_OUT3"
+    ],
+    "2": [
+      "ADC2_CH2",
+      "TOUCH2",
+      "HSPIWP",
+      "SDHOST_CDATA_20",
+      "SDIO1_DATA0",
+      "RTC",
+      "Strapping"
+    ],
+    "3": [
+      "U0RXD",
+      "CLK_OUT2"
+    ],
+    "4": [
+      "ADC2_CH0",
+      "TOUCH0",
+      "EMAC_TX_ER",
+      "HSPIHD",
+      "SDHOST_CDATA_21",
+      "SDIO1_DATA1",
+      "RTC"
+    ],
+    "5": [
+      "SDHOST_CDATA_16",
+      "EMAC_RX_CLK",
+      "VSPICS0",
+      "Strapping"
+    ],
+    "6": [
+      "SDHOST_CCLK_1",
+      "U1CTS",
+      "SDIO0_CLK",
+      "SPICLK"
+    ],
+    "7": [
+      "SDHOST_CDATA_10",
+      "U2RTS",
+      "SDIO0_DATA0",
+      "SPIQ"
+    ],
+    "8": [
+      "SDHOST_CDATA_11",
+      "U2CTS",
+      "SDIO0_DATA1",
+      "SPID"
+    ],
+    "9": [
+      "SDHOST_CDATA_12",
+      "U1RXD",
+      "SDIO0_DATA2",
+      "SPIHD"
+    ],
+    "10": [
+      "SDHOST_CDATA_13",
+      "U1TXD",
+      "SDIO0_DATA3",
+      "SPIWP"
+    ],
+    "11": [
+      "SDHOST_CCMD_1",
+      "U1RTS",
+      "SDIO0_CMD",
+      "SPICS0"
+    ],
+    "12": [
+      "ADC2_CH5",
+      "MTDI",
+      "TOUCH5",
+      "EMAC_TXD3",
+      "HSPIQ",
+      "SDHOST_CDATA_22",
+      "SDIO1_DATA2",
+      "RTC",
+      "Strapping"
+    ],
+    "13": [
+      "ADC2_CH4",
+      "MTCK",
+      "TOUCH4",
+      "EMAC_RX_ER",
+      "HSPID",
+      "SDHOST_CDATA_23",
+      "SDIO1_DATA3",
+      "RTC"
+    ],
+    "14": [
+      "ADC2_CH6",
+      "MTMS",
+      "TOUCH6",
+      "EMAC_TXD2",
+      "HSPICLK",
+      "SDHOST_CCLK_2",
+      "SDIO1_CLK",
+      "RTC"
+    ],
+    "15": [
+      "ADC2_CH3",
+      "MTDO",
+      "TOUCH3",
+      "EMAC_RXD3",
+      "HSPICS0",
+      "SDHOST_CCMD_2",
+      "SDIO1_CMD",
+      "RTC",
+      "Strapping"
+    ],
+    "16": [
+      "SDHOST_CDATA_14",
+      "U2RXD",
+      "EMAC_CLK_OUT"
+    ],
+    "17": [
+      "SDHOST_CDATA_15",
+      "U2TXD",
+      "EMAC_CLK_OUT_180"
+    ],
+    "18": [
+      "SDHOST_CDATA_17",
+      "VSPICLK"
+    ],
+    "19": [
+      "U0CTS",
+      "EMAC_TXD0",
+      "VSPIQ"
+    ],
+    "21": [
+      "EMAC_TX_EN",
+      "VSPIHD"
+    ],
+    "22": [
+      "U0RTS",
+      "EMAC_TXD1",
+      "VSPIWP"
+    ],
+    "23": [
+      "SDHOST_STROBE_1",
+      "VSPID"
+    ],
+    "25": [
+      "ADC2_CH8",
+      "DAC_1",
+      "EMAC_RXD0",
+      "RTC"
+    ],
+    "26": [
+      "ADC2_CH9",
+      "DAC_2",
+      "EMAC_RXD1",
+      "RTC"
+    ],
+    "27": [
+      "ADC2_CH7",
+      "TOUCH7",
+      "EMAC_RX_DV",
+      "RTC"
+    ],
+    "32": [
+      "ADC1_CH4",
+      "TOUCH9",
+      "XTAL_32K_P",
+      "RTC"
+    ],
+    "33": [
+      "ADC1_CH5",
+      "TOUCH8",
+      "XTAL_32K_N",
+      "RTC"
+    ],
+    "34": [
+      "ADC1_CH6",
+      "RTC"
+    ],
+    "35": [
+      "ADC1_CH7",
+      "RTC"
+    ],
+    "36": [
+      "ADC1_CH0",
+      "RTC"
+    ],
+    "37": [
+      "ADC1_CH1",
+      "RTC"
+    ],
+    "38": [
+      "ADC1_CH2",
+      "RTC"
+    ],
+    "39": [
+      "ADC1_CH3",
+      "RTC"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDD3P3_RTC.",
+      "Boot role: High for SPI Boot; Low for Download Mode.",
+      "Reset state: PUP.",
+      "Available in the RTC low-power domain."
+    ],
+    "1": [
+      "Power domain: VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "2": [
+      "Power domain: VDD3P3_RTC.",
+      "Boot role: Low for Download Mode.",
+      "Reset state: PDOWN.",
+      "Available in the RTC low-power domain."
+    ],
+    "3": [
+      "Power domain: VDD3P3_CPU.",
+      "Reset state: PUP."
+    ],
+    "4": [
+      "Power domain: VDD3P3_RTC.",
+      "Reset state: PDOWN.",
+      "Available in the RTC low-power domain."
+    ],
+    "5": [
+      "Power domain: VDD3P3_CPU.",
+      "Boot role: SDIO Slave timing adjustment.",
+      "Reset state: PUP."
+    ],
+    "6": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "7": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "8": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "9": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "10": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "11": [
+      "Power domain: VDD_SDIO.",
+      "Reset state: PUP."
+    ],
+    "12": [
+      "Power domain: VDD3P3_RTC.",
+      "Boot role: Voltage of Internal LDO.",
+      "Reset state: PDOWN.",
+      "Available in the RTC low-power domain."
+    ],
+    "13": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "14": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "15": [
+      "Power domain: VDD3P3_RTC.",
+      "Boot role: Toggle for Debugging Log over UART0.",
+      "Reset state: PUP.",
+      "Available in the RTC low-power domain."
+    ],
+    "16": [
+      "Power domain: VDD_SDIO."
+    ],
+    "17": [
+      "Power domain: VDD_SDIO."
+    ],
+    "18": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "19": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "21": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "22": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "23": [
+      "Power domain: VDD3P3_CPU."
+    ],
+    "25": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "26": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "27": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "32": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "33": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "34": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "35": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "36": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "37": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "38": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ],
+    "39": [
+      "Power domain: VDD3P3_RTC.",
+      "Available in the RTC low-power domain."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32.yaml",
+    "license": "Apache-2.0"
+  }
 }

@@ -18,7 +18,18 @@
     "A0": 19,
     "D4": 12
   },
+  "pinLabels": {
+    "5": "D2",
+    "12": "D4",
+    "14": "D1",
+    "15": "D0",
+    "19": "D3"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/wr2l.json"
+  }
 }

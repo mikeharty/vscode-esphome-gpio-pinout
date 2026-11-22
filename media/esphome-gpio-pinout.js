@@ -415,6 +415,21 @@
     ];
     const mergedAliases = { ...(socDef.pinAliases || {}), ...(def.pinAliases || {}) };
     const mergedLabels = { ...(socDef.pinLabels || {}), ...(def.pinLabels || {}) };
+    const mergedCapabilities = mergePinMetadata(socDef.pinCapabilities, def.pinCapabilities);
+    const mergedNotes = mergePinMetadata(socDef.pinNotes, def.pinNotes);
+    const virtualGpios = [...new Set([...(socDef.virtualGpios || []), ...(def.virtualGpios || [])])].sort(
+      (a, b) => a - b,
+    );
+    const provenances = [];
+    for (const [provenance, scope] of [
+      [socDef.provenance, "SoC pin facts"],
+      [def.provenance, "Board layout"],
+    ]) {
+      if (!provenance) continue;
+      const key = `${provenance.source}|${provenance.sourcePath}`;
+      if (provenances.some((item) => `${item.source}|${item.sourcePath}` === key)) continue;
+      provenances.push({ ...provenance, scope });
+    }
 
     return {
       ...def,
@@ -422,7 +437,24 @@
       pinIssues: mergedIssues.length ? mergedIssues : undefined,
       pinAliases: Object.keys(mergedAliases).length ? mergedAliases : undefined,
       pinLabels: Object.keys(mergedLabels).length ? mergedLabels : undefined,
+      pinCapabilities: mergedCapabilities,
+      pinNotes: mergedNotes,
+      virtualGpios: virtualGpios.length ? virtualGpios : undefined,
+      notes: [...new Set([...(socDef.notes || []), ...(def.notes || [])])],
+      provenance: def.provenance || socDef.provenance || null,
+      provenances: provenances.length ? provenances : undefined,
     };
+  }
+
+  function mergePinMetadata(...maps) {
+    const result = {};
+    for (const map of maps) {
+      for (const [gpio, values] of Object.entries(map || {})) {
+        const list = Array.isArray(values) ? values : [values];
+        result[gpio] = [...new Set([...(result[gpio] || []), ...list.filter(Boolean).map(String)])];
+      }
+    }
+    return Object.keys(result).length ? result : undefined;
   }
 
   async function getBoardDefinition(parsed) {
@@ -451,6 +483,9 @@
           variant: socDef.variant || socKey,
           ...(alias.pinAliases ? { pinAliases: alias.pinAliases } : {}),
           ...(alias.pinLabels ? { pinLabels: alias.pinLabels } : {}),
+          ...(alias.labelKind ? { labelKind: alias.labelKind } : {}),
+          ...(alias.availability ? { availability: alias.availability } : {}),
+          ...(alias.provenance ? { provenance: alias.provenance } : {}),
         };
         return mergeSocRules(index, def);
       }
@@ -459,7 +494,7 @@
     const variant = (parsed.variant || "").toLowerCase();
     if (index && variant && index.soc && index.soc[variant]) {
       const def = await loadPinoutDefinition(index.soc[variant]);
-      if (def) return mergeSocRules(index, def);
+      if (def) return mergeSocRules(index, { ...def, availability: "chip" });
     }
 
     return { kind: "unknown", displayName: boardId ? `Unknown board: ${boardId}` : "Unknown board", gpios: [] };
@@ -521,6 +556,26 @@
     return meta ? `${head} (${meta})` : head;
   }
 
+  function appendPinMetadata(lines, boardDef, gpio) {
+    if (gpio == null) return lines;
+    const capabilities = boardDef?.pinCapabilities?.[gpio] || [];
+    if (capabilities.length) lines.push("", `Functions: ${capabilities.join(", ")}`);
+    const notes = boardDef?.pinNotes?.[gpio] || [];
+    if (notes.length) {
+      lines.push("", "Details:");
+      for (const note of notes) lines.push(`- ${note}`);
+    }
+    return lines;
+  }
+
+  function provenanceUrl(provenance) {
+    const sourceAliases = { wokwi: "wokwi_boards", wippersnapper: "wippersnapper_boards" };
+    const source = sourceAliases[provenance?.source] || provenance?.source;
+    const sourceDef = source ? PINOUT_DATA.index?.generated?.sources?.[source] : null;
+    if (!provenance?.sourcePath || !sourceDef?.repo || !sourceDef?.commit) return null;
+    return `https://github.com/${sourceDef.repo}/blob/${sourceDef.commit}/${provenance.sourcePath}`;
+  }
+
   const PLATFORM_DISPLAY_NAMES = {
     esp32: "ESP32",
     esp8266: "ESP8266",
@@ -579,11 +634,13 @@
     } else if (boardDef.kind === "svg-board") {
       for (const p of boardDef.pins || []) if (p.gpio != null) availableGpios.add(p.gpio);
     }
+    for (const gpio of boardDef.virtualGpios || []) availableGpios.add(gpio);
 
     for (const [gpio, usages] of parsed.usedPins.entries()) {
       const list = [];
       list.push(...getPinIssues(boardDef, parsed, gpio));
-      if (availableGpios.size && !availableGpios.has(gpio))
+      const hasPhysicalAvailability = boardDef.availability !== "chip" && boardDef.availability !== "unknown";
+      if (hasPhysicalAvailability && availableGpios.size && !availableGpios.has(gpio))
         list.push({ severity: "danger", text: "GPIO not present or not broken out on this board layout." });
       if (usages.some((u) => u.isGuessed)) list.push({ severity: "warn", text: ISSUE_TEXT_GPIO_GUESSED });
       if (list.length) issuesByGpio.set(gpio, list);
@@ -708,6 +765,9 @@
 
     let visibleOptions = 0;
     for (const option of labelStyleSelectEl.options) {
+      if (option.value === LABEL_STYLES.BOARD) {
+        option.textContent = boardDef?.labelKind === "board-api" ? "Board/API labels" : "Silkscreen labels";
+      }
       const available = availableStyles.has(option.value);
       option.hidden = !available;
       option.disabled = !available;
@@ -842,7 +902,7 @@
         for (const it of issues) lines.push(`- [${it.severity}] ${it.text}`);
       }
 
-      return lines.join("\n");
+      return appendPinMetadata(lines, boardDef, gpio).join("\n");
     }
 
     function lineTspan(text, x, dy, maxWidth, font) {
@@ -987,7 +1047,7 @@
         lines.push("", "Warnings:");
         for (const it of issues) lines.push(`- [${it.severity}] ${it.text}`);
       }
-      return lines.join("\n");
+      return appendPinMetadata(lines, boardDef, gpio).join("\n");
     }
 
     const cells = gpios
@@ -1125,7 +1185,7 @@
         for (const it of issues) lines.push(`[${it.severity}] ${it.text}`);
       }
 
-      return lines.join("\n");
+      return appendPinMetadata(lines, boardDef, gpio).join("\n");
     }
 
     function bestUsageNameOrIdForGpio(gpio) {
@@ -1525,6 +1585,18 @@
                   </div>
                 `
                 : "";
+              const capabilities = boardDef.pinCapabilities?.[gpio] || [];
+              const pinNotes = boardDef.pinNotes?.[gpio] || [];
+              const capabilityLines = capabilities.length
+                ? `<div class="tm-pin-details"><span class="tm-pin-details-label">Functions</span><div class="tm-capability-row">${capabilities
+                    .map((capability) => `<span class="tm-capability">${escapeHtml(capability)}</span>`)
+                    .join("")}</div></div>`
+                : "";
+              const pinNotesHtml = pinNotes.length
+                ? `<div class="tm-pin-details">${pinNotes
+                    .map((note) => `<div class="tm-pin-note">${escapeHtml(note)}</div>`)
+                    .join("")}</div>`
+                : "";
 
               return `
                 <div class="tm-used-pin" data-hl-gpio="${gpio}" data-state="${worst}">
@@ -1533,6 +1605,8 @@
                     ${badge}
                   </div>
                   ${usageLines}
+                  ${capabilityLines}
+                  ${pinNotesHtml}
                   ${issueLines}
                 </div>
               `;
@@ -1540,9 +1614,13 @@
             .join("");
 
     const availability =
-      availableGpios && availableGpios.size
-        ? `<div class="tm-muted">Pins in layout: <b>${availableGpios.size}</b></div>`
-        : `<div class="tm-muted">Pin availability unknown.</div>`;
+      boardDef.availability === "chip"
+        ? `<div class="tm-muted">Chip-valid pins shown: <b>${availableGpios.size}</b>. Physical header availability is not modeled.</div>`
+        : boardDef.availability === "unknown"
+          ? `<div class="tm-muted">Board/API pin references: <b>${availableGpios.size}</b>. Physical header availability is unknown.</div>`
+          : availableGpios && availableGpios.size
+            ? `<div class="tm-muted">Pins in layout: <b>${availableGpios.size}</b></div>`
+            : `<div class="tm-muted">Pin availability unknown.</div>`;
 
     const unresolvedHtml =
       unresolvedCount === 0
@@ -1572,6 +1650,33 @@
       </div>`;
 
     const platformName = parsed.platform ? PLATFORM_DISPLAY_NAMES[parsed.platform] || parsed.platform : null;
+    const provenances =
+      boardDef.provenances || (boardDef.provenance ? [{ ...boardDef.provenance, scope: "Board data" }] : []);
+    const boardNotes = Array.isArray(boardDef.notes) ? boardDef.notes : [];
+    const boardReferences = Array.isArray(boardDef.references) ? boardDef.references : [];
+    const boardDetailsHtml =
+      boardNotes.length || provenances.length || boardReferences.length
+        ? `
+      <div class="tm-section">
+        <div class="tm-section-title">Board Details</div>
+        ${boardNotes.map((note) => `<div class="tm-pin-note">${escapeHtml(note)}</div>`).join("")}
+        ${provenances
+          .map((provenance) => {
+            const url = provenanceUrl(provenance);
+            const label = `${provenance.scope || "Source"}: ${provenance.source || "upstream"}`;
+            return url
+              ? `<div class="tm-source-row"><a class="tm-external-link" href="${escapeHtml(url)}">${escapeHtml(label)}</a></div>`
+              : `<div class="tm-source-row">${escapeHtml(label)}</div>`;
+          })
+          .join("")}
+        ${boardReferences
+          .map(
+            (reference) =>
+              `<div class="tm-source-row">Reference: <a class="tm-external-link" href="${escapeHtml(reference.url)}">${escapeHtml(reference.label || reference.url)}</a></div>`,
+          )
+          .join("")}
+      </div>`
+        : "";
 
     sideEl.innerHTML = `
       <div class="tm-inspector-head">
@@ -1593,6 +1698,8 @@
         <div class="tm-kv"><span>File</span><code>${escapeHtml(payload.fileName ?? "(unknown)")}</code></div>
         ${availability}
       </div>
+
+      ${boardDetailsHtml}
 
       <div class="tm-section">
         <div class="tm-section-title"><span>Active pins</span><span class="tm-section-index">02</span></div>

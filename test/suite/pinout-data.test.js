@@ -14,7 +14,7 @@ suite("Pinout data integrity", () => {
     const index = readJson("index.json");
     const targets = readJson("targets.json");
 
-    assert.strictEqual(index.schemaVersion, 3);
+    assert.strictEqual(index.schemaVersion, 4);
     assert.ok(Array.isArray(targets.all), "targets.all must be an array");
 
     const targetSet = new Set(targets.all);
@@ -58,6 +58,7 @@ suite("Pinout data integrity", () => {
       "esp32c61",
       "esp32h2",
       "esp32p4",
+      "esp32s31",
       "rp2350",
       "bk72xx",
       "rtl8710b",
@@ -74,7 +75,9 @@ suite("Pinout data integrity", () => {
     const c61 = readJson(index.soc.esp32c61);
 
     for (const boardId of ["esp32-c61-devkitc1", "esp32-c61-devkitc1-n8r2"]) {
-      assert.strictEqual(index.boardSocAliases[boardId]?.soc, "esp32c61", `${boardId} should map to ESP32-C61`);
+      assert.ok(index.boards[boardId], `${boardId} should have a Wokwi board layout`);
+      const board = readJson(index.boards[boardId]);
+      assert.strictEqual(board.socRef, "esp32c61", `${boardId} should map to ESP32-C61`);
     }
 
     assert.deepStrictEqual(
@@ -110,6 +113,43 @@ suite("Pinout data integrity", () => {
     }
   });
 
+  test("ESPHome RP2 catalog is covered with board-level aliases", () => {
+    const index = readJson("index.json");
+    const targets = readJson("targets.json");
+    assert.ok(targets.boards.rp2.length > 100, "Expected the full ESPHome RP2 board catalog");
+    assert.ok(index.boards.adafruit_feather, "Adafruit Feather RP2040 board definition missing");
+    const feather = readJson(index.boards.adafruit_feather);
+    assert.strictEqual(feather.socRef, "rp2040");
+    assert.deepStrictEqual(
+      feather.gpios,
+      Array.from({ length: 30 }, (_, gpio) => gpio),
+    );
+    assert.strictEqual(feather.pinAliases.LED, 13);
+    assert.strictEqual(feather.availability, "chip");
+  });
+
+  test("CircuitPython nRF52 definitions expose board aliases", () => {
+    const index = readJson("index.json");
+    for (const boardId of ["adafruit_feather_nrf52840", "adafruit_itsybitsy_nrf52840", "xiao_ble"]) {
+      const board = readJson(index.boards[boardId]);
+      assert.strictEqual(board.socRef, "nrf52840");
+      assert.ok(board.gpios.length > 0, `${boardId} should have a broken-out GPIO subset`);
+      assert.ok(board.pinAliases && Object.keys(board.pinAliases).length > 0, `${boardId} aliases missing`);
+      assert.strictEqual(board.availability, "unknown");
+      assert.ok(board.labelKind === "board-api");
+      assert.strictEqual(board.provenance.source, "circuitpython");
+    }
+  });
+
+  test("Espressif pin facts enrich SoC definitions", () => {
+    const index = readJson("index.json");
+    const s3 = readJson(index.soc.esp32s3);
+    assert.ok(s3.pinCapabilities[1].includes("ADC1_CH0"));
+    assert.ok(s3.pinCapabilities[1].includes("RTC"));
+    assert.ok(s3.pinNotes[0].some((note) => note.includes("Boot role:")));
+    assert.strictEqual(s3.provenance.source, "esp_pinout_studio");
+  });
+
   test("LibreTiny board definitions carry GPIO subsets and aliases", () => {
     const index = readJson("index.json");
     assert.ok(index.boards["cb2s"], "cb2s board definition missing");
@@ -134,11 +174,23 @@ suite("Pinout data integrity", () => {
     assert.strictEqual(soc.pinAliases.TX, 1);
     assert.strictEqual(soc.pinAliases.A0, 17);
 
-    const d1mini = index.boardSocAliases.d1_mini;
+    const d1mini = index.boards.d1_mini ? readJson(index.boards.d1_mini) : index.boardSocAliases.d1_mini;
     assert.ok(d1mini, "d1_mini fallback entry missing");
     assert.strictEqual(d1mini.pinAliases.D1, 5);
     assert.strictEqual(d1mini.pinAliases.D4, 2);
     assert.strictEqual(d1mini.pinLabels[5], "D1");
+  });
+
+  test("SVG pin labels become parser aliases and physical board specs retain headers", () => {
+    const index = readJson("index.json");
+    const xiao = readJson(index.boards.seeed_xiao_esp32c3);
+    assert.strictEqual(xiao.pinAliases.D1, 3);
+    assert.strictEqual(xiao.pinAliases.D10, 10);
+
+    const d1Mini = readJson(index.boards.d1_mini);
+    assert.strictEqual(d1Mini.kind, "header-board");
+    assert.strictEqual(d1Mini.headers.flatMap((header) => header.pins).find((pin) => pin.gpio === 5).label, "D1");
+    assert.strictEqual(d1Mini.provenance.source, "esp_pinout_studio");
   });
 
   test("all pinAliases and pinLabels reference valid GPIO numbers", () => {

@@ -1,0 +1,297 @@
+{
+  "id": "nodemcuv2",
+  "displayName": "NodeMCU v1.0 (ESP8266)",
+  "kind": "header-board",
+  "socRef": "esp8266",
+  "headers": [
+    {
+      "side": "left",
+      "name": "Left",
+      "pins": [
+        {
+          "headerNo": 1,
+          "label": "A0",
+          "gpio": 17,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 2,
+          "label": "RSV",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 3,
+          "label": "RSV",
+          "gpio": null,
+          "type": "other"
+        },
+        {
+          "headerNo": 4,
+          "label": "SD3",
+          "gpio": 10,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 5,
+          "label": "SD2",
+          "gpio": 9,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 6,
+          "label": "SD1",
+          "gpio": 8,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 7,
+          "label": "CMD",
+          "gpio": 11,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 8,
+          "label": "SD0",
+          "gpio": 7,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 9,
+          "label": "CLK",
+          "gpio": 6,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 10,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 11,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 12,
+          "label": "EN",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 13,
+          "label": "RST",
+          "gpio": null,
+          "type": "reset"
+        },
+        {
+          "headerNo": 14,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 15,
+          "label": "VIN",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "name": "Right",
+      "pins": [
+        {
+          "headerNo": 16,
+          "label": "D0",
+          "gpio": 16,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 17,
+          "label": "D1",
+          "gpio": 5,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 18,
+          "label": "D2",
+          "gpio": 4,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 19,
+          "label": "D3",
+          "gpio": 0,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 20,
+          "label": "D4",
+          "gpio": 2,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 21,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        },
+        {
+          "headerNo": 22,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 23,
+          "label": "D5",
+          "gpio": 14,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 24,
+          "label": "D6",
+          "gpio": 12,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 25,
+          "label": "D7",
+          "gpio": 13,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 26,
+          "label": "D8",
+          "gpio": 15,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 27,
+          "label": "RX",
+          "gpio": 3,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 28,
+          "label": "TX",
+          "gpio": 1,
+          "type": "gpio"
+        },
+        {
+          "headerNo": 29,
+          "label": "GND",
+          "gpio": null,
+          "type": "ground"
+        },
+        {
+          "headerNo": 30,
+          "label": "3V3",
+          "gpio": null,
+          "type": "power"
+        }
+      ]
+    }
+  ],
+  "pinAliases": {
+    "D3": 0,
+    "TX": 1,
+    "D4": 2,
+    "RX": 3,
+    "D2": 4,
+    "D1": 5,
+    "CLK": 6,
+    "SD0": 7,
+    "SD1": 8,
+    "SD2": 9,
+    "SD3": 10,
+    "CMD": 11,
+    "D6": 12,
+    "D7": 13,
+    "D5": 14,
+    "D8": 15,
+    "D0": 16,
+    "A0": 17
+  },
+  "pinLabels": {
+    "0": "D3",
+    "1": "TX",
+    "2": "D4",
+    "3": "RX",
+    "4": "D2",
+    "5": "D1",
+    "6": "CLK",
+    "7": "SD0",
+    "8": "SD1",
+    "9": "SD2",
+    "10": "SD3",
+    "11": "CMD",
+    "12": "D6",
+    "13": "D7",
+    "14": "D5",
+    "15": "D8",
+    "16": "D0",
+    "17": "A0"
+  },
+  "labelKind": "board-api",
+  "availability": "board",
+  "pinNotes": {
+    "0": [
+      "FLASH button. Held LOW at boot it enters the flasher, so avoid an external pull-down."
+    ],
+    "1": [
+      "UART0 TX, shared with the CP2102."
+    ],
+    "2": [
+      "Onboard LED, active LOW. Must be HIGH at boot."
+    ],
+    "3": [
+      "UART0 RX, shared with the CP2102."
+    ],
+    "4": [
+      "Wire's default SDA."
+    ],
+    "5": [
+      "Wire's default SCL."
+    ],
+    "12": [
+      "HSPI MISO."
+    ],
+    "13": [
+      "HSPI MOSI."
+    ],
+    "14": [
+      "HSPI clock."
+    ],
+    "15": [
+      "Must be LOW at boot. The onboard pull-down holds it there, so do not add a pull-up."
+    ],
+    "16": [
+      "Wired to the blue LED on the module. Tie to RST for deep-sleep wake."
+    ],
+    "17": [
+      "Reads 0 to 3.2 V here: the board fits a divider (R13 220k / R14 100k, both 1%) ahead of the chip's 1.0 V input. Source: the official NODEMCU_DEVKIT_V1.0 schematic sheet 07_ADC and its BOM."
+    ]
+  },
+  "notes": [
+    "NodeMCU DevKit v1.0: an ESP-12E module on a 48 x 26 mm carrier with a CP2102 USB-serial bridge, an auto-flash circuit on DTR/RTS, and an AMS1117 3.3 V regulator. Header order verified against the official NODEMCU_DEVKIT_V1.0 schematic.",
+    "The D-numbers on the silk are not GPIO numbers. D0 is GPIO16, D1 is GPIO5, D2 is GPIO4, D3 is GPIO0, D4 is GPIO2, D5 is GPIO14, D6 is GPIO12, D7 is GPIO13, D8 is GPIO15. Writing digitalWrite(5, HIGH) drives GPIO5, which the silk calls D1.",
+    "The SD0/SD1/SD2/SD3/CMD/CLK pads on the left header are the flash bus. They are broken out but only SD2 and SD3 (GPIO9 and GPIO10) are ever usable, and only when the flash runs in DIO mode.",
+    "VIN is the raw 5 V input ahead of the regulator, not a 5 V output derived from anything else. The two RSV pads are reserved and not connected to a usable pin."
+  ],
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "contrib/boards/nodemcu-v1.board.json",
+    "license": "MIT"
+  },
+  "references": [
+    {
+      "label": "ESP32 Pinout Studio",
+      "url": "https://esp32pin.com/nodemcu-v1"
+    }
+  ]
+}

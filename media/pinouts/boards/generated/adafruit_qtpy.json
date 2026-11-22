@@ -1,0 +1,71 @@
+{
+  "id": "adafruit_qtpy",
+  "displayName": "Adafruit QT Py RP2040",
+  "kind": "soc-grid",
+  "socRef": "rp2040",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "pinAliases": {
+    "MISO": 4,
+    "MOSI": 3,
+    "RX": 29,
+    "SCK": 6,
+    "SCL": 25,
+    "SCL1": 23,
+    "SDA": 24,
+    "SDA1": 22,
+    "TX": 28
+  },
+  "pinLabels": {
+    "3": "MOSI",
+    "4": "MISO",
+    "6": "SCK",
+    "22": "SDA1",
+    "23": "SCL1",
+    "24": "SDA",
+    "25": "SCL",
+    "28": "TX",
+    "29": "RX"
+  },
+  "labelKind": "board-api",
+  "availability": "chip",
+  "notes": [
+    "Board metadata and aliases derived from ESPHome's RP2 board catalog.",
+    "The chip supports GPIO0 to GPIO29; physical header availability is not modeled for this board."
+  ],
+  "provenance": {
+    "source": "esphome",
+    "sourcePath": "esphome/components/rp2/boards.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -137,5 +137,17 @@
       "gpio": 0,
       "type": "gpio"
     }
-  ]
+  ],
+  "pinAliases": {
+    "RX": 20,
+    "TX": 21
+  },
+  "pinLabels": {
+    "20": "RX",
+    "21": "TX"
+  },
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/aitewinrobot-esp32c3-supermini"
+  }
 }

@@ -64,5 +64,232 @@
       "severity": "warn",
       "text": "USB-JTAG default; repurposing may disable USB-JTAG."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "XTAL_32K_P",
+      "ADC1_CH0",
+      "LP_UART_DTRN"
+    ],
+    "1": [
+      "XTAL_32K_N",
+      "ADC1_CH1",
+      "LP_UART_DSRN"
+    ],
+    "2": [
+      "ADC1_CH2",
+      "FSPIQ",
+      "LP_UART_RTSN"
+    ],
+    "3": [
+      "ADC1_CH3",
+      "LP_UART_CTSN"
+    ],
+    "4": [
+      "ADC1_CH4",
+      "MTMS",
+      "FSPIHD",
+      "LP_UART_RXD",
+      "Strapping"
+    ],
+    "5": [
+      "ADC1_CH5",
+      "MTDI",
+      "FSPIWP",
+      "LP_UART_TXD",
+      "Strapping"
+    ],
+    "6": [
+      "ADC1_CH6",
+      "MTCK",
+      "FSPICLK",
+      "LP_I2C_SDA"
+    ],
+    "7": [
+      "MTDO",
+      "FSPID",
+      "LP_I2C_SCL"
+    ],
+    "8": [
+      "Strapping"
+    ],
+    "9": [
+      "Strapping"
+    ],
+    "12": [
+      "USB_D-"
+    ],
+    "13": [
+      "USB_D+"
+    ],
+    "15": [
+      "Strapping"
+    ],
+    "16": [
+      "U0TXD",
+      "FSPICS0"
+    ],
+    "17": [
+      "U0RXD",
+      "FSPICS1"
+    ],
+    "18": [
+      "SDIO0_CMD",
+      "FSPICS2"
+    ],
+    "19": [
+      "SDIO0_CLK",
+      "FSPICS3"
+    ],
+    "20": [
+      "SDIO0_DATA0",
+      "FSPICS4"
+    ],
+    "21": [
+      "SDIO0_DATA1",
+      "FSPICS5"
+    ],
+    "22": [
+      "SDIO0_DATA2"
+    ],
+    "23": [
+      "SDIO0_DATA3"
+    ],
+    "24": [
+      "SPICS0"
+    ],
+    "25": [
+      "SPIQ"
+    ],
+    "26": [
+      "SPIWP"
+    ],
+    "28": [
+      "SPIHD"
+    ],
+    "29": [
+      "SPICLK"
+    ],
+    "30": [
+      "SPID"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDDPST1."
+    ],
+    "1": [
+      "Power domain: VDDPST1."
+    ],
+    "2": [
+      "Power domain: VDDPST1."
+    ],
+    "3": [
+      "Power domain: VDDPST1."
+    ],
+    "4": [
+      "Power domain: VDDPST1.",
+      "Boot role: Control SDIO sampling on raising (pin is high) and falling (low) edge.."
+    ],
+    "5": [
+      "Power domain: VDDPST1.",
+      "Boot role: Control SDIO output on raising (pin is high) and falling (low) edge.."
+    ],
+    "6": [
+      "Power domain: VDDPST1."
+    ],
+    "7": [
+      "Power domain: VDDPST1."
+    ],
+    "8": [
+      "Power domain: VDDPST2.",
+      "Boot role: Has to be pulled-up for Download Mode."
+    ],
+    "9": [
+      "Power domain: VDDPST2.",
+      "Boot role: High for SPI Boot; Low for Download Mode.",
+      "Reset state: PUP."
+    ],
+    "10": [
+      "Power domain: VDDPST2."
+    ],
+    "11": [
+      "Power domain: VDDPST2."
+    ],
+    "12": [
+      "Power domain: VDDPST2."
+    ],
+    "13": [
+      "Power domain: VDDPST2."
+    ],
+    "14": [
+      "Power domain: VDDPST2."
+    ],
+    "15": [
+      "Power domain: VDDPST2.",
+      "Boot role: JTAG signal source select."
+    ],
+    "16": [
+      "Power domain: VDDPST2."
+    ],
+    "17": [
+      "Power domain: VDDPST2."
+    ],
+    "18": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "19": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "20": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "21": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "22": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "23": [
+      "Power domain: VDDPST2.",
+      "Reset state: PUP."
+    ],
+    "24": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ],
+    "25": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ],
+    "26": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ],
+    "27": [
+      "Power domain: VDD_SPI."
+    ],
+    "28": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ],
+    "29": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ],
+    "30": [
+      "Power domain: VDD_SPI.",
+      "Reset state: PUP."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32c6.yaml",
+    "license": "Apache-2.0"
+  }
 }

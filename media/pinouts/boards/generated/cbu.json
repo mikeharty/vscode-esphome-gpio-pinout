@@ -46,7 +46,32 @@
     "D17": 15,
     "D18": 21
   },
+  "pinLabels": {
+    "0": "D6",
+    "1": "D5",
+    "6": "D9",
+    "7": "D8",
+    "8": "D7",
+    "9": "D15",
+    "10": "D13",
+    "11": "D12",
+    "14": "D0",
+    "15": "D17",
+    "16": "D1",
+    "17": "D16",
+    "20": "D2",
+    "21": "D18",
+    "22": "D3",
+    "23": "D4",
+    "24": "D11",
+    "26": "D10",
+    "28": "D14"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/cbu.json"
+  }
 }

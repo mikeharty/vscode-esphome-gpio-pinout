@@ -29,5 +29,9 @@
   ],
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/feather-esp32s2/definition.json"
+  }
 }

@@ -77,5 +77,188 @@
       "severity": "warn",
       "text": "USB-JTAG default; repurposing may disable USB-JTAG."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "XTAL_32K_N"
+    ],
+    "1": [
+      "XTAL_32K_P"
+    ],
+    "2": [
+      "TOUCH0",
+      "MTCK"
+    ],
+    "3": [
+      "TOUCH1",
+      "MTDI"
+    ],
+    "4": [
+      "TOUCH2",
+      "MTMS"
+    ],
+    "5": [
+      "TOUCH3",
+      "MTDO"
+    ],
+    "6": [
+      "TOUCH4",
+      "SPI2HD"
+    ],
+    "7": [
+      "TOUCH5",
+      "SPI2CS0"
+    ],
+    "8": [
+      "TOUCH6",
+      "U0RTS",
+      "SPI2D"
+    ],
+    "9": [
+      "TOUCH7",
+      "U0CTS",
+      "SPI2CLK"
+    ],
+    "10": [
+      "TOUCH8",
+      "U1TXD",
+      "SPI2Q"
+    ],
+    "11": [
+      "TOUCH9",
+      "U1RXD",
+      "SPI2WP"
+    ],
+    "12": [
+      "TOUCH10",
+      "U1RTS"
+    ],
+    "13": [
+      "TOUCH11",
+      "U1CTS"
+    ],
+    "14": [
+      "TOUCH12",
+      "LP_UART_TXD"
+    ],
+    "15": [
+      "TOUCH13",
+      "LP_UART_RXD"
+    ],
+    "16": [
+      "ADC1_CH0"
+    ],
+    "17": [
+      "ADC1_CH1"
+    ],
+    "18": [
+      "ADC1_CH2"
+    ],
+    "19": [
+      "ADC1_CH3"
+    ],
+    "20": [
+      "ADC1_CH4"
+    ],
+    "21": [
+      "ADC1_CH5"
+    ],
+    "22": [
+      "ADC1_CH6"
+    ],
+    "37": [
+      "U0TXD",
+      "SPI2IO7",
+      "Strapping"
+    ],
+    "38": [
+      "U0RXD",
+      "SPI2DQS",
+      "Strapping"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDD_LP."
+    ],
+    "1": [
+      "Power domain: VDD_LP."
+    ],
+    "2": [
+      "Power domain: VDD_LP."
+    ],
+    "3": [
+      "Power domain: VDD_LP."
+    ],
+    "4": [
+      "Power domain: VDD_LP."
+    ],
+    "5": [
+      "Power domain: VDD_LP."
+    ],
+    "6": [
+      "Power domain: VDD_LP."
+    ],
+    "7": [
+      "Power domain: VDD_LP."
+    ],
+    "8": [
+      "Power domain: VDD_LP."
+    ],
+    "9": [
+      "Power domain: VDD_LP."
+    ],
+    "10": [
+      "Power domain: VDD_LP."
+    ],
+    "11": [
+      "Power domain: VDD_LP."
+    ],
+    "12": [
+      "Power domain: VDD_LP."
+    ],
+    "13": [
+      "Power domain: VDD_LP."
+    ],
+    "14": [
+      "Power domain: VDD_LP."
+    ],
+    "15": [
+      "Power domain: VDD_LP."
+    ],
+    "16": [
+      "Power domain: VDD_IO_0."
+    ],
+    "17": [
+      "Power domain: VDD_IO_0."
+    ],
+    "18": [
+      "Power domain: VDD_IO_0."
+    ],
+    "19": [
+      "Power domain: VDD_IO_0."
+    ],
+    "20": [
+      "Power domain: VDD_IO_0."
+    ],
+    "21": [
+      "Power domain: VDD_IO_0."
+    ],
+    "22": [
+      "Power domain: VDD_IO_0."
+    ],
+    "37": [
+      "Power domain: VDD_IO_4.",
+      "Boot role: Pull-down for SPI Download Mode."
+    ],
+    "38": [
+      "Power domain: VDD_IO_4.",
+      "Boot role: Pull-up for SPI Download Mode."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32p4.yaml",
+    "license": "Apache-2.0"
+  }
 }

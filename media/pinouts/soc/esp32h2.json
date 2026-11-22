@@ -69,5 +69,124 @@
       "severity": "info",
       "text": "ADC-capable pin (ADC1)."
     }
-  ]
+  ],
+  "pinCapabilities": {
+    "0": [
+      "FSPIQ"
+    ],
+    "1": [
+      "ADC1_CH0",
+      "FSPICS0"
+    ],
+    "4": [
+      "ADC1_CH3",
+      "MTCK",
+      "FSPICLK"
+    ],
+    "5": [
+      "ADC1_CH4",
+      "MTDI",
+      "FSPID"
+    ],
+    "8": [
+      "RTC",
+      "Strapping"
+    ],
+    "9": [
+      "RTC",
+      "Strapping"
+    ],
+    "12": [
+      "RTC"
+    ],
+    "13": [
+      "XTAL_32K_P",
+      "RTC"
+    ],
+    "14": [
+      "XTAL_32K_N",
+      "RTC"
+    ],
+    "23": [
+      "U0RXD",
+      "FSPICS1"
+    ],
+    "24": [
+      "U0TXD",
+      "FSPICS2"
+    ],
+    "25": [
+      "FSPICS3",
+      "Strapping"
+    ],
+    "26": [
+      "USB_D-",
+      "FSPICS4"
+    ],
+    "27": [
+      "USB_D+",
+      "FSPICS5"
+    ]
+  },
+  "pinNotes": {
+    "0": [
+      "Power domain: VDDPST1."
+    ],
+    "1": [
+      "Power domain: VDDPST1."
+    ],
+    "4": [
+      "Power domain: VDDPST1."
+    ],
+    "5": [
+      "Power domain: VDDPST1."
+    ],
+    "8": [
+      "Power domain: VDDPST1.",
+      "Boot role: Has to be pulled-up for Download Mode.",
+      "Available in the RTC low-power domain."
+    ],
+    "9": [
+      "Power domain: VDDPST1.",
+      "Boot role: High for SPI Boot; Low for Download Mode.",
+      "Reset state: PUP.",
+      "Available in the RTC low-power domain."
+    ],
+    "12": [
+      "Power domain: VDDPST1/VBAT.",
+      "Available in the RTC low-power domain."
+    ],
+    "13": [
+      "Power domain: VDDPST1/VBAT.",
+      "Available in the RTC low-power domain."
+    ],
+    "14": [
+      "Power domain: VDDPST1/VBAT.",
+      "Available in the RTC low-power domain."
+    ],
+    "22": [
+      "Power domain: VDDPST2."
+    ],
+    "23": [
+      "Power domain: VDDPST2."
+    ],
+    "24": [
+      "Power domain: VDDPST2."
+    ],
+    "25": [
+      "Power domain: VDDPST2.",
+      "Boot role: JTAG signal source select."
+    ],
+    "26": [
+      "Power domain: VDDPST2."
+    ],
+    "27": [
+      "Power domain: VDDPST2."
+    ]
+  },
+  "provenance": {
+    "source": "esp_pinout_studio",
+    "sourcePath": "vendor/esp-gpio-tool/targets/esp32h2.yaml",
+    "license": "Apache-2.0"
+  }
 }

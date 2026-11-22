@@ -1,0 +1,55 @@
+{
+  "id": "adafruit_metro_esp32s2",
+  "displayName": "Adafruit Metro ESP32-S2",
+  "kind": "soc-grid",
+  "socRef": "esp32s2",
+  "gpios": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    21,
+    42,
+    45
+  ],
+  "pinAliases": {
+    "A2": 1,
+    "A3": 2,
+    "A4": 3,
+    "A5": 4,
+    "NEOPIXEL": 45,
+    "PIN_NEOPIXEL": 45,
+    "LED": 42,
+    "LED_BUILTIN": 42,
+    "BUTTON": 0
+  },
+  "pinLabels": {
+    "0": "BUTTON",
+    "1": "A2",
+    "2": "A3",
+    "3": "A4",
+    "4": "A5",
+    "42": "LED",
+    "45": "NEOPIXEL"
+  },
+  "notes": [
+    "GPIO subset derived from Adafruit WipperSnapper board definition."
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/metroesp32s2/definition.json"
+  }
+}

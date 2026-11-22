@@ -27,7 +27,45 @@
     38,
     39
   ],
+  "pinAliases": {
+    "BUTTON": 0,
+    "A0": 18,
+    "A1": 17,
+    "A2": 16,
+    "A3": 15,
+    "A4": 14,
+    "A5": 8,
+    "RX": 38,
+    "TX": 39,
+    "SCL": 4,
+    "SDA": 3,
+    "NEOPIXEL": 33,
+    "PIN_NEOPIXEL": 33,
+    "I2C_POWER": 7,
+    "LED": 13,
+    "LED_BUILTIN": 13
+  },
+  "pinLabels": {
+    "0": "BUTTON",
+    "3": "SDA",
+    "4": "SCL",
+    "7": "I2C_POWER",
+    "8": "A5",
+    "13": "LED",
+    "14": "A4",
+    "15": "A3",
+    "16": "A2",
+    "17": "A1",
+    "18": "A0",
+    "33": "NEOPIXEL",
+    "38": "RX",
+    "39": "TX"
+  },
   "notes": [
     "GPIO subset derived from Adafruit WipperSnapper board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "wippersnapper",
+    "sourcePath": "boards/feather-esp32s3/definition.json"
+  }
 }

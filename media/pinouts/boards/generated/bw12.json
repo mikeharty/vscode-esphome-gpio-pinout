@@ -30,7 +30,24 @@
     "D9": 18,
     "D10": 23
   },
+  "pinLabels": {
+    "0": "D2",
+    "5": "D0",
+    "12": "D7",
+    "14": "D6",
+    "15": "D8",
+    "18": "D9",
+    "19": "D3",
+    "22": "D4",
+    "23": "D10",
+    "29": "D1",
+    "30": "D5"
+  },
   "notes": [
     "GPIO subset derived from the LibreTiny board definition."
-  ]
+  ],
+  "provenance": {
+    "source": "libretiny",
+    "sourcePath": "boards/bw12.json"
+  }
 }

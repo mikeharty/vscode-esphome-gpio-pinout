@@ -45,6 +45,26 @@ const SOURCE_DEFS = {
     repo: "libretiny",
     branch: "master",
   },
+  esphome: {
+    owner: "esphome",
+    repo: "esphome",
+    branch: "dev",
+  },
+  esp_pinout_studio: {
+    owner: "FelixKunzJr",
+    repo: "ESPPinoutWebsite",
+    branch: "main",
+  },
+  circuitpython: {
+    owner: "adafruit",
+    repo: "circuitpython",
+    branch: "main",
+    files: [
+      "ports/nordic/boards/feather_nrf52840_express/pins.c",
+      "ports/nordic/boards/itsybitsy_nrf52840_express/pins.c",
+      "ports/nordic/boards/Seeed_XIAO_nRF52840_Sense/pins.c",
+    ],
+  },
 };
 
 const EXTRA_TARGETS = [
@@ -64,26 +84,6 @@ const EXTRA_TARGETS = [
     displayName: "Seeed XIAO BLE",
   },
   {
-    id: "rpipico",
-    socRef: "rp2040",
-    displayName: "Raspberry Pi Pico",
-  },
-  {
-    id: "rpipicow",
-    socRef: "rp2040",
-    displayName: "Raspberry Pi Pico W",
-  },
-  {
-    id: "rpipico2",
-    socRef: "rp2350",
-    displayName: "Raspberry Pi Pico 2",
-  },
-  {
-    id: "rpipico2w",
-    socRef: "rp2350",
-    displayName: "Raspberry Pi Pico 2 W",
-  },
-  {
     id: "nologo_esp32c3_super_mini",
     socRef: "esp32c3",
     displayName: "ESP32-C3 SuperMini",
@@ -95,8 +95,10 @@ const WOKWI_EXPLICIT_MAP = {
   "esp32-c3-devkitm-1": ["esp32-c3-devkitm-1"],
   "esp32-c5-devkitc-1": ["esp32-c5-devkitc-1"],
   "esp32-c6-devkitc-1": ["esp32-c6-devkitc-1"],
+  "esp32-c61-devkitc-1": ["esp32-c61-devkitc1", "esp32-c61-devkitc1-n8r2"],
   "esp32-h2-devkitm-1": ["esp32-h2-devkitm-1"],
   "esp32-p4-function-ev": ["esp32-p4-function-ev", "esp32-p4-evboard", "esp32-p4"],
+  "esp32-s31-function-coreboard-1": ["esp32-s31-function-coreboard-1", "esp32-s31-coreboard-1"],
   "esp32-devkit-c-v4": ["az-delivery-devkit-v4"],
   "aitewinrobot-esp32c3-supermini": ["nologo_esp32c3_super_mini", "aitewinrobot-esp32c3-supermini"],
   "esp-01": ["esp01_1m", "esp01"],
@@ -126,6 +128,8 @@ const WOKWI_DIR_PRIORITY = {
 
 const WIPPER_EXPLICIT_MAP = {
   "dfrobot-beetle-esp32c3": "dfrobot_beetle_esp32c3",
+  "esp32c5-devkitc-1-n8r4": "esp32-c5-devkitc1-n8r4",
+  "esp32s3-devkitc-1-n8": "esp32-s3-devkitc-1",
   "feather-esp32": "adafruit_feather_esp32_v2",
   "feather-esp32-v2": "adafruit_feather_esp32_v2",
   "feather-esp32s2": "adafruit_feather_esp32s2",
@@ -135,12 +139,19 @@ const WIPPER_EXPLICIT_MAP = {
   "feather-esp32s3-4mbflash-2mbpsram": "adafruit_feather_esp32s3",
   "feather-esp32s3-reverse-tft": "adafruit_feather_esp32s3_reversetft",
   "feather-esp32s3-tft": "adafruit_feather_esp32s3_tft",
+  "feather-esp8266": "huzzah",
   funhouse: "adafruit_funhouse_esp32s2",
   "itsybitsy-esp32": "adafruit_itsybitsy_esp32",
   "qtpy-esp32": "adafruit_qtpy_esp32",
   "qtpy-esp32c3": "adafruit_qtpy_esp32c3",
   "qtpy-esp32s2": "adafruit_qtpy_esp32s2",
+  "qtpy-esp32s3": "adafruit_qtpy_esp32s3_nopsram",
   "qtpy-esp32s3-n4r2": "adafruit_qtpy_esp32s3_n4r2",
+  magtag: "adafruit_magtag29_esp32s2",
+  metroesp32s2: "adafruit_metro_esp32s2",
+  metroesp32s3: "adafruit_metro_esp32s3",
+  "rpi-pico-w": "rpipicow",
+  "rpi-pico-2w": "rpipico2w",
   "xiao-esp32s3": "seeed_xiao_esp32s3",
 };
 
@@ -228,27 +239,70 @@ function resolveEsp8266BoardAliases(boardId) {
   return entry && Object.keys(entry).length ? entry : null;
 }
 
-// Invert D-style aliases into per-GPIO silkscreen labels (D1 silkscreen on a
-// d1_mini maps to GPIO5). Lowest D-number wins when a GPIO has several names.
-function pinLabelsFromAliases(aliases) {
+function pinLabelsFromAliases(aliases, allowedGpios = null) {
   if (!aliases) return null;
-  const dEntries = Object.entries(aliases)
-    .map(([name, gpio]) => {
-      const m = name.match(/^D(\d+)$/i);
-      return m ? { n: Number(m[1]), name: name.toUpperCase(), gpio } : null;
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.n - b.n);
+  const allowed = allowedGpios ? new Set(allowedGpios) : null;
+
+  function priority(name) {
+    if (/^D\d+$/i.test(name)) return 0;
+    if (/^A\d+$/i.test(name)) return 1;
+    if (/^(LED|LED_BUILTIN|NEOPIXEL|PIN_NEOPIXEL|BUTTON|BOOT|SWITCH)$/i.test(name)) return 2;
+    if (/^(RX\d*|TX\d*|SDA\d*|SCL\d*|SS|MOSI|MISO|SCK)$/i.test(name)) return 3;
+    return 4;
+  }
+
+  const entries = Object.entries(aliases)
+    .filter(([, gpio]) => Number.isFinite(gpio) && (!allowed || allowed.has(gpio)))
+    .map(([name, gpio]) => ({
+      name: name.toUpperCase(),
+      gpio,
+      priority: priority(name),
+      sortValue: Number(name.match(/\d+/)?.[0] ?? 0),
+    }))
+    .sort((a, b) => a.priority - b.priority || a.sortValue - b.sortValue || a.name.localeCompare(b.name));
+
   const labels = {};
-  for (const { name, gpio } of dEntries) {
+  for (const { name, gpio } of entries) {
     if (!(gpio in labels)) labels[gpio] = name;
   }
-  if (Object.keys(labels).length) {
-    // D-labeled boards also silkscreen the UART pins as RX/TX.
-    if (!(3 in labels)) labels[3] = "RX";
-    if (!(1 in labels)) labels[1] = "TX";
-  }
   return Object.keys(labels).length ? labels : null;
+}
+
+function pinAliasesFromPins(pins) {
+  const aliases = {};
+  for (const pin of pins || []) {
+    if (!pin || pin.gpio == null || !pin.label) continue;
+    const label = String(pin.label).trim().toUpperCase();
+    if (
+      !/^(?:D\d+|A\d+|P\d+|PA_?\d+|PB_?\d+|LED[A-Z0-9_]*|RX\d*|TX\d*|SDA\d*|SCL\d*|SS|MOSI|MISO|SCK|BUTTON[A-Z0-9_]*|GROVE|VP|VN)$/.test(
+        label,
+      )
+    ) {
+      continue;
+    }
+    if (!(label in aliases)) aliases[label] = pin.gpio;
+  }
+  return Object.keys(aliases).length ? aliases : null;
+}
+
+function filterAliases(aliases, gpios) {
+  const allowed = new Set(gpios);
+  const filtered = {};
+  for (const [name, gpio] of Object.entries(aliases || {})) {
+    if (allowed.has(gpio)) filtered[name] = gpio;
+  }
+  return Object.keys(filtered).length ? filtered : null;
+}
+
+function mergePinMaps(...maps) {
+  const result = {};
+  for (const map of maps) {
+    for (const [gpio, values] of Object.entries(map || {})) {
+      const list = Array.isArray(values) ? values : [values];
+      result[gpio] = [...new Set([...(result[gpio] || []), ...list.filter(Boolean).map(String)])];
+    }
+  }
+  return Object.keys(result).length ? result : undefined;
 }
 
 // ESPHome LibreTiny families we render (LN882H exists upstream but is not an
@@ -557,6 +611,30 @@ const SOC_DATA = {
         gpios: [24, 25],
         severity: "warn",
         text: "USB-JTAG default; repurposing may disable USB-JTAG.",
+      },
+    ],
+  },
+  esp32s31: {
+    id: "esp32s31",
+    variant: "esp32s31",
+    kind: "soc-grid",
+    displayName: "ESP32-S31 (SoC pin grid)",
+    gpios: Array.from({ length: 62 }, (_, i) => i).filter((gpio) => ![29, 41].includes(gpio)),
+    pinIssues: [
+      {
+        gpios: [36, 37, 60, 61],
+        severity: "danger",
+        text: "Strapping pin (controls boot mode, JTAG source, or flash voltage).",
+      },
+      {
+        gpios: [26, 27, 28, 30, 31, 32],
+        severity: "danger",
+        text: "Reserved for the SPI flash interface; not usable as GPIO.",
+      },
+      {
+        gpios: [33, 34],
+        severity: "warn",
+        text: "USB Serial/JTAG default; repurposing may disable USB flashing and debugging.",
       },
     ],
   },
@@ -894,12 +972,28 @@ async function fetchSourceTrees(lock, workDir) {
   const sources = {};
 
   for (const [key, src] of Object.entries(lock.sources)) {
-    const archivePath = path.join(workDir, `${key}.tgz`);
-    const extractRoot = path.join(workDir, `${key}-src`);
-
-    const url = `https://codeload.github.com/${src.owner}/${src.repo}/tar.gz/${src.commit}`;
-    await downloadToFile(url, archivePath);
-    const treePath = await extractTarball(archivePath, extractRoot);
+    const sourceDef = SOURCE_DEFS[key] || {};
+    let treePath;
+    if (Array.isArray(sourceDef.files)) {
+      treePath = path.join(workDir, `${key}-src`);
+      await fs.mkdir(treePath, { recursive: true });
+      await Promise.all(
+        sourceDef.files.map(async (relPath) => {
+          const outPath = path.join(treePath, relPath);
+          await fs.mkdir(path.dirname(outPath), { recursive: true });
+          await downloadToFile(
+            `https://raw.githubusercontent.com/${src.owner}/${src.repo}/${src.commit}/${relPath}`,
+            outPath,
+          );
+        }),
+      );
+    } else {
+      const archivePath = path.join(workDir, `${key}.tgz`);
+      const extractRoot = path.join(workDir, `${key}-src`);
+      const url = `https://codeload.github.com/${src.owner}/${src.repo}/tar.gz/${src.commit}`;
+      await downloadToFile(url, archivePath);
+      treePath = await extractTarball(archivePath, extractRoot);
+    }
 
     sources[key] = {
       ...src,
@@ -908,6 +1002,152 @@ async function fetchSourceTrees(lock, workDir) {
   }
 
   return sources;
+}
+
+function parsePythonAssignment(text, assignmentName) {
+  const marker = new RegExp(`^\\s*${assignmentName}\\s*=\\s*`, "m");
+  const match = marker.exec(text);
+  if (!match) return null;
+
+  let pos = match.index + match[0].length;
+  const length = text.length;
+
+  function skipSpace() {
+    while (pos < length) {
+      if (/\s/.test(text[pos])) {
+        pos += 1;
+        continue;
+      }
+      if (text[pos] === "#") {
+        const lineEnd = text.indexOf("\n", pos);
+        pos = lineEnd === -1 ? length : lineEnd + 1;
+        continue;
+      }
+      break;
+    }
+  }
+
+  function parseString() {
+    const quote = text[pos++];
+    let value = "";
+    while (pos < length) {
+      const char = text[pos++];
+      if (char === quote) return value;
+      if (char !== "\\") {
+        value += char;
+        continue;
+      }
+      if (pos >= length) break;
+      const escaped = text[pos++];
+      const escapes = { n: "\n", r: "\r", t: "\t" };
+      value += escapes[escaped] ?? escaped;
+    }
+    throw new Error(`Unterminated string while parsing ${assignmentName}`);
+  }
+
+  function parseValue() {
+    skipSpace();
+    const char = text[pos];
+    if (char === "'" || char === '"') return parseString();
+    if (char === "{") return parseDict();
+    if (char === "[" || char === "(") return parseList(char);
+
+    const numberMatch = text.slice(pos).match(/^-?\d+(?:\.\d+)?/);
+    if (numberMatch) {
+      pos += numberMatch[0].length;
+      return numberMatch[0].includes(".") ? Number(numberMatch[0]) : parseInt(numberMatch[0], 10);
+    }
+
+    const identMatch = text.slice(pos).match(/^[A-Za-z_][A-Za-z0-9_.]*/);
+    if (identMatch) {
+      pos += identMatch[0].length;
+      if (identMatch[0] === "True") return true;
+      if (identMatch[0] === "False") return false;
+      if (identMatch[0] === "None") return null;
+      return identMatch[0];
+    }
+
+    throw new Error(`Unexpected Python literal near "${text.slice(pos, pos + 20)}" in ${assignmentName}`);
+  }
+
+  function parseList(opening) {
+    pos += 1;
+    const closing = opening === "[" ? "]" : ")";
+    const items = [];
+    skipSpace();
+    if (text[pos] === closing) {
+      pos += 1;
+      return items;
+    }
+    while (pos < length) {
+      items.push(parseValue());
+      skipSpace();
+      if (text[pos] === ",") {
+        pos += 1;
+        skipSpace();
+        if (text[pos] === closing) {
+          pos += 1;
+          return items;
+        }
+        continue;
+      }
+      if (text[pos] === closing) {
+        pos += 1;
+        return items;
+      }
+      throw new Error(`Expected list separator while parsing ${assignmentName}`);
+    }
+    throw new Error(`Unterminated list while parsing ${assignmentName}`);
+  }
+
+  function parseDict() {
+    pos += 1;
+    const result = {};
+    skipSpace();
+    if (text[pos] === "}") {
+      pos += 1;
+      return result;
+    }
+    while (pos < length) {
+      const key = parseValue();
+      skipSpace();
+      if (text[pos] !== ":") throw new Error(`Expected dict separator while parsing ${assignmentName}`);
+      pos += 1;
+      result[String(key)] = parseValue();
+      skipSpace();
+      if (text[pos] === ",") {
+        pos += 1;
+        skipSpace();
+        if (text[pos] === "}") {
+          pos += 1;
+          return result;
+        }
+        continue;
+      }
+      if (text[pos] === "}") {
+        pos += 1;
+        return result;
+      }
+      throw new Error(`Expected dict separator while parsing ${assignmentName}`);
+    }
+    throw new Error(`Unterminated dict while parsing ${assignmentName}`);
+  }
+
+  return parseValue();
+}
+
+async function loadEsphomeBoardCatalog(treePath) {
+  const esp32Path = path.join(treePath, "esphome", "components", "esp32", "boards.py");
+  const rp2Path = path.join(treePath, "esphome", "components", "rp2", "boards.py");
+  const [esp32Text, rp2Text] = await Promise.all([fs.readFile(esp32Path, "utf8"), fs.readFile(rp2Path, "utf8")]);
+
+  const esp32Boards = parsePythonAssignment(esp32Text, "BOARDS") || {};
+  const esp32BasePins = parsePythonAssignment(esp32Text, "ESP32_BASE_PINS") || {};
+  const esp32BoardPins = parsePythonAssignment(esp32Text, "ESP32_BOARD_PINS") || {};
+  const rp2Boards = parsePythonAssignment(rp2Text, "BOARDS") || {};
+  const rp2BoardPins = parsePythonAssignment(rp2Text, "RP2_BOARD_PINS") || {};
+
+  return { esp32Boards, esp32BasePins, esp32BoardPins, rp2Boards, rp2BoardPins };
 }
 
 function mapMcuToSocRef(mcu) {
@@ -925,6 +1165,7 @@ function mapMcuToSocRef(mcu) {
     esp32c61: "esp32c61",
     esp32h2: "esp32h2",
     esp32p4: "esp32p4",
+    esp32s31: "esp32s31",
     esp8266: "esp8266",
     nrf52840: "nrf52840",
     rp2040: "rp2040",
@@ -939,6 +1180,181 @@ function parsePioBoardIdFromFqbn(fqbn) {
   const parts = text.split(":");
   if (parts.length < 3) return null;
   return parts[2];
+}
+
+function parseCircuitPythonPins(text) {
+  const pinAliases = {};
+  for (const line of text.split("\n")) {
+    if (!line.includes("MP_ROM_QSTR") || !line.includes("MP_ROM_PTR")) continue;
+    const aliasMatch = line.match(/MP_ROM_QSTR\(MP_QSTR_([A-Za-z0-9_]+)\)/);
+    const gpioMatch = line.match(/&pin_GPIO(\d+)/);
+    const nrfMatch = line.match(/&pin_P([01])_(\d+)/);
+    const gpio = gpioMatch ? Number(gpioMatch[1]) : nrfMatch ? Number(nrfMatch[1]) * 32 + Number(nrfMatch[2]) : null;
+    if (!aliasMatch || gpio == null) continue;
+    pinAliases[aliasMatch[1].toUpperCase()] = gpio;
+  }
+  return pinAliases;
+}
+
+function parseEspGpioToolYaml(text) {
+  const pinCapabilities = {};
+  const pinNotes = {};
+  const gpioMatch = text.indexOf("\ngpio:");
+  const gpioText = gpioMatch === -1 ? text : text.slice(gpioMatch);
+
+  for (const line of gpioText.split("\n")) {
+    const match = line.match(/^\s{2}(\d+):\s*\{(.*)\}\s*$/);
+    if (!match) continue;
+    const gpio = Number(match[1]);
+    const body = match[2];
+    const functionsMatch = body.match(/functions:\s*\[([^\]]*)\]/);
+    const functions = functionsMatch
+      ? functionsMatch[1]
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean)
+      : [];
+    const capabilities = [...functions];
+    if (/\brtc:\s*true\b/.test(body)) capabilities.push("RTC");
+    if (/\bstrapping:/.test(body)) capabilities.push("Strapping");
+    if (capabilities.length) pinCapabilities[gpio] = [...new Set(capabilities)];
+
+    const notes = [];
+    const powerDomain = body.match(/\bpower_domain:\s*([^,}]+)/);
+    if (powerDomain) notes.push(`Power domain: ${powerDomain[1].trim()}.`);
+    const strapping = body.match(/\bstrapping:\s*([^,}]+)/);
+    if (strapping) notes.push(`Boot role: ${strapping[1].trim()}.`);
+    const atReset = body.match(/\bat_reset:\s*([^,}]+)/);
+    if (atReset) notes.push(`Reset state: ${atReset[1].trim()}.`);
+    if (/\brtc:\s*true\b/.test(body)) notes.push("Available in the RTC low-power domain.");
+    if (notes.length) pinNotes[gpio] = notes;
+  }
+
+  return { pinCapabilities, pinNotes };
+}
+
+const ESP_PINOUT_BOARD_MAP = {
+  "d1-mini": ["d1_mini"],
+  "esp32-c3-supermini": ["nologo_esp32c3_super_mini"],
+  "esp32-c6-supermini": ["makergo_esp32c6_supermini"],
+  "esp32-devkitv1": ["esp32dev", "esp32doit-devkit-v1"],
+  "lolin-c3-mini": ["lolin_c3_mini"],
+  "lolin-d32-pro": ["lolin_d32_pro"],
+  "lolin-d32": ["lolin_d32"],
+  "lolin-s2-mini": ["lolin_s2_mini"],
+  "lolin-s3-mini": ["lolin_s3_mini"],
+  "nodemcu-v1": ["nodemcuv2"],
+  "xiao-esp32c3": ["seeed_xiao_esp32c3"],
+  "xiao-esp32c6": ["seeed_xiao_esp32c6"],
+  "xiao-esp32s3": ["seeed_xiao_esp32s3"],
+};
+
+function boardSpecPinType(label) {
+  const upper = String(label || "").toUpperCase();
+  if (/^GND/.test(upper)) return "ground";
+  if (/^(?:3V3|5V|VBUS|VIN|VCC)/.test(upper)) return "power";
+  if (/^(?:EN|RST|RESET|CHIP_PU)$/.test(upper)) return "reset";
+  return "other";
+}
+
+function boardSpecToDefinition(spec, boardId, socRef, provenance) {
+  const headers = [];
+  let headerNo = 0;
+  const overrides = spec.overrides || {};
+  for (const side of ["left", "right", "top", "bottom"]) {
+    const pads = spec.headers?.[side];
+    if (!Array.isArray(pads) || !pads.length) continue;
+    headers.push({
+      side,
+      name: side[0].toUpperCase() + side.slice(1),
+      pins: pads.map((pad) => ({
+        headerNo: ++headerNo,
+        label: pad.label || (pad.gpio != null ? overrides[String(pad.gpio)]?.label || `GPIO${pad.gpio}` : "NC"),
+        gpio: pad.gpio ?? null,
+        type: pad.gpio != null ? "gpio" : boardSpecPinType(pad.label),
+      })),
+    });
+  }
+  if (!headers.length) return null;
+
+  const pinAliases = {};
+  for (const [gpio, override] of Object.entries(spec.overrides || {})) {
+    if (override?.label) pinAliases[override.label.toUpperCase()] = Number(gpio);
+  }
+  const pinNotes = {};
+  for (const [gpio, override] of Object.entries(spec.overrides || {})) {
+    if (override?.note) pinNotes[gpio] = [override.note];
+  }
+  return {
+    id: boardId,
+    displayName: spec.name || boardId,
+    kind: "header-board",
+    socRef,
+    headers,
+    ...(Object.keys(pinAliases).length ? { pinAliases } : {}),
+    ...(Object.keys(pinAliases).length ? { pinLabels: pinLabelsFromAliases(pinAliases) } : {}),
+    ...(Object.keys(pinAliases).length ? { labelKind: "board-api" } : {}),
+    availability: "board",
+    ...(Object.keys(pinNotes).length ? { pinNotes } : {}),
+    notes: spec.notes || [],
+    provenance,
+    references: [
+      {
+        label: "ESP32 Pinout Studio",
+        url: `https://esp32pin.com/${spec.id}`,
+      },
+    ],
+  };
+}
+
+async function loadEspPinoutStudioData(treePath) {
+  const boardsDir = path.join(treePath, "contrib", "boards");
+  const boards = [];
+  for (const entry of await fs.readdir(boardsDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".board.json") || entry.name === "example.board.json") continue;
+    boards.push(JSON.parse(await fs.readFile(path.join(boardsDir, entry.name), "utf8")));
+  }
+
+  const targetDir = path.join(treePath, "vendor", "esp-gpio-tool", "targets");
+  const socFacts = {};
+  for (const entry of await fs.readdir(targetDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".yaml")) continue;
+    const soc = entry.name.replace(/\.yaml$/, "");
+    socFacts[soc] = parseEspGpioToolYaml(await fs.readFile(path.join(targetDir, entry.name), "utf8"));
+  }
+  return { boards, socFacts };
+}
+
+async function loadCircuitPythonPinouts(treePath) {
+  const mappings = {
+    adafruit_feather_nrf52840: {
+      relPath: "ports/nordic/boards/feather_nrf52840_express/pins.c",
+      boardPage: "feather_nrf52840_express",
+    },
+    adafruit_itsybitsy_nrf52840: {
+      relPath: "ports/nordic/boards/itsybitsy_nrf52840_express/pins.c",
+      boardPage: "itsybitsy_nrf52840_express",
+    },
+    xiao_ble: {
+      relPath: "ports/nordic/boards/Seeed_XIAO_nRF52840_Sense/pins.c",
+      boardPage: "Seeed_XIAO_nRF52840_Sense",
+    },
+  };
+  const result = {};
+  for (const [boardId, mapping] of Object.entries(mappings)) {
+    const pinAliases = parseCircuitPythonPins(await fs.readFile(path.join(treePath, mapping.relPath), "utf8"));
+    result[boardId] = {
+      pinAliases,
+      relPath: mapping.relPath,
+      references: [
+        {
+          label: "CircuitPython board photo and details",
+          url: `https://circuitpython.org/board/${mapping.boardPage}/`,
+        },
+      ],
+    };
+  }
+  return result;
 }
 
 function parseGpioFromToken(token) {
@@ -1299,17 +1715,60 @@ function buildAliases(targetBoardIds) {
   return cleaned;
 }
 
+function resolveAliasTable(boardId, tables) {
+  let entry = tables[boardId];
+  const seen = new Set();
+  while (typeof entry === "string" && !seen.has(entry)) {
+    seen.add(entry);
+    entry = tables[entry];
+  }
+  return entry && typeof entry === "object" && !Array.isArray(entry) ? entry : null;
+}
+
+function getEsphomeBoardAliases(boardId, socRef, esphomeCatalog) {
+  if (socRef === "esp32") {
+    return {
+      ...esphomeCatalog.esp32BasePins,
+      ...(resolveAliasTable(boardId, esphomeCatalog.esp32BoardPins) || {}),
+    };
+  }
+  if (socRef?.startsWith("esp32")) {
+    return resolveAliasTable(boardId, esphomeCatalog.esp32BoardPins) || null;
+  }
+  if (socRef === "rp2040" || socRef === "rp2350") {
+    return resolveAliasTable(boardId, esphomeCatalog.rp2BoardPins) || null;
+  }
+  return socRef === "esp8266" ? resolveEsp8266BoardAliases(boardId) : null;
+}
+
 async function buildDataModel(lock, sourceTrees) {
   const espressif32BoardsDir = path.join(sourceTrees.platformio_espressif32.treePath, "boards");
   const espressif8266BoardsDir = path.join(sourceTrees.platformio_espressif8266.treePath, "boards");
   const wokwiBoardsDir = path.join(sourceTrees.wokwi_boards.treePath, "boards");
   const wipperBoardsDir = path.join(sourceTrees.wippersnapper_boards.treePath, "boards");
+  const [esphomeCatalog, espPinoutData, circuitPythonPinouts] = await Promise.all([
+    loadEsphomeBoardCatalog(sourceTrees.esphome.treePath),
+    loadEspPinoutStudioData(sourceTrees.esp_pinout_studio.treePath),
+    loadCircuitPythonPinouts(sourceTrees.circuitpython.treePath),
+  ]);
 
   const boardNames = {};
   const boardSocRefs = {};
   const esp32BoardIds = [];
   const esp8266BoardIds = [];
+  const rp2BoardIds = [];
   const skippedMcus = new Map();
+
+  for (const [soc, facts] of Object.entries(espPinoutData.socFacts)) {
+    if (!SOC_DATA[soc]) continue;
+    SOC_DATA[soc].pinCapabilities = mergePinMaps(SOC_DATA[soc].pinCapabilities, facts.pinCapabilities);
+    SOC_DATA[soc].pinNotes = mergePinMaps(SOC_DATA[soc].pinNotes, facts.pinNotes);
+    SOC_DATA[soc].provenance = {
+      source: "esp_pinout_studio",
+      sourcePath: `vendor/esp-gpio-tool/targets/${soc}.yaml`,
+      license: "Apache-2.0",
+    };
+  }
 
   for (const dirEntry of await fs.readdir(espressif32BoardsDir, { withFileTypes: true })) {
     if (!dirEntry.isFile() || !dirEntry.name.endsWith(".json")) continue;
@@ -1341,8 +1800,25 @@ async function buildDataModel(lock, sourceTrees) {
     if (socRef) boardSocRefs[boardId] = socRef;
   }
 
+  for (const [boardId, boardData] of Object.entries(esphomeCatalog.esp32Boards)) {
+    const socRef = mapMcuToSocRef(boardData.variant);
+    if (!socRef || !SOC_DATA[socRef] || boardSocRefs[boardId]) continue;
+    esp32BoardIds.push(boardId);
+    boardNames[boardId] = boardData.name || boardId;
+    boardSocRefs[boardId] = socRef;
+  }
+
+  for (const [boardId, boardData] of Object.entries(esphomeCatalog.rp2Boards)) {
+    const socRef = mapMcuToSocRef(boardData.mcu);
+    if (!socRef || !SOC_DATA[socRef]) continue;
+    rp2BoardIds.push(boardId);
+    boardNames[boardId] = boardData.name || boardId;
+    boardSocRefs[boardId] = socRef;
+  }
+
   esp32BoardIds.sort();
   esp8266BoardIds.sort();
+  rp2BoardIds.sort();
 
   if (skippedMcus.size) {
     const summary = [...skippedMcus.entries()].map(([mcu, count]) => `${mcu} (${count})`).join(", ");
@@ -1352,7 +1828,7 @@ async function buildDataModel(lock, sourceTrees) {
   const libretinyBoards = await loadLibretinyBoards(sourceTrees.libretiny.treePath);
   const libretinyBoardIds = libretinyBoards.map((item) => item.boardId);
 
-  const targetBoardIds = new Set([...esp32BoardIds, ...esp8266BoardIds]);
+  const targetBoardIds = new Set([...esp32BoardIds, ...esp8266BoardIds, ...rp2BoardIds]);
   for (const lt of libretinyBoards) {
     targetBoardIds.add(lt.boardId);
     boardSocRefs[lt.boardId] = lt.socRef;
@@ -1422,7 +1898,14 @@ async function buildDataModel(lock, sourceTrees) {
     if (!Number.isFinite(width) || !Number.isFinite(height)) continue;
 
     const socRef = boardSocRefs[boardId] || mapMcuToSocRef(selection.boardJson.mcu);
-    const boardAliases = socRef === "esp8266" ? resolveEsp8266BoardAliases(boardId) : null;
+    const boardAliases = {
+      ...(getEsphomeBoardAliases(boardId, socRef, esphomeCatalog) || {}),
+      ...(pinAliasesFromPins(selection.pins) || {}),
+    };
+    const pinGpios = new Set(selection.pins.map((pin) => pin.gpio).filter((gpio) => gpio != null));
+    const virtualGpios = Object.values(boardAliases)
+      .filter((gpio) => Number.isFinite(gpio) && !pinGpios.has(gpio))
+      .sort((a, b) => a - b);
 
     boardDefs[boardId] = {
       id: boardId,
@@ -1435,7 +1918,13 @@ async function buildDataModel(lock, sourceTrees) {
         height,
       },
       pins: selection.pins,
-      ...(boardAliases ? { pinAliases: boardAliases } : {}),
+      ...(Object.keys(boardAliases).length ? { pinAliases: boardAliases } : {}),
+      ...(Object.keys(boardAliases).length ? { pinLabels: pinLabelsFromAliases(boardAliases) } : {}),
+      ...(virtualGpios.length ? { virtualGpios } : {}),
+      provenance: {
+        source: "wokwi",
+        sourcePath: `boards/${selection.wokwiDir}`,
+      },
     };
 
     boardSources[boardId] = {
@@ -1470,6 +1959,7 @@ async function buildDataModel(lock, sourceTrees) {
 
     const gpios = parseGpiosFromWipperDefinition(definition, socRef);
     if (!gpios.length) continue;
+    const pinAliases = filterAliases(getEsphomeBoardAliases(boardId, socRef, esphomeCatalog), gpios);
 
     boardDefs[boardId] = {
       id: boardId,
@@ -1477,7 +1967,13 @@ async function buildDataModel(lock, sourceTrees) {
       kind: "soc-grid",
       socRef,
       gpios,
+      ...(pinAliases && Object.keys(pinAliases).length ? { pinAliases } : {}),
+      ...(pinAliases && Object.keys(pinAliases).length ? { pinLabels: pinLabelsFromAliases(pinAliases, gpios) } : {}),
       notes: ["GPIO subset derived from Adafruit WipperSnapper board definition."],
+      provenance: {
+        source: "wippersnapper",
+        sourcePath: `boards/${dirEntry.name}/definition.json`,
+      },
     };
 
     boardSources[boardId] = {
@@ -1497,12 +1993,106 @@ async function buildDataModel(lock, sourceTrees) {
       socRef: lt.socRef,
       gpios: lt.gpios,
       ...(Object.keys(lt.pinAliases).length ? { pinAliases: lt.pinAliases } : {}),
+      ...(Object.keys(lt.pinAliases).length ? { pinLabels: pinLabelsFromAliases(lt.pinAliases, lt.gpios) } : {}),
       notes: ["GPIO subset derived from the LibreTiny board definition."],
+      provenance: {
+        source: "libretiny",
+        sourcePath: `boards/${lt.boardId}.json`,
+      },
     };
 
     boardSources[lt.boardId] = {
       source: "libretiny",
       upstreamId: lt.boardId,
+    };
+  }
+
+  for (const spec of espPinoutData.boards) {
+    for (const boardId of ESP_PINOUT_BOARD_MAP[spec.id] || []) {
+      if (boardDefs[boardId]) continue;
+      if (!targetBoardIds.has(boardId)) continue;
+      const socRef = boardSocRefs[boardId];
+      const definition = boardSpecToDefinition(spec, boardId, socRef, {
+        source: "esp_pinout_studio",
+        sourcePath: `contrib/boards/${spec.id}.board.json`,
+        license: "MIT",
+      });
+      if (definition) {
+        boardDefs[boardId] = definition;
+        boardSources[boardId] = {
+          source: "esp_pinout_studio",
+          upstreamId: spec.id,
+        };
+      }
+    }
+  }
+
+  for (const [boardId, data] of Object.entries(circuitPythonPinouts)) {
+    if (boardDefs[boardId]) continue;
+    const pinAliases = data.pinAliases;
+    const gpios = [...new Set(Object.values(pinAliases))].sort((a, b) => a - b);
+    boardDefs[boardId] = {
+      id: boardId,
+      displayName: boardNames[boardId] || boardId,
+      kind: "soc-grid",
+      socRef: boardSocRefs[boardId] || "nrf52840",
+      gpios,
+      pinAliases,
+      pinLabels: pinLabelsFromAliases(pinAliases, gpios),
+      labelKind: "board-api",
+      availability: "unknown",
+      notes: [
+        "Board/API aliases derived from the CircuitPython board pin map.",
+        "Physical header availability is not modeled for this board.",
+      ],
+      references: data.references,
+      provenance: {
+        source: "circuitpython",
+        sourcePath: data.relPath,
+        license: "MIT",
+      },
+    };
+    boardSources[boardId] = {
+      source: "circuitpython",
+      upstreamId: boardId,
+    };
+  }
+
+  for (const boardId of rp2BoardIds) {
+    if (boardDefs[boardId]) continue;
+    const socRef = boardSocRefs[boardId];
+    const boardData = esphomeCatalog.rp2Boards[boardId] || {};
+    const maxPin = Number(boardData.max_pin ?? 29);
+    const maxVirtualPin = Number(boardData.max_virtual_pin ?? maxPin);
+    const pinAliases = getEsphomeBoardAliases(boardId, socRef, esphomeCatalog) || {};
+    const aliasGpios = [...new Set(Object.values(pinAliases))].filter(Number.isFinite).sort((a, b) => a - b);
+    const gpios = Array.from({ length: Math.min(maxPin, 47) + 1 }, (_, gpio) => gpio);
+    boardDefs[boardId] = {
+      id: boardId,
+      displayName: boardNames[boardId] || boardId,
+      kind: "soc-grid",
+      socRef,
+      gpios,
+      ...(aliasGpios.some((gpio) => gpio > maxPin)
+        ? { virtualGpios: aliasGpios.filter((gpio) => gpio > maxPin && gpio <= maxVirtualPin) }
+        : {}),
+      ...(Object.keys(pinAliases).length ? { pinAliases } : {}),
+      ...(Object.keys(pinAliases).length ? { pinLabels: pinLabelsFromAliases(pinAliases, gpios) } : {}),
+      ...(Object.keys(pinAliases).length ? { labelKind: "board-api" } : {}),
+      availability: "chip",
+      notes: [
+        "Board metadata and aliases derived from ESPHome's RP2 board catalog.",
+        `The chip supports GPIO0 to GPIO${maxPin}; physical header availability is not modeled for this board.`,
+      ],
+      provenance: {
+        source: "esphome",
+        sourcePath: "esphome/components/rp2/boards.py",
+        license: "Apache-2.0",
+      },
+    };
+    boardSources[boardId] = {
+      source: "esphome",
+      upstreamId: boardId,
     };
   }
 
@@ -1517,7 +2107,7 @@ async function buildDataModel(lock, sourceTrees) {
     const socRef = boardSocRefs[boardId];
     if (!socRef || !SOC_DATA[socRef]) continue;
 
-    const boardAliases = socRef === "esp8266" ? resolveEsp8266BoardAliases(boardId) : null;
+    const boardAliases = getEsphomeBoardAliases(boardId, socRef, esphomeCatalog);
     const boardLabels = pinLabelsFromAliases(boardAliases);
 
     boardSocAliases[boardId] = {
@@ -1525,6 +2115,14 @@ async function buildDataModel(lock, sourceTrees) {
       displayName: `${boardNames[boardId] || boardId} (SoC pin grid)`,
       ...(boardAliases ? { pinAliases: boardAliases } : {}),
       ...(boardLabels ? { pinLabels: boardLabels } : {}),
+      ...(boardLabels ? { labelKind: "board-api" } : {}),
+      availability: "chip",
+      provenance: {
+        source: "esphome",
+        sourcePath:
+          socRef === "rp2040" || socRef === "rp2350" ? "esphome/components/rp2/boards.py" : "esphome/components",
+        license: "Apache-2.0",
+      },
     };
   }
 
@@ -1548,17 +2146,21 @@ async function buildDataModel(lock, sourceTrees) {
     targets: sortedTargetBoardIds.length,
     esp32Targets: esp32BoardIds.length,
     esp8266Targets: esp8266BoardIds.length,
+    rp2Targets: rp2BoardIds.length,
     libretinyTargets: libretinyBoardIds.length,
     extraTargets: EXTRA_TARGETS.length,
     boardDefinitions: Object.keys(boardsIndex).length,
     wokwiBoards: Object.values(boardSources).filter((src) => src.source === "wokwi").length,
     wippersnapperBoards: Object.values(boardSources).filter((src) => src.source === "wippersnapper").length,
     libretinyBoards: Object.values(boardSources).filter((src) => src.source === "libretiny").length,
+    esphomeBoards: Object.values(boardSources).filter((src) => src.source === "esphome").length,
+    espPinoutBoards: Object.values(boardSources).filter((src) => src.source === "esp_pinout_studio").length,
+    circuitPythonBoards: Object.values(boardSources).filter((src) => src.source === "circuitpython").length,
     socFallbackBoards: Object.keys(boardSocAliases).length,
   };
 
   const index = {
-    schemaVersion: 3,
+    schemaVersion: 4,
     generated: {
       generatedAt: lock.updatedAt,
       sources: sourceSummary,
@@ -1576,6 +2178,7 @@ async function buildDataModel(lock, sourceTrees) {
     boards: {
       esp32: esp32BoardIds,
       esp8266: esp8266BoardIds,
+      rp2: rp2BoardIds,
       libretiny: libretinyBoardIds,
       extras: EXTRA_TARGETS.map((item) => item.id),
     },
@@ -1633,7 +2236,8 @@ async function writeOutputs({ outputRoot, model }) {
   for (const svg of model.svgAssets.sort((a, b) => a.boardId.localeCompare(b.boardId))) {
     const outPath = path.join(pinoutRoot, svg.relPath);
     await fs.mkdir(path.dirname(outPath), { recursive: true });
-    await fs.copyFile(svg.sourcePath, outPath);
+    const svgText = await fs.readFile(svg.sourcePath, "utf8");
+    await fs.writeFile(outPath, svgText.replace(/[ \t]+$/gm, ""), "utf8");
     managedFiles.push(path.relative(outputRoot, outPath));
   }
 

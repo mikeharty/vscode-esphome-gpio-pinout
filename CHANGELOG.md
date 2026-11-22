@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Expanded board coverage to 565 targets, including the full ESPHome RP2040/RP2350 catalog, newly supported ESP32 IDs, and board-specific nRF52 pin maps.
+- Added 155 board-specific RP2 definitions, ESP32-S31 support, CircuitPython-derived nRF52 aliases, and additional Wokwi/WipperSnapper board layouts.
+- Enriched SVG, header, and SoC pinouts with ESPHome aliases, ESP32 Pinout Studio capabilities, reset/strapping/power-domain notes, source provenance, and board details.
+- Added deterministic, sparse ingestion for CircuitPython pin maps and documentation for image-rights provenance.
 - Redesigned the pinout workspace with a precision-grid canvas, live status header, compact control rail, luminous pin states, responsive layouts, and a product-style configuration inspector.
 - Added ESP32-C61 support and both upstream ESP32-C61-DevKitC-1 board IDs. Corrected the SoC grid to cover GPIO0–29 and annotate GPIO7–9 strapping, GPIO14–17/19–21 flash/PSRAM, and GPIO12/13 USB Serial/JTAG use.
 - Added RP2350 support with generated Wokwi pinouts for Raspberry Pi Pico 2 and Pico 2 W.

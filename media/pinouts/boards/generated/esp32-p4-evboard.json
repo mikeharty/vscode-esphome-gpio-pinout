@@ -329,5 +329,9 @@
       "gpio": null,
       "type": "ground"
     }
-  ]
+  ],
+  "provenance": {
+    "source": "wokwi",
+    "sourcePath": "boards/esp32-p4-function-ev"
+  }
 }
